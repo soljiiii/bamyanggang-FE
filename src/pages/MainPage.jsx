@@ -21,10 +21,6 @@ function MainPage(){
                 <Link to="/login">로그인</Link><br/>
                 <Link to="/memberJoin">회원가입</Link><br/>
             </div>
-        <div>
-            <Input
-            />
-        </div>
         </div>
     );
 }
