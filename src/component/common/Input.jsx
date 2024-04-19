@@ -3,9 +3,9 @@ import "./Input.css";
 
 function Input ({type, name, placeholder}) {
 
-    const [feedback, setFeedback] = useState("");
-    function onFeedBack (e) {
-        setFeedback()
+    const [write,setWrite] = useState("");
+    function onChangeWrite (e) {
+        setWrite(e.target.value);
     }
 
     return(
