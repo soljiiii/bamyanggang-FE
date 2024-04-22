@@ -1,0 +1,21 @@
+{
+  "member": [
+    {
+      "id": "test",
+      "userNickNm": "test"
+    }
+  ],
+  "mafiaRoom": [
+    {
+      "roomNm": 1,
+      "roomName": "왈리깔리",
+      "roomCd": 1234567,
+      "roomSt": 0,
+      "roomPw": 1234,
+      "joinCnt": 3
+    }
+  ],
+  "games": [
+
+  ]
+}

@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<MainPage />}/>
           <Route path="/gameSearch" element={<GameSearch />} />
           <Route path="/gameReady" element={<GameReady />} />
-          <Route path="/onGame" element={<OnGame />} />
+          <Route path="/onGame/:no" element={<OnGame />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/:no" element={<Notice />} />
           <Route path="/board" element={<Board />} />
