@@ -1,5 +1,9 @@
+import React from "react";
+import { useParams } from "react-router";
+
 function OnGame(){
-    return <div>게임중</div>
+    const{roomNo} = useParams();
+    return <div>게임 :{roomNo}</div>
 }
 
 export default OnGame;
