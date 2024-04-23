@@ -1,0 +1,60 @@
+.headerArea{
+    border: solid 1px black;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.headerLeft, .headerRight{
+    border: solid 1px black;
+}
+
+.headerRight{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.startArea{
+    border: solid 1px black;
+    padding: 20px 20px;
+}
+
+.startButton, .loginButton{
+    text-decoration: none;
+}
+
+.loginArea{
+    padding: 20px 20px;
+    border: solid 1px black;
+}
+
+.mainImage{
+    width: 150px;
+}
+
+.nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(245, 245, 245);
+    padding: 10px;
+}
+
+li {
+    text-decoration: none;
+}
+
+.navMenu {
+    list-style-type: none;
+    display: flex;
+}
+
+.navMenu li {
+    padding: 8px 80px;
+}
+
+.navLink {
+    text-decoration: none;
+}
+
