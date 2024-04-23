@@ -33,7 +33,7 @@ function Modal({ isOpen, onClose }) {
                 .then(response => {
                     console.log(response.data)
                     const roomNo = 1234;//response.data.roomNo;
-                    navigate(`/onGame/${roomNo}`)
+                    navigate(`/gameReady/${roomNo}`)
                 })
                 .catch(error => {
                     console.error('Error creating game:', error);

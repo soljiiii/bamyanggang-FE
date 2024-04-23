@@ -1,11 +1,29 @@
 import "./GameSearch.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../../component/common/Button";
 import Input from "../../component/common/Input"
 import Modal from "../../component/game/Modal";
+import axios from "axios";
+import NormalRoom from "../../component/game/NormalRoom";
+import PrivateRoom from "../../component/game/PrivateRoom";
 
 function GameSearch(){
 
+    //방 목록 전체 불러오기
+    const[roomList, setRoomList] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/room')
+            .then(response => {
+                //console.log(response.data);
+                setRoomList(response.data);
+            })
+            .catch(error => {
+                console.error('Error get game:', error);
+            });
+    }, []);
+
+    
     //Modal 상태에 대해
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,7 +36,7 @@ function GameSearch(){
         }
     }
 
-    //코드 입력창 상태
+    //코드로 검색
     const [search, setSearch] = useState("");
 
     function handleSearchChange (newValue){
@@ -27,8 +45,15 @@ function GameSearch(){
         }
     }
 
-    function showWating(){
-        alert("대기방만 보기")
+    //대기방만 보기
+    const [watingButton, setWatingButton] = useState(0);
+    function handleWatingButton(){
+        if(watingButton===1){
+            setWatingButton(0);
+        }
+        else{
+            setWatingButton(1);
+        }
     }
 
     return (
@@ -49,7 +74,7 @@ function GameSearch(){
                     <Button
                         type="gameCommon"
                         text="대기방만 보기"
-                        onClick={showWating}
+                        onClick={handleWatingButton}
                     />
                 </div>
                 <div className="gameSearchInput">
@@ -63,9 +88,75 @@ function GameSearch(){
                 </div>
             </div>
             <div className="middleBody">
-                <div>
-
-                </div>
+                {roomList.length > 0 ? 
+                (watingButton===0?
+                    (roomList
+                    .filter((room)=>room.roomCd && room.roomCd.includes(search))
+                    .map(room=>(
+                        <div key={room.roomNo} className="roomComponent"> 
+                            {room.roomSt ===0? 
+                                <NormalRoom
+                                roomList={room}
+                                />
+                            : 
+                                <PrivateRoom   
+                                roomList={room}
+                                />
+                            }
+                        </div>
+                    ))
+                    )
+                    :(roomList
+                        .filter((room)=>room.roomCd && room.roomCd.includes(search))
+                        .filter((room)=>room.isOnGame===0)
+                        .map(room=>(
+                            <div key={room.roomNo} className="roomComponent"> 
+                                {room.roomSt ===0? 
+                                    <NormalRoom
+                                    roomList={room}
+                                    />
+                                : 
+                                    <PrivateRoom   
+                                    roomList={room}
+                                    />
+                                }
+                            </div>
+                        ))
+                    )
+                ):
+                (watingButton===0?
+                    (roomList
+                        .map(room=>(
+                            <div key={room.roomNo} className="roomComponent"> 
+                                {room.roomSt ===0? 
+                                    <NormalRoom
+                                    roomList={room}
+                                    />
+                                : 
+                                    <PrivateRoom   
+                                    roomList={room}
+                                    />
+                                }   
+                            </div>
+                        ))
+                    )
+                    :(roomList
+                        .filter((room)=>room.isOnGame===0)
+                        .map(room=>(
+                            <div key={room.roomNo} className="roomComponent"> 
+                                {room.roomSt ===0? 
+                                    <NormalRoom
+                                    roomList={room}
+                                    />
+                                : 
+                                    <PrivateRoom   
+                                    roomList={room}
+                                    />
+                                }   
+                            </div>
+                        ))
+                    )
+                )}
             </div>
         </div>
     );

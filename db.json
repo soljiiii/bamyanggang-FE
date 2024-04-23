@@ -12,10 +12,238 @@
       "roomCd": 1234567,
       "roomSt": 0,
       "roomPw": 1234,
-      "joinCnt": 3
+      "joinCnt": 3,
+      "id": "7df8"
     }
   ],
   "games": [
-
+    {
+      "id": "5b2e",
+      "userIdToken": "test",
+      "roomNm": "1234",
+      "roomSt": 0,
+      "roomPw": ""
+    },
+    {
+      "id": "b9bd",
+      "userIdToken": "test",
+      "roomNm": "123",
+      "roomSt": 1,
+      "roomPw": "123"
+    },
+    {
+      "id": "c9e0",
+      "userIdToken": "test",
+      "roomNm": "123",
+      "roomSt": 1,
+      "roomPw": "123123123"
+    },
+    {
+      "id": "70f2",
+      "userIdToken": "test",
+      "roomNm": "1234",
+      "roomSt": 0,
+      "roomPw": ""
+    },
+    {
+      "id": "8183",
+      "userIdToken": "test",
+      "roomNm": "게임방",
+      "roomSt": 0,
+      "roomPw": ""
+    },
+    {
+      "id": "32ef",
+      "userIdToken": "test",
+      "roomNm": "123",
+      "roomSt": 1,
+      "roomPw": "123"
+    },
+    {
+      "id": "1637",
+      "userIdToken": "test",
+      "roomNm": "123",
+      "roomSt": 1,
+      "roomPw": "123"
+    }
+  ],
+  "room": [
+    {
+      "roomNo": "1",
+      "roomName": "일반방",
+      "roomSt": 0,
+      "isOnGame": 0,
+      "roomPw": "",
+      "joinCnt": 3,
+      "roomCd": "1234567",
+      "id": "2ef5"
+    },
+    {
+      "roomNo": "3",
+      "roomName": "비밀방",
+      "roomSt": 1,
+      "isOnGame": 0,
+      "roomPw": "1234",
+      "joinCnt": 3,
+      "roomCd": "1234568",
+      "id": "2a07"
+    },
+    {
+      "roomNo": "2",
+      "roomName": "비밀방",
+      "roomSt": 1,
+      "isOnGame": 0,
+      "roomPw": "1234",
+      "joinCnt": 3,
+      "roomCd": "1234569",
+      "id": "e526"
+    },
+    {
+      "roomNo": "4",
+      "roomName": "비밀방",
+      "roomSt": 1,
+      "isOnGame": 0,
+      "roomPw": "1234",
+      "joinCnt": 3,
+      "roomCd": "1234560",
+      "id": "0263"
+    },
+    {
+      "roomNo": "5",
+      "roomName": "일반방",
+      "roomSt": 0,
+      "isOnGame": 0,
+      "roomPw": "1234",
+      "joinCnt": 3,
+      "roomCd": "1111111",
+      "id": "27d7"
+    },
+    {
+      "roomNo": "6",
+      "roomName": "일반방",
+      "roomSt": 0,
+      "isOnGame": 1,
+      "roomPw": "1234",
+      "joinCnt": 3,
+      "roomCd": "2222222",
+      "id": "e51a"
+    }
+  ],
+  "gameready": [
+    {
+      "id": "0094",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "2ede",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "aa49",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "4c41",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "d9b7",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "ef07",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "3f40",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "c3d3",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "a11e",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "cb8c",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "3e51",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "8162",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "a18e",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "ff0d",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "eb7c",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "f364",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "f8ce",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "fde2",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "db66",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    },
+    {
+      "id": "0a2b",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "22a3",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "7c67",
+      "userIdToken": "test",
+      "roomNm": "일반방"
+    },
+    {
+      "id": "5e70",
+      "userIdToken": "test",
+      "roomNm": "비밀방"
+    }
   ]
 }
