@@ -8,7 +8,7 @@ function Header(){
         <div className="headerArea">
             <div className="headerLeft">
                 <div className="MainButton">
-                    <Link to="/"><img src="/images-jsx/밤양갱.png" className="mainImage"/></Link><br/>
+                    <Link to="/"><img src="/images-jsx/밤양갱.png" className="mainImage"/></Link>
                 </div>
             </div>
 
@@ -16,6 +16,7 @@ function Header(){
                 <div className="loginArea">
                     <Link to="/login" className="loginButton">로그인</Link>
                 </div>
+
 
                 <div className="startArea">
                     <Link to="/gameSearch" className="startButton">게임시작</Link>
