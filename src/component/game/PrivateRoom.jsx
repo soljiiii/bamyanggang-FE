@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+
 function PrivateRoom ({roomList}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
@@ -30,12 +31,13 @@ function PrivateRoom ({roomList}) {
             else if(password===roomList.roomPw){
                 const data = {
                     userIdToken:'test',
-                    roomNm:roomList.roomName,
+                    roomNm:roomList.roomNm,
+                    roomNo:roomList.roomNo
                 }
-                axios.post('http://localhost:3001/gameready',data)
-                .then(Response => {
+                axios.post('http://localhost:3001/dumi',data)
+                .then(response => {
                     console.log(Response.data);
-                    const roomNo =1234; //response.data.roomNo
+                    const roomNo = response.data.roomNo
                     navigate(`/gameReady/${roomNo}`)
                 })
                 .catch(error => {
@@ -48,7 +50,7 @@ function PrivateRoom ({roomList}) {
     return(
         <div className="privateRoomContainer">
             <div className="privateName">
-                {roomList.roomName}
+                {roomList.roomNm}
             </div>
             <div className="privatePeople">
                 <div className="peopleImg">

@@ -17,12 +17,13 @@ function NormalRoom ({roomList}) {
         else{
             const data = {
                 userIdToken:'test',
-                roomNm:roomList.roomName,
+                roomNm:roomList.roomNm,
+                roomNo:roomList.roomNo,
             }
-            axios.post('http://localhost:3001/gameready',data)
-            .then(Response => {
-                console.log(Response.data);
-                const roomNo =1234; //response.data.roomNo
+            axios.post('http://localhost:3001/dumi',data)
+            .then(response => {
+                console.log(response.data);
+                const roomNo = response.data.roomNo
                 navigate(`/gameReady/${roomNo}`)
             })
             .catch(error => {
@@ -34,7 +35,7 @@ function NormalRoom ({roomList}) {
     return(
         <div className="normalRoomContainer">
             <div className="normalName">
-                {roomList.roomName}
+                {roomList.roomNm}
             </div>
             <div className="normalPeople">
                 <div className="peopleImg">

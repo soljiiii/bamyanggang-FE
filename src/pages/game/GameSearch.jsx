@@ -13,7 +13,7 @@ function GameSearch(){
     const[roomList, setRoomList] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/room')
+        axios.get('http://localhost:3001/game')
             .then(response => {
                 //console.log(response.data);
                 setRoomList(response.data);
