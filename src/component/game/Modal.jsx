@@ -80,8 +80,8 @@ function Modal({ isOpen, onClose }) {
         <div>
             {isOpen && (
                 <div className="modal">
+                <span className="close" onClick={handleCloseModal}>&times;</span>
                 <div className="modal-content">
-                    <span className="close" onClick={handleCloseModal}>&times;</span>
                     <div className="allInput">
                     <div className="RoomNameContainer">
                         <div className="roomNameText">RoomName</div>

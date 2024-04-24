@@ -4,8 +4,8 @@
     color: white;
     position: absolute;
 }
-span {
-    margin-left : 450px;
+.close {
+    margin-left : 440px;
     font-size: 50px;
     color: #9F9F9F;;
 }

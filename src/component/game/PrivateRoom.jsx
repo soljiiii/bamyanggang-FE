@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function PrivateRoom ({roomList}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
+    const [joinCnt, setJoinCnt] = useState(roomList.joinCnt);
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
@@ -25,24 +26,29 @@ function PrivateRoom ({roomList}) {
             alert("이미 게임 진행중 입니다");
         }
         else{
-            if(password==="" || password!==roomList.roomPw){
-                alert("올바른 비밀번호를 입력하세요")
+            if(joinCnt===6){
+                alert("방이 꽉찼습니다");
             }
-            else if(password===roomList.roomPw){
-                const data = {
-                    userIdToken:'test',
-                    roomNm:roomList.roomNm,
-                    roomNo:roomList.roomNo
+            else{
+                if(password==="" || password!==roomList.roomPw){
+                    alert("올바른 비밀번호를 입력하세요")
                 }
-                axios.post('http://localhost:3001/dumi',data)
-                .then(response => {
-                    console.log(Response.data);
-                    const roomNo = response.data.roomNo
-                    navigate(`/gameReady/${roomNo}`)
-                })
-                .catch(error => {
-                    console.error('Error join game:', error);
-                });
+                else if(password===roomList.roomPw){
+                    const data = {
+                        userIdToken:'test',
+                        roomNm:roomList.roomNm,
+                        roomNo:roomList.roomNo
+                    }
+                    axios.post('http://localhost:3001/dumi',data)
+                    .then(response => {
+                        console.log(Response.data);
+                        const roomNo = response.data.roomNo
+                        navigate(`/gameReady/${roomNo}`)
+                    })
+                    .catch(error => {
+                        console.error('Error join game:', error);
+                    });
+                }
             }
         }
     }
