@@ -1,0 +1,24 @@
+.noticeList{
+    width: 980px;
+    margin: auto;
+    padding: 50px 20px 0px 20px;
+
+}
+.noticeItem{
+    display: flex;
+    justify-content: space-between;
+}
+
+.itemNo{
+    width: 5%;
+    margin-right: 20px;
+}
+
+.itemTitle{
+    width: 65%;
+    padding-left: 20px;
+}
+
+.itemWrtnDate{
+    width: 30%;
+}
