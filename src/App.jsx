@@ -1,3 +1,13 @@
+<<<<<<< .merge_file_8YYx0G
+
+
+
+import './App.css'
+import "the-new-css-reset"
+import LoginPage from './component/login/login'
+
+function App() {
+=======
 import './App.css';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import MainPage from './pages/MainPage';
@@ -24,7 +34,7 @@ function App() {
           <Route path="/gameReady/:roomNo" element={<GameReady />} />
           <Route path="/onGame/:no" element={<OnGame />} />
           <Route path="/notice" element={<Notice />} />
-          <Route path="/notice/:postNo" element={<NoticeView />} />
+          <Route path="/notice:postNo" element={<NoticeView />} />
           <Route path="/board" element={<Board />} />
           <Route path="/board/:no" element={<Board />} />
           <Route path="/guide" element={<Guide/>}/>
@@ -38,6 +48,18 @@ function App() {
     </div>
   );
 }
+>>>>>>> .merge_file_y4p0wf
 
-export default App;
 
+<<<<<<< .merge_file_8YYx0G
+  return (
+    <>
+      <h1>리액트</h1>
+      <LoginPage/>
+    </>
+  )
+}
+
+export default App
+=======
+>>>>>>> .merge_file_y4p0wf
