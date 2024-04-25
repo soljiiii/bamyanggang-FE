@@ -19,7 +19,7 @@ function Header(){
 
 
                 <div className="startArea">
-                    <Link to="/gameSearch" className="startButton">PLAY NOW</Link>
+                    <Link to="/gameSearch" className="mainStartButton">PLAY NOW</Link>
                 </div>
             </div>
         </div>

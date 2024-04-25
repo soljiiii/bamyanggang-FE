@@ -35,13 +35,13 @@
     background-color: #3C627F;
 }
 
-.startButton {
+.mainStartButton {
     text-decoration: none;
     font-size: 35px;
     color: white;
 }
 
-.startButton:visited {
+.mainStartButton:visited {
     color: white;
 }
 
