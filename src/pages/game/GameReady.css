@@ -1,3 +1,7 @@
+.gameContainer{
+    width: 980px;
+    margin: 0 auto;
+}
 .gameReadyContainer {
     width: 980px;
     position: relative;
@@ -25,7 +29,7 @@
     font-weight: 600;
     border: 1px solid #8b8b8b;
     background-color: #8b8b8b;
-    margin-top: 60px;
+    margin-top: 50px;
     color: white;
     border-radius: 15px;
     display: flex; 
@@ -34,7 +38,29 @@
 }
 .roomCode {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 40px;
+}
+.peopleCnt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.readyPartyImg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+.sheepImgBox{
+    position: relative;
+}
+.sheepImg {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    z-index: 1000;
+    left: 50px;
+    bottom: -170px;
 }
 
 /*버튼*/

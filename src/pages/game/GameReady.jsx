@@ -4,7 +4,6 @@ import Button from "../../component/common/Button"
 import axios from "axios";
 import Party from "../../component/game/Party";
 import "./GameReady.css";
-import GameInfoChild from "../../component/game/GameInfoChild";
 
 
 function GameReady(){
@@ -40,7 +39,7 @@ function GameReady(){
 
     //게임 시작
     function handleStart(){
-
+        
     }
 
     //게임 나가기
@@ -50,41 +49,49 @@ function GameReady(){
 
 
     return (
-        <div className="gameReadyContainer">
-            <div className="userContainer">
-                {gameParty && gameParty.map((party,index)=>(
-                    <div key={index} className="userInfo">
-                        <Party
-                            party={party}
-                        />
-                    </div>
-                ))}
-            </div>
-            {gameInfo && (
-                <div className="gameInfoBox">
-                    <div className="roomNameBox">{gameInfo.roomNm}</div>
-                    <div className="roomCode">CODE {gameInfo.roomCd}</div>
-                    <div className="peopleCnt">{gameInfo.joinCnt} 명 참가중</div>
+        <div className="gameContainer">
+            <div className="gameReadyContainer">
+                <div className="userContainer">
+                    {gameParty && gameParty.map((party,index)=>(
+                        <div key={index} className="userInfo">
+                            <Party
+                                party={party}
+                            />
+                        </div>
+                    ))}
                 </div>
-            )}
-            <div className="startButtonBox">
-                <Button
-                    type="startButton"
-                    text="GAME START"
-                    onClick={handleStart}
-                />
+                {gameInfo && (
+                    <div className="gameInfoBox">
+                        <div className="roomNameBox">{gameInfo.roomNm}</div>
+                        <div className="roomCode">gameCode {gameInfo.roomCd}</div>
+                        <div className="peopleCnt">
+                            <img className="readyPartyImg" src="/images-jsx/party.png"/>
+                            {gameInfo.joinCnt} 명 참가중
+                        </div>
+                        <div className="sheepImgBox">
+                            <img className="sheepImg" src="/images-jsx/양.svg"/>
+                        </div>
+                    </div>
+                )}
+                <div className="startButtonBox">
+                    <Button
+                        type="startButton"
+                        text="GAME START"
+                        onClick={handleStart}
+                    />
+                </div>
+                <div className="exitButtonBox">
+                    <Button
+                        type="exitButton"
+                        text="EXIT"
+                        onClick={handleExit}
+                    />
+                </div>
+                <div className="readyLogImgBox">
+                    <img className="readyLogImg" src="/images-jsx/밤양갱_black.svg"/>
+                </div>
             </div>
-            <div className="exitButtonBox">
-                <Button
-                    type="exitButton"
-                    text="EXIT"
-                    onClick={handleExit}
-                />
-            </div>
-            <div className="readyLogImgBox">
-                <img className="readyLogImg" src="/images-jsx/밤양갱_black.svg"/>
-            </div>
-        </div>
+        </div>   
     );
 }
 

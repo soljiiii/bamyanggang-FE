@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< .merge_file_8YYx0G
-=======
->>>>>>> ecbedb8848b73ed1caea1ff211b6e36c5e3411f4
-
-
-
-import './App.css'
-import "the-new-css-reset"
-<<<<<<< HEAD
-import LoginPage from './component/login/login'
-
-function App() {
-=======
 import './App.css';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import MainPage from './pages/MainPage';
@@ -27,14 +13,9 @@ import MemberModify from './pages/mypage/MemberModify';
 import MemberJoin from './pages/mypage/MemberJoin';
 import MemberDelete from './pages/mypage/MemberDelete';
 import NoticeView from './pages/boards/NoticeView';
-=======
->>>>>>> ecbedb8848b73ed1caea1ff211b6e36c5e3411f4
 
 function App() {
-
-
   return (
-<<<<<<< HEAD
     <div>
       <BrowserRouter>
         <Routes>
@@ -43,7 +24,7 @@ function App() {
           <Route path="/gameReady/:roomNo" element={<GameReady />} />
           <Route path="/onGame/:no" element={<OnGame />} />
           <Route path="/notice" element={<Notice />} />
-          <Route path="/notice:postNo" element={<NoticeView />} />
+          <Route path="/notice/:postNo" element={<NoticeView />} />
           <Route path="/board" element={<Board />} />
           <Route path="/board/:no" element={<Board />} />
           <Route path="/guide" element={<Guide/>}/>
@@ -57,27 +38,6 @@ function App() {
     </div>
   );
 }
->>>>>>> .merge_file_y4p0wf
 
+export default App;
 
-<<<<<<< .merge_file_8YYx0G
-  return (
-    <>
-      <h1>리액트</h1>
-      <LoginPage/>
-    </>
-  )
-}
-
-export default App
-=======
->>>>>>> .merge_file_y4p0wf
-=======
-    <>
-      <h1>리액트</h1>
-    </>
-  )
-}
-
-export default App
->>>>>>> ecbedb8848b73ed1caea1ff211b6e36c5e3411f4
