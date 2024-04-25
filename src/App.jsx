@@ -12,6 +12,7 @@ import Login from './pages/mypage/Login';
 import MemberModify from './pages/mypage/MemberModify';
 import MemberJoin from './pages/mypage/MemberJoin';
 import MemberDelete from './pages/mypage/MemberDelete';
+import NoticeView from './pages/boards/NoticeView';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path="/gameReady/:roomNo" element={<GameReady />} />
           <Route path="/onGame/:no" element={<OnGame />} />
           <Route path="/notice" element={<Notice />} />
-
+          <Route path="/notice:postNo" element={<NoticeView />} />
           <Route path="/board" element={<Board />} />
           <Route path="/board/:no" element={<Board />} />
           <Route path="/guide" element={<Guide/>}/>
