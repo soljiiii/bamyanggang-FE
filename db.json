@@ -76,6 +76,9 @@
       "roomCd": "13234513",
       "joinCnt": 6,
       "master": "좡좡"
+    },
+    {
+      "id": "f6e7"
     }
   ],
   "dumi": [
@@ -472,6 +475,108 @@
     },
     {
       "id": "acbc",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "7d2a",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "807e",
+      "userIdToken": "test",
+      "roomNm": "일반방2",
+      "roomNo": 2
+    },
+    {
+      "id": "a2ba",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "2e7f",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "b6f4",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "012f",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "71b0",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "7c45",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "afcb",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "2ea6",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "606d",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "64e5",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "449a",
+      "userIdToken": "test",
+      "roomNm": "일반방2",
+      "roomNo": 2
+    },
+    {
+      "id": "fad5",
+      "userIdToken": "test",
+      "roomNm": "비밀방1",
+      "roomNo": 4
+    },
+    {
+      "id": "3645",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "d661",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "cdbd",
       "userIdToken": "test",
       "roomNm": "일반방1",
       "roomNo": 1

@@ -15,7 +15,6 @@ function GameSearch(){
     useEffect(() => {
         axios.get('http://localhost:3001/game')
             .then(response => {
-                //console.log(response.data);
                 setRoomList(response.data);
             })
             .catch(error => {

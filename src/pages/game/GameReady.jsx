@@ -4,6 +4,7 @@ import Button from "../../component/common/Button"
 import axios from "axios";
 import Party from "../../component/game/Party";
 import "./GameReady.css";
+import GameInfoChild from "../../component/game/GameInfoChild";
 
 
 function GameReady(){
@@ -16,8 +17,7 @@ function GameReady(){
     useEffect(()=>{
         axios.get (`http://localhost:3001/game/?roomNo=${roomNo}`)
             .then(response => {
-                setGameInfo(response.data);
-                console.log(response.data);
+                setGameInfo(response.data[0]);
             })
             .catch(error => {
                 console.error('Error get game:', error);
@@ -29,30 +29,30 @@ function GameReady(){
         axios.get (`http://localhost:3001/party/?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data);
-                console.log(response.data);
             })
             .catch(error => {
                 console.error('Error get game:', error);
             });
-    },[]);
-    console.log("나오니?",gameInfo)
+    },[roomNo]);
+
+    console.log("gmaInfo",gameInfo)
     console.log("방:",gameInfo.roomNm)
 
+    //게임 시작
     function handleStart(){
-        const data = {
-            
-        }
-        axios.post(`http://localhost:3001/game`)
-        .then
+
     }
+
+    //게임 나가기
     function handleExit(){
 
     }
 
+
     return (
         <div className="gameReadyContainer">
             <div className="userContainer">
-                {gameInfo && gameParty.map((party,index)=>(
+                {gameParty && gameParty.map((party,index)=>(
                     <div key={index} className="userInfo">
                         <Party
                             party={party}
@@ -60,11 +60,11 @@ function GameReady(){
                     </div>
                 ))}
             </div>
-            {gameInfo &&  (
+            {gameInfo && (
                 <div className="gameInfoBox">
-                    <div className="roomNameBox">방이름{gameInfo.roomNm}</div>
-                    <div className="roomCode">방코드{gameInfo.roomCd}</div>
-                    <div className="peopleCnt">{gameInfo.joinCnt}명 참가중</div>
+                    <div className="roomNameBox">{gameInfo.roomNm}</div>
+                    <div className="roomCode">CODE {gameInfo.roomCd}</div>
+                    <div className="peopleCnt">{gameInfo.joinCnt} 명 참가중</div>
                 </div>
             )}
             <div className="startButtonBox">

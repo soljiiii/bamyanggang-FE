@@ -20,6 +20,27 @@ body{
     right: 0px;
     top: 0px;
 }
+.roomNameBox{
+    height: 50px;
+    width: 200px;
+    margin-left: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    border: 1px solid #8b8b8b;
+    background-color: #8b8b8b;
+    margin-top: 60px;
+    color: white;
+    border-radius: 15px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+.roomCode {
+    text-align: center;
+    margin-top: 30px;
+}
+.
 
 
 /*버튼*/
