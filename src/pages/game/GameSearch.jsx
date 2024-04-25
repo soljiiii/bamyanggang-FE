@@ -6,6 +6,9 @@ import Modal from "../../component/game/Modal";
 import axios from "axios";
 import NormalRoom from "../../component/game/NormalRoom";
 import PrivateRoom from "../../component/game/PrivateRoom";
+import Header from"../../layouts/Header";
+import SubBanner from "../../layouts/SubBanner";
+import Footer from "../../layouts/Footer"
 
 function GameSearch(){
 
@@ -56,7 +59,10 @@ function GameSearch(){
     }
 
     return (
-        <div>
+        <>
+        <Header/>
+        <SubBanner/>
+        <div className="gameSearchContainer">
             <div className="topBody">
                 <div className="gameCreateButton">
                     <Button
@@ -158,6 +164,8 @@ function GameSearch(){
                 )}
             </div>
         </div>
+        <Footer/>
+        </>
     );
 }
 export default GameSearch;

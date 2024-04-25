@@ -1,4 +1,7 @@
-
+.gameSearchContainer{
+    width: 980px;
+    margin: 0 auto;
+}
 .topBody {
     width: 980px;
     height: 200px;
@@ -31,7 +34,7 @@
     position: absolute;
     width: 150px;
     height: 50px;
-    margin-left: 540px;
+    margin-left: 530px;
 }
 
 .searchCode {
@@ -58,12 +61,12 @@
 /*게임생성*/
 .gameCreateButton {
     margin-left: 45px;
-    margin-top: 40px;
+    margin-top: 60px;
     position: absolute;
 }
 .gameCreate {
-    width: 250px;
-    height: 120px;
+    width: 200px;
+    height: 100px;
     background-color: #6E98B8;
     border-radius: 15px;
     border: none;
