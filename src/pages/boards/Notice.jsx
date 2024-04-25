@@ -1,13 +1,13 @@
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
 import Header from "../../layouts/Header";
 import NoticeList from "../../component/boards/NoticeList";
-import db from "../../../db.json"
 import "./Notice.css";
 import SubBanner from "../../layouts/SubBanner";
+import { useNavigate } from "react-router";
 
 
-function Notice(){
+function Notice(props){
+
+    const navigate = useNavigate();
     return(
         <div>
              <Header />
@@ -17,8 +17,9 @@ function Notice(){
                     <br/>
                     <br/>
                     <NoticeList
-                    notices={db.notice}
-                    />
+                    onClickItem={(noticeData)=>{
+                        navigate(`/notice/${noticeData.postNo}`);
+                    }}/>
             </div>
         </div>
     )

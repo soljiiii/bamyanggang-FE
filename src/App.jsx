@@ -23,7 +23,7 @@ function App() {
           <Route path="/gameReady/:roomNo" element={<GameReady />} />
           <Route path="/onGame/:no" element={<OnGame />} />
           <Route path="/notice" element={<Notice />} />
-          <Route path="/notice/:no" element={<Notice/>} />
+
           <Route path="/board" element={<Board />} />
           <Route path="/board/:no" element={<Board />} />
           <Route path="/guide" element={<Guide/>}/>
@@ -39,5 +39,4 @@ function App() {
 }
 
 export default App;
-
 

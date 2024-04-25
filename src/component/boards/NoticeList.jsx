@@ -1,23 +1,42 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import NoticeListItem from "./NoticeListItem";
 
 function NoticeList(props){
-    const {notices} = props;
+    const {onClickItem} = props;
+    const [notices, setNotices] = useState([]);
+
+    useEffect(()=>{
+        //axios를 사용하여 localhost:3301에서 notice 정보를 가져옴.
+        axios.get('http://localhost:3001/notice')
+            .then(response=> {
+                //가져온 데이터를 상태로 설정
+                setNotices(response.data);
+                console.log(response.data);
+            })
+            .catch(error =>{
+                console.error("해당 데이터 에러", error);
+            });
+    }, []);
+    //effect는 컴포넌트가 처음 렌더링 될 때 한 번만 실행된다.
 
     return(
         <div>
-            {notices.map((noticeData, index) =>{
-                //notices에 저장되어 있는 많은 json 데이터를 noticeData로 하나하나 파싱해서 저장
-                //noticeData : notice의 item 저장
+            {notices.map((noticeData, index) => {
                 return(
-                    <NoticeListItem 
-                    key={noticeData.postNo}
-                    noticeData={noticeData}
+                   <NoticeListItem
+                        key={noticeData.postNo}
+                        noticeData={noticeData}
+                        onClick={()=>{
+                            onClickItem(noticeData);
+                        }}
                     />
-                )
+                );
             })}
         </div>
-    )
+    );
+   
 }
 
 export default NoticeList;
