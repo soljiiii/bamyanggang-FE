@@ -1,0 +1,107 @@
+/*모달 관련*/
+.modal-content {
+    font-size: 18px;
+    color: white;
+    position: absolute;
+}
+.close {
+    margin-left : 440px;
+    font-size: 50px;
+    color: #9F9F9F;;
+}
+.modal {
+    position: relative;
+    margin-left: 15px;
+    width: 500px;
+    height: 400px;
+    border: none;
+    background-color:  rgb(33, 33, 33,0.9);
+
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/*입력창 공통*/
+.inputContainer {
+    margin-left: 250px;
+}
+.allInput {
+    margin-top: 30px;
+}
+
+/*방 이름 입력창 관련*/
+.RommNameContainer {
+    margin-top: 100px;
+    position: relative;
+}
+.roomName {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    background-color: #D0f0f5;
+    text-align: left;
+    position: absolute;
+    font-size: 13px;
+}
+.roomNameText {
+    margin-left: 100px;
+    width: 120px;
+    margin-top: 10px;
+    position: absolute;
+}
+.roomName:focus {
+    outline: none; 
+    border: 1px solid #9F9F9F;
+}
+
+/*비밀번호 입력창 관련 */
+.pwContainer {
+    position: relative;
+    height: 50px;
+    margin-top: 30px;
+}
+
+label {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 90px;
+}
+
+.checkbox {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.roomPw {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    background-color: #D0f0f5;
+    text-align: left;
+    position: absolute;
+    font-size: 13px;
+}
+
+.roomPw:focus {
+    outline: none; 
+    border: 1px solid #9F9F9F;
+}
+
+/*방 생성 버튼 관련 */
+.createButton {
+    width: 150px;
+    height: 60px;
+    border-radius: 10px;
+    border: 3px solid #D0f0f5;
+    text-align: center;
+    margin-top: 60px;
+    margin-left: 175px;
+    background-color: #D0f0f5;
+    cursor: pointer;
+}
+.createButton:hover {
+    background-color: #A8D0D6;
+    border: 3px solid #A8D0D6;
+}

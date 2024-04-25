@@ -1,0 +1,17 @@
+.clearIcon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5px;
+    cursor: pointer;
+    color: #9F9F9F;
+}
+
+.inputContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 50px;
+}
+
