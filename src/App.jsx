@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 <<<<<<< .merge_file_8YYx0G
+=======
+>>>>>>> ecbedb8848b73ed1caea1ff211b6e36c5e3411f4
 
 
 
 import './App.css'
 import "the-new-css-reset"
+<<<<<<< HEAD
 import LoginPage from './component/login/login'
 
 function App() {
@@ -23,9 +27,14 @@ import MemberModify from './pages/mypage/MemberModify';
 import MemberJoin from './pages/mypage/MemberJoin';
 import MemberDelete from './pages/mypage/MemberDelete';
 import NoticeView from './pages/boards/NoticeView';
+=======
+>>>>>>> ecbedb8848b73ed1caea1ff211b6e36c5e3411f4
 
 function App() {
+
+
   return (
+<<<<<<< HEAD
     <div>
       <BrowserRouter>
         <Routes>
@@ -63,3 +72,12 @@ function App() {
 export default App
 =======
 >>>>>>> .merge_file_y4p0wf
+=======
+    <>
+      <h1>리액트</h1>
+    </>
+  )
+}
+
+export default App
+>>>>>>> ecbedb8848b73ed1caea1ff211b6e36c5e3411f4
