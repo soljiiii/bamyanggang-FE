@@ -1,0 +1,401 @@
+{
+  "game": [
+    {
+      "id": "test",
+      "roomNo": 1,
+      "roomNm": "일반방1",
+      "roomSt": 0,
+      "roomPw": "",
+      "isOnGame": 0,
+      "roomCd": "1234567",
+      "joinCnt": 3,
+      "master": "좡좡"
+    },
+    {
+      "id": "test",
+      "roomNo": 2,
+      "roomNm": "일반방2",
+      "roomSt": 0,
+      "roomPw": "",
+      "isOnGame": 0,
+      "roomCd": "1234568",
+      "joinCnt": 3,
+      "master": "좡좡"
+    },
+    {
+      "id": "test",
+      "roomNo": 3,
+      "roomNm": "일반방3",
+      "roomSt": 0,
+      "roomPw": "",
+      "isOnGame": 1,
+      "roomCd": "1234569",
+      "joinCnt": 3,
+      "master": "좡좡"
+    },
+    {
+      "id": "test",
+      "roomNo": 4,
+      "roomNm": "비밀방1",
+      "roomSt": 1,
+      "roomPw": "1234",
+      "isOnGame": 0,
+      "roomCd": "1234560",
+      "joinCnt": 3,
+      "master": "좡좡"
+    },
+    {
+      "id": "test",
+      "roomNo": 5,
+      "roomNm": "비밀방2",
+      "roomSt": 1,
+      "roomPw": "1234",
+      "isOnGame": 0,
+      "roomCd": "1234511",
+      "joinCnt": 3,
+      "master": "좡좡"
+    },
+    {
+      "id": "test",
+      "roomNo": 6,
+      "roomNm": "일반 풀방",
+      "roomSt": 0,
+      "roomPw": "1234",
+      "isOnGame": 0,
+      "roomCd": "13234512",
+      "joinCnt": 6,
+      "master": "좡좡"
+    },
+    {
+      "id": "test",
+      "roomNo": 7,
+      "roomNm": "비밀풀방",
+      "roomSt": 1,
+      "roomPw": "1234",
+      "isOnGame": 0,
+      "roomCd": "13234513",
+      "joinCnt": 6,
+      "master": "좡좡"
+    },
+    {
+      "id": "f6e7"
+    }
+  ],
+  "party": [
+    {
+      "roomNo": 1,
+      "userNickNm": "뵝뵝",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test1"
+    },
+    {
+      "roomNo": 1,
+      "userNickNm": "22",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test2"
+    },
+    {
+      "roomNo": 1,
+      "userNickNm": "33",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test3"
+    },
+    {
+      "roomNo": 1,
+      "userNickNm": "44",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test4"
+    },
+    {
+      "roomNo": 1,
+      "userNickNm": "55",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test5"
+    },
+    {
+      "roomNo": 1,
+      "userNickNm": "66",
+      "master": 1,
+      "id": "fee0",
+      "userId": "test6"
+    },
+    {
+      "roomNo": 2,
+      "userNickNm": "뵝뵝",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test1"
+    },
+    {
+      "roomNo": 2,
+      "userNickNm": "22",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test2"
+    },
+    {
+      "roomNo": 2,
+      "userNickNm": "33",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test3"
+    },
+    {
+      "roomNo": 2,
+      "userNickNm": "44",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test4"
+    },
+    {
+      "roomNo": 2,
+      "userNickNm": "55",
+      "master": 0,
+      "id": "fee0",
+      "userId": "test5"
+    },
+    {
+      "roomNo": 2,
+      "userNickNm": "66",
+      "master": 1,
+      "id": "fee0",
+      "userId": "test6"
+    }
+  ],
+  "dumi": [
+    {
+      "roomNo": 1,
+      "userNickNm": "뵝뵝",
+      "master": 0,
+      "id": "fee0",
+      "userIdToken": "test6"
+    },
+    {
+      "id": "8f38"
+    },
+    {
+      "id": "aac2",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "e16a"
+    },
+    {
+      "id": "466d",
+      "userIdToken": "test",
+      "roomNm": "일반방2",
+      "roomNo": 2
+    },
+    {
+      "id": "9bdc"
+    },
+    {
+      "id": "bc5e",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "ef25"
+    },
+    {
+      "id": "e093",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "8db8"
+    },
+    {
+      "id": "7412",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "64c3"
+    },
+    {
+      "id": "db7c",
+      "userIdToken": "test",
+      "roomNm": "일반방2",
+      "roomNo": 2
+    },
+    {
+      "id": "5321",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "eb22"
+    },
+    {
+      "id": "a122",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "b877",
+      "userIdToken": "test",
+      "roomNm": "일반방2",
+      "roomNo": 2
+    },
+    {
+      "id": "e103",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "c601",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "8d44"
+    },
+    {
+      "id": "7f55"
+    },
+    {
+      "id": "ebce",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "e2f7",
+      "userIdToken": "test",
+      "roomNm": "123",
+      "roomSt": 0,
+      "roomPw": ""
+    },
+    {
+      "id": "d7e1",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "8981"
+    },
+    {
+      "id": "d148"
+    },
+    {
+      "id": "b151",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "995e"
+    },
+    {
+      "id": "780e",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "8ff3"
+    },
+    {
+      "id": "2490",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "f48f"
+    },
+    {
+      "id": "f707",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "9423"
+    },
+    {
+      "id": "c005",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "0fe2",
+      "roomNo": 1,
+      "userId": "test6"
+    },
+    {
+      "id": "7d3f",
+      "userIdToken": "test",
+      "roomNm": "일반방2",
+      "roomNo": 2
+    },
+    {
+      "id": "4fa3",
+      "roomNo": 2,
+      "userId": "test6"
+    },
+    {
+      "id": "e55d"
+    },
+    {
+      "id": "e5b9",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "debd",
+      "userIdToken": "test",
+      "roomNm": "비밀방1",
+      "roomNo": 4
+    },
+    {
+      "id": "c17a",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "7f8e",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "085a",
+      "roomNo": 1,
+      "userId": "test6"
+    },
+    {
+      "id": "2e7d"
+    },
+    {
+      "id": "3b8c",
+      "userIdToken": "test",
+      "roomNm": "일반방1",
+      "roomNo": 1
+    },
+    {
+      "id": "d67f",
+      "roomNo": 1,
+      "userId": "test6"
+    }
+  ]
+}
