@@ -1,3 +1,6 @@
+body {
+    width: 980px;
+}
 .topBody {
     width: 980px;
     height: 200px;
@@ -6,12 +9,31 @@
     position: relative;
 }
 
+
+/*배치*/
+.middleBody {
+    padding-left: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-top: 30px;
+    flex-direction: row;
+}
+
+.roomComponent {
+    width: calc(33.33% + 0px); 
+    margin-bottom: 50px;
+    box-sizing: border-box;
+}
+
+
 /*게임 검색*/
 .gameSearchInput {
-    margin-top: 108px;
+    margin-top: 110px;
     position: absolute;
     width: 150px;
     height: 50px;
+    margin-left: 540px;
 }
 
 .searchCode {
@@ -21,7 +43,7 @@
     border-radius: 15px;
     background-color: #D9D9D9;
     text-align: center;
-    margin-left: 540px;
+    font-size: 14px;
 }
 
 ::placeholder {

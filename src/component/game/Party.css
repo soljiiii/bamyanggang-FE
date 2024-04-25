@@ -1,0 +1,60 @@
+.partyContainer {
+    width: 200px;
+    height: 200px;
+    background-color: #EDEDED;
+    border-radius: 15px;
+    position: relative;
+    font-size: 10px;
+}
+
+.partyImg {
+    width: 170px;
+    height: 120px;
+    background-color: #D9D9D9;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+.partyState {
+    width: 45px;
+    height: 45px;
+    background-color: #D9D9D9;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+.partyNormal{
+    height: 45px;
+    font-size: 10px;
+    position: absolute;
+    margin: 0;
+    left: 12px;
+    display: flex;
+    align-items: center;
+}
+.partyMaster{
+    height: 45px;
+    font-size: 10px;
+    position: absolute;
+    margin: 0;
+    left: 12px;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    color: #d60000;
+}
+
+.nickNmBox {
+    width: 120px;
+    height: 45px;
+    background-color: #D9D9D9;
+    position: absolute;
+    top: 140px;
+    left: 65px;
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,122 @@
+/*전체 설정*/
+.normalRoomContainer {
+    width: 250px;
+    height: 250px;
+    border: 1px solid #D9D9D9;
+    background-color: #EDEDED;
+    border-radius: 15px;
+    position: relative;
+}
+
+/*방 이름*/
+.normalName {
+    width: 205px;
+    height: 31px;
+    border-radius: 15px;
+    border: 1px solid none;
+    background-color: #D9D9D9;
+    text-align: center;
+    margin: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+/*참여인원*/
+.normalPeople {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 70px;
+    
+}
+
+.peopleImg {
+    width: 20px;
+    height: 20px;
+    left: 30px;
+}
+
+.peopleCnt {
+    right: 50px;
+}
+
+/*게임 진행 상태*/
+.onGameBox {
+    position: absolute;
+    position: relative;
+    width: 105px;
+    height: 25px;
+    margin: auto;
+    bottom: -110px;
+}
+
+.watingGameText {
+    color: #3F66A0;
+    font-size: 18px;
+    position: absolute;
+    width: 105px;
+    height: 25px;
+    margin: 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+.startGameText {
+    color: #BE4A4A;
+    font-size: 18px;
+    position: absolute;
+    width: 105px;
+    height: 25px;
+    margin: 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+/*open방 표시*/
+.normalTag {
+    position: relative;
+    width: 150px;
+    height: 20px;
+    border: 1px solid #D9D9D9;
+    display: flex;
+    align-items: center;
+    margin: 90px 50px 30px 50px;
+    bottom: -40px;
+}
+
+.unlockImg {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: 20px;
+}
+
+.normalText {
+    position: absolute;
+    right: 20px;
+} 
+
+/*버튼*/
+.joinButtonBox {
+    position: relative;
+    margin-left: 82px;
+    bottom: -25px;
+}
+
+.joinButton {
+    position: absolute;
+    width: 85px;
+    height: 40px;
+    border: 1px solid #D9D9D9;
+    background-color: #D9D9D9;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.joinButton:hover {
+    background-color: #9F9F9F;
+    border: 1px solid #9F9F9F;
+}
