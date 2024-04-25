@@ -1,0 +1,97 @@
+body{
+    width: 980px;
+}
+
+.gameReadyContainer {
+    width: 980px;
+    position: relative;
+    margin-top: 50px;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+/*방 정보*/
+.gameInfoBox {
+    width: 230px;
+    height: 390px;
+    background-color: #d9d9d9;
+    border-radius: 15px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.roomNameBox{
+    height: 50px;
+    width: 200px;
+    margin-left: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    border: 1px solid #8b8b8b;
+    background-color: #8b8b8b;
+    margin-top: 60px;
+    color: white;
+    border-radius: 15px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+.roomCode {
+    text-align: center;
+    margin-top: 30px;
+}
+.
+
+
+/*버튼*/
+.startButton {
+    position: absolute;
+    width: 230px;
+    height: 120px;
+    border-radius: 15px;
+    background-color: #d9d9d9;
+    color: #4263B6;
+    font-size: 30px;
+    border: 1px solid #d9d9d9;
+    right: 0px;
+    top: 425px;
+}
+.exitButton {
+    position: absolute;
+    width: 230px;
+    height: 60px;
+    background-color: #d9d9d9;
+    border-radius: 15px;
+    color: #CA3434;
+    font-size: 30px;
+    border: 1px solid #d9d9d9;
+    right: 0px;
+    top: 570px;
+}
+
+/*배치*/
+.userContainer {
+    width: 740px;
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+.userInfo{
+    width: calc(33.33%); 
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+/*하단 그림*/
+.readyLogImgBox{
+    position: relative;
+    top: 500px;
+}
+.readyLogImg {
+    width: 300px;
+    position: absolute;
+    right: 300px;
+}
+

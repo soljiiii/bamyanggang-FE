@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Modal({ isOpen, onClose }) {
     
-    const [roomName, setRoomName] = useState("");
+    const [roomNm, setRoomNm] = useState("");
     const [isPrivate, setIsPrivate] = useState(0);
     const [roomPw, setRoomPw] = useState("");
 
@@ -17,23 +17,24 @@ function Modal({ isOpen, onClose }) {
 
     //new게임 버튼 눌렀을때 post 수행
     function createGame(){
-        if(roomName===""){
+        if(roomNm===""){
             alert("방 이름은 필수 입니다!");
         }
         else {
             if(isPrivate===0||(isPrivate===1&&roomPw!=="")){
             const data = {
                 userIdToken:'test',
-                roomNm:roomName,
+                roomNm:roomNm,
                 roomSt:isPrivate ?1:0,
                 roomPw:roomPw
             };
     
-            axios.post('http://localhost:3001/games',data)
+            axios.post('http://localhost:3001/dumi',data)
                 .then(response => {
                     console.log(response.data)
-                    const roomNo = 1234;//response.data.roomNo;
-                    navigate(`/onGame/${roomNo}`)
+                    const roomNo = 123; //response.data.roomNo;
+                    //백엔드에 post 요청을 하고 돌려받은 리턴값으로 roomNo
+                    navigate(`/gameReady/${roomNo}`)
                 })
                 .catch(error => {
                     console.error('Error creating game:', error);
@@ -45,11 +46,11 @@ function Modal({ isOpen, onClose }) {
         }
     }
     
-    //roomName, roomPw 값 변경 
+    //roomNm, roomPw 값 변경 
     //자식 컴포넌트인 Input에서 넘어온 값을 새로 대입한다
     function handleNameChange(newValue) {
         if(newValue.length<=10){
-            setRoomName(newValue);
+            setRoomNm(newValue);
         }
     }
     function handlePwChange(newValue) {
@@ -69,7 +70,7 @@ function Modal({ isOpen, onClose }) {
 
     //span태그 안에 아이템을 onClick하면 부모컴포넌트에서 onclose전달됨
     function handleCloseModal(){
-        setRoomName("");
+        setRoomNm("");
         setIsPrivate(0);
         setRoomPw("");
         onClose();
@@ -79,8 +80,8 @@ function Modal({ isOpen, onClose }) {
         <div>
             {isOpen && (
                 <div className="modal">
+                <span className="close" onClick={handleCloseModal}>&times;</span>
                 <div className="modal-content">
-                    <span className="close" onClick={handleCloseModal}>&times;</span>
                     <div className="allInput">
                     <div className="RoomNameContainer">
                         <div className="roomNameText">RoomName</div>
@@ -89,7 +90,7 @@ function Modal({ isOpen, onClose }) {
                             name="roomName"
                             placeholder={"방 이름을 입력하세요"}
                             onChange={handleNameChange}
-                            value={roomName}
+                            value={roomNm}
                         />
                     </div>
                     <div className="pwContainer">
