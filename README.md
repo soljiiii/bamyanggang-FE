@@ -1,2 +1,2 @@
-# bamyanggang-Fe
+# bamyanggang-FE
 밤양갱 프로젝트 프론트엔드 
