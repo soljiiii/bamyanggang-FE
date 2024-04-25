@@ -8,7 +8,7 @@ import NormalRoom from "../../component/game/NormalRoom";
 import PrivateRoom from "../../component/game/PrivateRoom";
 import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
-import Footer from "../../layouts/Footer"
+
 
 function GameSearch(){
 
@@ -164,7 +164,6 @@ function GameSearch(){
                 )}
             </div>
         </div>
-        <Footer/>
         </>
     );
 }

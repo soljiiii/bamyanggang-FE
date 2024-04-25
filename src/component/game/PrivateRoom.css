@@ -40,7 +40,9 @@
 
 .peopleCnt {
     right: 30px;
+    margin-top: 0px;
     margin-left: 10px;
+
 }
 
 /*게임 진행 상태*/
