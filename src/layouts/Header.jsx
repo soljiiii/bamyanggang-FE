@@ -8,18 +8,18 @@ function Header(){
         <div className="headerArea">
             <div className="headerLeft">
                 <div className="MainButton">
-                    <Link to="/"><img src="/images-jsx/밤양갱.png" className="mainImage"/></Link>
+                    <Link to="/"><img src="/images-jsx/밤양갱_white.svg" className="mainImage"/></Link>
                 </div>
             </div>
 
             <div className="headerRight">
                 <div className="loginArea">
-                    <Link to="/login" className="loginButton">로그인</Link>
+                    <Link to="/login" className="loginButton">LOGIN</Link>
                 </div>
 
 
                 <div className="startArea">
-                    <Link to="/gameSearch" className="startButton">게임시작</Link>
+                    <Link to="/gameSearch" className="startButton">PLAY NOW</Link>
                 </div>
             </div>
         </div>
