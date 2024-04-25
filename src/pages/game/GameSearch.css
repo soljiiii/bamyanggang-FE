@@ -1,0 +1,92 @@
+
+.topBody {
+    width: 980px;
+    height: 200px;
+    display: flex;
+    flex: auto;
+    position: relative;
+}
+
+
+/*배치*/
+.middleBody {
+    padding-left: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-top: 30px;
+    flex-direction: row;
+}
+
+.roomComponent {
+    width: calc(33.33% + 0px); 
+    margin-bottom: 50px;
+    box-sizing: border-box;
+}
+
+
+/*게임 검색*/
+.gameSearchInput {
+    margin-top: 110px;
+    position: absolute;
+    width: 150px;
+    height: 50px;
+    margin-left: 540px;
+}
+
+.searchCode {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-size: 14px;
+}
+
+::placeholder {
+    text-align: center;
+    color: #9F9F9F;
+}
+
+.searchCode:focus {
+    outline: none; 
+    border: 1px solid #9F9F9F;
+}
+
+
+/*게임생성*/
+.gameCreateButton {
+    margin-left: 45px;
+    margin-top: 40px;
+    position: absolute;
+}
+.gameCreate {
+    width: 250px;
+    height: 120px;
+    background-color: #6E98B8;
+    border-radius: 15px;
+    border: none;
+    font-size: 30px;
+}
+.gameCreate:hover {
+    background-color: #3C627F;
+}
+
+/*대기중만 보기 버튼*/
+.onlyWatingButton {
+    margin-top: 108px;
+    margin-left: 665px;
+    position: absolute;
+}
+
+.gameCommon {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+    background-color: #D9D9D9;
+}
+.gameCommon:hover{
+    background-color: #9F9F9F;
+}
