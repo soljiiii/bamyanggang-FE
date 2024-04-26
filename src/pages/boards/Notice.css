@@ -7,7 +7,7 @@
 .noticeItem{
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #999999;
+    border-bottom: 1px solid #e7e7e7;
     padding: 10px;
     
 }
@@ -33,3 +33,29 @@
 .itemWrtnDate{
     width: 15%;
 }
+
+h1{
+    padding-bottom: 30px;
+    border-bottom: 2px solid black;
+}
+
+.noticeTotal{
+    padding: 20px;
+}
+
+.noticeViewTitle{
+    font-size: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+
+.noticeViewInfo{
+    display: flex;
+    justify-content: right;
+    padding: 20px 0 20px 0;
+}
+
+.noticeViewVwCnt{
+    padding-right:  20px;
+}
+
