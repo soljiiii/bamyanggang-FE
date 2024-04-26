@@ -1,4 +1,7 @@
+import Janus from "../../apis/janus";
+
 function FaceChat({onGameParty}) {
+
     console.log(onGameParty)
     return(
         <div className="faceChatContent">
@@ -8,5 +11,5 @@ function FaceChat({onGameParty}) {
     );   
 }
 
-export default FaceChat;4
+export default FaceChat;
 
