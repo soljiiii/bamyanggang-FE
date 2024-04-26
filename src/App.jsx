@@ -22,7 +22,7 @@ function App() {
           <Route path="/" element={<MainPage />}/>
           <Route path="/gameSearch" element={<GameSearch />} />
           <Route path="/gameReady/:roomNo" element={<GameReady />} />
-          <Route path="/onGame/:no" element={<OnGame />} />
+          <Route path="/onGame/:roomNo" element={<OnGame />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/:postNo" element={<NoticeView />} />
           <Route path="/board" element={<Board />} />
