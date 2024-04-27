@@ -54,12 +54,15 @@ h1{
     display: flex;
     justify-content: right;
     padding: 20px 0 20px 0;
+
     border-bottom: 1px solid black;
+
 }
 
 .noticeViewVwCnt{
     padding-right:  20px;
 }
+
 
 .noticeViewContent {
     margin-top: 20px;
@@ -94,3 +97,5 @@ h1{
     padding-top: 10px;
     
 }
+
+

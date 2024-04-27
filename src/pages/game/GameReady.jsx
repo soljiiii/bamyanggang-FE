@@ -4,13 +4,16 @@ import Button from "../../component/common/Button"
 import axios from "axios";
 import Party from "../../component/game/Party";
 import "./GameReady.css";
-
+import { useNavigate } from 'react-router-dom';
+//id 값 가져와서 gamestart 권한 부분 수정하기
 
 function GameReady(){
 
     const {roomNo} = useParams();
     const [gameInfo, setGameInfo] = useState([]);
     const [gameParty, setGameParty] = useState([]);
+    const navigate = useNavigate();
+    const userIdentity = "test6"; //jwt값 가져오기
 
     //게임 정보 불러오기
     useEffect(()=>{
@@ -38,13 +41,38 @@ function GameReady(){
     console.log("방:",gameInfo.roomNm)
 
     //게임 시작
-    function handleStart(){
-        
+    function handleStart() {
+        // userIdentity와 일치하는 요소를 찾기
+        const userParty = gameParty.find(party => party.userId === userIdentity);
+    
+        // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
+        if (userParty && userParty.master === 1) {
+            const data = {
+                roomNo: gameInfo.roomNo,
+                userId: userIdentity
+            };
+            axios.post('http://localhost:3001/dumi', data)
+                .then(response => {
+                    console.log("전송 성공");
+                    navigate(`/onGame/${roomNo}`);
+                });
+        } else {
+            alert("권한이 없다능");
+        }
     }
+    
 
     //게임 나가기
     function handleExit(){
-
+        const data = {
+            roomNo:gameInfo.roomNo,
+            userId:userIdentity
+        }
+        axios.post(`http://localhost:3001/dumi`)
+        .then(response => {
+            console.log("전송 성공");
+            navigate(`/gameSearch`);
+        });
     }
 
 
@@ -64,7 +92,7 @@ function GameReady(){
                     <div className="gameInfoBox">
                         <div className="roomNameBox">{gameInfo.roomNm}</div>
                         <div className="roomCode">gameCode {gameInfo.roomCd}</div>
-                        <div className="peopleCnt">
+                        <div className="peopleCntBox">
                             <img className="readyPartyImg" src="/images-jsx/party.png"/>
                             {gameInfo.joinCnt} 명 참가중
                         </div>

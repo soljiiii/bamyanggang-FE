@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import { useNavigate, useParams } from "react-router";
+=======
+
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 
@@ -85,16 +88,19 @@ function NoticeView(props){
 
                         <div className="noticeViewInfo">
                             <div className="noticeViewVwCnt">
+
                                    view : {selectedNotice.vwCnt}
                             </div>
                             
                             <div className="noticeViewWrtnDate">
                                작성일 : {selectedNotice.wrtnDate}
+
                             </div>
                         </div>
                     </div>
 
                     <div className="noticeViewContent"> 
+
                         {selectedNotice.content && selectedNotice.content.split("\n").map((line)=>{
                             return(
                                 <span>
@@ -128,7 +134,7 @@ function NoticeView(props){
                             </div>
                         )}
                     </div>
-                    
+
                 </div>
                
                 
