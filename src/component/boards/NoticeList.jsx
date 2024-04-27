@@ -5,6 +5,7 @@ import NoticeListItem from "./NoticeListItem";
 
 function NoticeList(props){
     const {onClickItem} = props;
+    //notices 변수의 값을 setNotices를 통해 저장, 현재 초기값은 []
     const [notices, setNotices] = useState([]);
 
     useEffect(()=>{

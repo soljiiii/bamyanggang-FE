@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 function Notice(props){
 
     const navigate = useNavigate();
+    
     return(
         <div>
              <Header />
