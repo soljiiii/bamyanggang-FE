@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { useNavigate, useParams } from "react-router";
-=======
 
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
@@ -74,7 +73,7 @@ function NoticeView(props){
 
     return(
         <div>
-            <Header />
+            {/* <Header /> */}
             <SubBanner />
             <div className="noticeList">
                 <h1>공지사항</h1>

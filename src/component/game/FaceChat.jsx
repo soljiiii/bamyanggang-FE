@@ -1,4 +1,3 @@
-import Janus from "../../apis/janus";
 
 function FaceChat({onGameParty}) {
 
