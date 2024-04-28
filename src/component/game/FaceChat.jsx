@@ -1,11 +1,11 @@
+import "../../pages/game/OnGame.css";
 
 function FaceChat({onGameParty}) {
-
-    console.log(onGameParty)
+    
     return(
         <div className="faceChatContent">
-            <div className="nickNmContent">{onGameParty.userNickNm}</div>
             <div className="videoBox"></div>
+            <div className="nickNmContent">{onGameParty.userNickNm}</div>
         </div>
     );   
 }
