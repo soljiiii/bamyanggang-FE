@@ -1,21 +1,31 @@
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import React from "react";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
-import "./Board.css";
+import CommunityList from "../../component/boards/CommunityList";
+import { useNavigate } from "react-router";
+import "./Community.css";
 
-function Board(){
+
+function Community(){
+    const navigate = useNavigate();
+
     return(
         <div>
             <Header />
             <SubBanner />
-            <div className="boardList">
-            <h1>커뮤니티</h1>
-            <br/>
-            <br/>
+            <div className="communityList">
+                <h1>커뮤니티</h1>
+                <br/>
+                <br/>
+                <CommunityList
+                onClickItem={(communityData)=>{
+                    navigate(`/community/${communityData.postNo}`)
+                }}
+                />
+                
             </div>
         </div>
     )
 }
 
-export default Board;
+export default Community;
