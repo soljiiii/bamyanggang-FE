@@ -13,7 +13,7 @@ function GameReady(){
     const [gameInfo, setGameInfo] = useState([]);
     const [gameParty, setGameParty] = useState([]);
     const navigate = useNavigate();
-    const userIdentity = "test6"; //jwt값 가져오기
+    const userIdentity = "test1"; //jwt값 가져오기
 
     //게임 정보 불러오기
     useEffect(()=>{
