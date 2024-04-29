@@ -9,6 +9,7 @@ function OnGame(){
     const [onGameInfo,setOnGameInfo] = useState([]);
     const [onGameParty, setOnGameParty] = useState([]);
     const [selectedParty, setSelectedParty] = useState("");
+    const userIdentity = "test1";
 
     //게임 방에 대한 정보 받아옴
     useEffect(()=>{
@@ -46,6 +47,18 @@ function OnGame(){
     
     console.log("누구투표?:",selectedParty);
 
+    //투표
+    function submitVote(){
+        const data = {
+            userId:selectedParty,
+            roomNo:onGameInfo[0].roomNo
+        }
+        axios.post(`http://localhost:3001/dumi`,data)
+        .then(response =>{
+            console.log(data);
+        })
+    }
+
     return (
         <div className="onGameBody">
             <div className="faceBox">
@@ -57,18 +70,26 @@ function OnGame(){
                     </div>
                 ))}
             </div>
-            <div className="roleBox"></div>
+            <div className="roleBox">
+                {onGameParty.map((partyMafia, index)=>(
+                    partyMafia.userId===userIdentity?
+                    (partyMafia.role===1 ?
+                        (<span key={index}>당신은 마피아입니다</span>)
+                        :(<span key={index}>당신은 시민입니다</span>)):("")
+                ))}
+            </div>
             <div className="voteBox">
                 <div className="partyVoteBox">
                     {onGameParty.map(party =>(
                         <div key={party.userId} className="radioButtonBox">
-                            <label className={`customRadioButton ${selectedParty === party.userNickNm ? 'selected' : ''}`}>{party.userNickNm}
+                            <label className={`customRadioButton ${selectedParty === party.userId ? 'selected' : ''}`}>{party.userNickNm}
                                 <input 
                                     type="radio" 
                                     name="party"
-                                    value={party.userNickNm}
-                                    checked={selectedParty == party.userNickNm}
+                                    value={party.userId}
+                                    checked={selectedParty == party.userId}
                                     onClick={handleVoteParty}
+                                    onChange={() => {}}
                                 />
                             </label>
                         </div>   
@@ -78,7 +99,7 @@ function OnGame(){
                 <Button
                     type="voteButton"
                     text="vote"
-                    //onClick={}
+                    onClick={submitVote}
                 />
             </div>
             </div>
