@@ -73,7 +73,7 @@ function NoticeView(props){
 
     return(
         <div>
-            {/* <Header /> */}
+            <Header />
             <SubBanner />
             <div className="noticeList">
                 <h1>공지사항</h1>
