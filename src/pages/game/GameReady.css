@@ -5,9 +5,7 @@
 .gameReadyContainer {
     width: 980px;
     position: relative;
-    margin-top: 50px;
-    margin-right: 40px;
-    margin-left: 40px;
+    margin-top: 40px;
 }
 
 /*방 정보*/
