@@ -10,7 +10,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-left: 30px;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 .faceChatContent {
     width: 350px;
@@ -42,7 +42,19 @@
     border: 1px solid black;
     margin-left: 1130px;
     margin-top: -60px;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.timeLineBox{
+    width: 500px;
+    height: 50px;
+    border: 1px solid black;
+    margin-left: 310px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /*투표*/
 .voteBox {
@@ -53,11 +65,13 @@
     margin-left: 1130px;
 }
 .voteButtonBox {
-    border: 1px solid black;
     width: 100px;
     height: 50px;
     margin-top: 10px;
     margin-left: 125px;
+    display: flex;
+    align-items: center;
+
 }
 .voteButton {
     width: 100px;

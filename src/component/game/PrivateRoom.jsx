@@ -41,7 +41,7 @@ function PrivateRoom ({roomList}) {
                     }
                     axios.post('http://localhost:3001/dumi',data)
                     .then(response => {
-                        console.log(Response.data);
+                        console.log(response.data);
                         const roomNo = response.data.roomNo
                         navigate(`/gameReady/${roomNo}`)
                     })
