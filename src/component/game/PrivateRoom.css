@@ -40,7 +40,9 @@
 
 .peopleCnt {
     right: 30px;
+    margin-top: 0px;
     margin-left: 10px;
+
 }
 
 /*게임 진행 상태*/
@@ -130,6 +132,7 @@ input:focus {
     background-color: #D9D9D9;
     border-radius: 15px;
     cursor: pointer;
+    color: black;
 }
 .privateJoinButton:hover {
     background-color: #9F9F9F;

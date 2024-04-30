@@ -5,9 +5,7 @@
 .gameReadyContainer {
     width: 980px;
     position: relative;
-    margin-top: 50px;
-    margin-right: 40px;
-    margin-left: 40px;
+    margin-top: 40px;
 }
 
 /*방 정보*/
@@ -40,7 +38,7 @@
     text-align: center;
     margin-top: 40px;
 }
-.peopleCnt {
+.peopleCntBox {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,6 +73,10 @@
     border: 1px solid #d9d9d9;
     right: 0px;
     top: 425px;
+    border: none;
+}
+.startButton:hover {
+    background-color: #8f8f8f;
 }
 .exitButton {
     position: absolute;
@@ -87,10 +89,14 @@
     border: 1px solid #d9d9d9;
     right: 0px;
     top: 570px;
+    border: none;
+}
+.exitButton:hover{
+    background-color: #8f8f8f;
 }
 
 /*배치*/
-.userContainer {
+.userContainer_game {
     width: 740px;
     position: absolute;
     display: flex;

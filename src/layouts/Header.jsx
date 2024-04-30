@@ -34,7 +34,7 @@ function Header(){
 
                 <li className="navItem">
                     <div >
-                        <Link to="/board" className="navLink">커뮤니티</Link>
+                        <Link to="/community" className="navLink">커뮤니티</Link>
                     </div>
                 </li>
 

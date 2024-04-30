@@ -89,6 +89,7 @@
     border-radius: 15px;
     border: none;
     background-color: #D9D9D9;
+    color: black;
 }
 .gameCommon:hover{
     background-color: #9F9F9F;

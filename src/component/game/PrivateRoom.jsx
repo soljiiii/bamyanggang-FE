@@ -3,7 +3,7 @@ import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-
+//id 값 가져와서 id없을 시 join 안되는 로직 추가하기
 
 function PrivateRoom ({roomList}) {
 
@@ -41,7 +41,7 @@ function PrivateRoom ({roomList}) {
                     }
                     axios.post('http://localhost:3001/dumi',data)
                     .then(response => {
-                        console.log(Response.data);
+                        console.log(response.data);
                         const roomNo = response.data.roomNo
                         navigate(`/gameReady/${roomNo}`)
                     })
