@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import axios from "axios";
+import ReplyList from "../../component/boards/ReplyList";
 
 function CommunityView(){
     //url parameter 값으로 사용할 변수 설정
@@ -36,7 +37,6 @@ function CommunityView(){
         axios.get(`http://localhost:3001/community?postNo=${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data[0]);
-                console.log("데이터", response.data[0]);
             })
 
             .catch(error=>{
@@ -100,16 +100,21 @@ function CommunityView(){
                             )
                         })}
                     </div>
-
-                    <div>
-                        댓글 컴포넌트
+                    
+                    {/*댓글 작성 부분*/}
+                    <div className="replyArea">
+                        <ReplyList 
+                        selectedCommunity={selectedCommunity}
+                        />
                     </div>
+                    <br/>
+                    <br/>
 
                     <div className="navCommunity">
                         {prevCommunity && prevCommunity.title ? (
                             <div className="prevCommunity" onClick={()=> navigate(`/community/${prevCommunity.postNo}`)}>
-                                <div>이전글 : {prevCommunity.title}</div>
-                                <div>{prevCommunity.wrtnDate}</div>
+                                <div className="prevTitle">이전글 : {prevCommunity.title}</div>
+                                <div className="prevDate">{prevCommunity.wrtnDate}</div>
                             </div>
                         ):(
                             <div className="nonPrevCommunity">
@@ -119,8 +124,8 @@ function CommunityView(){
 
                         {nextCommunity && nextCommunity.title ? (
                             <div className="nextCommunity" onClick={()=> navigate(`/community/${nextCommunity.postNo}`)}>
-                                <div>다음글 : {nextCommunity.title}</div>
-                                <div>{nextCommunity.wrtnDate}</div>
+                                <div className="nextTitle">다음글 : {nextCommunity.title}</div>
+                                <div className="nextDate">{nextCommunity.wrtnDate}</div>
                             </div>
                         ):(
                             <div className="nonNextCommunity">
