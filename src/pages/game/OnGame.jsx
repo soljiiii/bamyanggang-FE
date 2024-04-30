@@ -16,7 +16,7 @@ function OnGame(){
     const [onNormalVote, setOnNormalVote] = useState(0); //전체 투표
     const [onMafiaVote, setOnMafiaVote] = useState(0); //마피아 투표
     const [onDiePeople, setOnDiePeople] = useState("");//죽은 사람 받기
-    const [timeLineState, setTimeLineState] = useState("자유 토론 시간입니다.");
+    const [timeLineState, setTimeLineState] = useState("🎲🤖게임 시작🤖🎲");
 
     const userIdentity = "test1";
 
