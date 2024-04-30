@@ -13,7 +13,7 @@ function GameReady(){
     const [gameInfo, setGameInfo] = useState([]);
     const [gameParty, setGameParty] = useState([]);
     const navigate = useNavigate();
-    const userIdentity = "test6"; //jwt값 가져오기
+    const userIdentity = "test1"; //jwt값 가져오기
 
     //게임 정보 불러오기
     useEffect(()=>{
@@ -47,15 +47,7 @@ function GameReady(){
     
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (userParty && userParty.master === 1) {
-            const data = {
-                roomNo: gameInfo.roomNo,
-                userId: userIdentity
-            };
-            axios.post('http://localhost:3001/dumi', data)
-                .then(response => {
-                    console.log("전송 성공");
-                    navigate(`/onGame/${roomNo}`);
-                });
+            navigate(`/onGame/${roomNo}`);
         } else {
             alert("권한이 없다능");
         }

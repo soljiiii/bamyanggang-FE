@@ -1,0 +1,124 @@
+.onGameBody {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+/*화상채팅*/
+.faceBox {
+    width: 1070px;
+    height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+.faceChatContent {
+    width: 350px;
+    height: 300px;
+    border: 1px solid #838383;
+    position: relative;
+}
+.videoBox {
+    width: 350px;
+    height: 250px;
+    border: 1px solid none;
+    position: absolute;
+}
+.nickNmContent {
+    width: 350px;
+    height: 50px;
+    position: absolute;
+    border-top: 1px solid #838383;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*역할박스*/
+.roleBox{
+    width: 350px;
+    height: 50px;
+    border: 1px solid black;
+    margin-left: 1130px;
+    margin-top: -60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.timeLineBox{
+    width: 500px;
+    height: 50px;
+    border: 1px solid black;
+    margin-left: 310px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*투표*/
+.voteBox {
+    width: 350px;
+    height: 200px;
+    border: 1px solid black;
+    margin-top: 30px;
+    margin-left: 1130px;
+}
+.voteButtonBox {
+    width: 100px;
+    height: 50px;
+    margin-top: 10px;
+    margin-left: 125px;
+    display: flex;
+    align-items: center;
+
+}
+.voteButton {
+    width: 100px;
+    height: 50px;    
+}
+.partyVoteBox {
+    border: 1px solid black;
+    width: 350px;
+    height: 130px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.radioButtonBox {
+    width: calc(33.3% - 5px );
+}
+.customRadioButton {
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #007bff;
+    cursor: pointer;
+    width: 110px;
+    height: 60px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.customRadioButton.selected {
+    background-color: #007bff;
+    color: #894444;
+}
+
+.customRadioButton:hover {
+    background-color: #a97777;
+}
+
+.customRadioButton input[type="radio"] {
+    display: none;
+}
+
+/*채팅*/
+.chatBox {
+    width: 350px;
+    height: 300px;
+    border: 1px solid black;
+    margin-left: 1130px;
+    margin-top: 20px;
+}

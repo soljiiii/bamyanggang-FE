@@ -22,7 +22,6 @@ function NormalRoom ({roomList}) {
             else{
                 const data = {
                     userIdToken:'test',
-                    roomNm:roomList.roomNm,
                     roomNo:roomList.roomNo,
                 }
                 axios.post('http://localhost:3001/dumi',data)
