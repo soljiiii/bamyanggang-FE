@@ -32,7 +32,8 @@ function NoticeView(props){
                         setPrevNotice(null);
                     }
              
-                    })
+                })
+
                 .catch(error => {
                     console.error("데이터 에러", error);
                 });
@@ -68,9 +69,6 @@ function NoticeView(props){
         })
    },[nextPostNo]);
 
-   console.log(selectedNotice);
-
-
     return(
         <div>
             <Header />
@@ -87,19 +85,16 @@ function NoticeView(props){
 
                         <div className="noticeViewInfo">
                             <div className="noticeViewVwCnt">
-
-                                   view : {selectedNotice.vwCnt}
+                                view : {selectedNotice.vwCnt}
                             </div>
                             
                             <div className="noticeViewWrtnDate">
                                작성일 : {selectedNotice.wrtnDate}
-
                             </div>
                         </div>
                     </div>
 
                     <div className="noticeViewContent"> 
-
                         {selectedNotice.content && selectedNotice.content.split("\n").map((line)=>{
                             return(
                                 <span>
