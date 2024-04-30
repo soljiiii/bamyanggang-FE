@@ -9,6 +9,7 @@ import "./Community.css";
 function CommunityWrite(){
     const navigate = useNavigate();
 
+    const [postNo, setPostNo] =useState();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
@@ -46,11 +47,12 @@ function CommunityWrite(){
             'wrtnDate' : formatDate
         }).then(function (response){
             console.log(response)
+        // navigate(`/community`);
         }).catch(function(error){
             console.log("error", error)
         });
 
-        navigate(`/community/${postNo}`);
+        navigate(`/community`);
     }
 
     return(
@@ -63,6 +65,7 @@ function CommunityWrite(){
                 <br/>
                 <div className="communityWrite">
                     <div className="inputTitleArea">
+                        <input value={postNo} onChange={(event)=>setPostNo(event.target.value)}/> 
                         <input className="inputTitle"
                             placeholder="제목을 입력하세요"
                             value={title}
