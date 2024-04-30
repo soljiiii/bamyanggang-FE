@@ -13,6 +13,8 @@ import MemberModify from './pages/mypage/MemberModify';
 import MemberJoin from './pages/mypage/MemberJoin';
 import MemberDelete from './pages/mypage/MemberDelete';
 import Community from './pages/boards/Community';
+import CommunityView from './pages/boards/CommunityView';
+import CommunityWrite from './pages/boards/CommunityWrite';
 
 function App() {
   return (
@@ -26,7 +28,8 @@ function App() {
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/:postNo" element={<NoticeView />} />
           <Route path="/community" element={<Community />} />
-          <Route path="/community/:postNo" element={<Community />} />
+          <Route path="/community/:postNo" element={<CommunityView />} />
+          <Route path="/community/post-write" element={<CommunityWrite />} />
           <Route path="/guide" element={<Guide/>}/>
           <Route path="/myPage" element={<MyPage/>}/>
           <Route path="/login" element={<Login/>}/>

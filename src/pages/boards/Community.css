@@ -4,6 +4,26 @@
     padding: 50px 20px 0px 20px;
 }
 
+.communityButton{
+    width: 80px;
+    height: 40px;
+    margin-right: 10px;
+    background-color: #6E98B8;
+    border: none;
+    border-radius: 10px;
+}
+
+.buttonArea{
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+}
+
+.pageArea{
+    margin: 20px 0px;
+    display: flex;
+    justify-content: center;
+}
 .communityItem{
     display: flex;
     justify-content: space-between;
@@ -29,6 +49,9 @@
 .itemTitle{
     width: 55%;
     padding-left: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .itemId{
@@ -36,6 +59,7 @@
     display: flex;
     align-items: center;
     font-size: 15px;
+    padding-left: 20px;
 }
 
 .itemWrtnDate{
@@ -43,4 +67,144 @@
     display: flex;
     align-items: center;
     font-size: 15px;
+}
+
+.communityTotal{
+    padding: 20px;
+}
+
+.communityViewTitle{
+    font-size: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+
+.communityViewInfo{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid black;
+}
+
+.communityViewInfoLeft{
+    display: flex;
+    align-items: center;
+}
+
+.communityViewInfoRight{
+    display: flex;
+    justify-content: space-between;
+}
+
+.communityViewVwCnt{
+    padding-right: 20px;
+}
+
+.communityViewContent{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.prevCommunity{
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nonPrevCommunity{
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.nextCommunity{
+    font-size: 18px;
+    padding-top: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nonNextCommunity{
+    font-size: 18px;
+    padding-top: 10px;
+}
+
+.communityWrite{
+}
+
+.inputTitleArea{
+    padding: 20px 0px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    justify-content: center;
+}
+.inputTitle{
+    width: 90%;
+    height: 40px;
+    background-color: transparent;
+    padding-left: 20px;
+}
+
+.inputTitle:focus{
+    border: 1px solid black;
+}
+
+.inputTitle::placeholder {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.inputContentArea{
+    display: flex;
+    justify-content: center;
+}
+.inputContent{
+    width: 90%;
+    height: 400px;
+    resize: none;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    border: none;
+}
+
+.inputContent:focus{
+    outline: none;
+}
+
+.writeButton{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.submitButton{
+    width: 80px;
+    height: 40px;
+    margin-right: 10px;
+    background-color: #6E98B8;
+    border: none;
+    border-radius: 10px;
+}
+
+.submitButton:hover{
+    background-color: #3C627F;
+    cursor: pointer;
+}
+
+.cancelButton{
+    width: 80px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+}
+
+.cancelButton:hover {
+    cursor: pointer;
+    background-color: rgba(107, 113, 125, 0.5);
 }

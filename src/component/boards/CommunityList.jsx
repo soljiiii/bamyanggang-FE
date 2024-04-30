@@ -20,7 +20,7 @@ function CommunityList(props){
 
     return(
         <div>
-            {communities.map((communityData, index) =>{
+            {communities.map((communityData) =>{
                 return(
                     <CommunityListItem
                     key={communityData.postNo}
