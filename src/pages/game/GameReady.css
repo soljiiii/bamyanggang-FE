@@ -96,7 +96,7 @@
 }
 
 /*배치*/
-.userContainer {
+.userContainer_game {
     width: 740px;
     position: absolute;
     display: flex;

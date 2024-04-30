@@ -22,7 +22,8 @@
     "react-router": "^6.22.3",
     "react-router-dom": "^6.23.0",
     "styled-components": "^6.1.8",
-    "the-new-css-reset": "^1.11.2"
+    "the-new-css-reset": "^1.11.2",
+    "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
