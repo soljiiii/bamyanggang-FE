@@ -1,0 +1,106 @@
+.form-container {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 980px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.userContainer, .infoContainer, .genderContainer {
+    padding: 10px;
+    border: 1px solid black;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-bottom: 5px;
+    width: 100px;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: black;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+}
+
+.phonenum {
+    display: flex;
+    height: 36px;
+    align-items: center;
+}
+
+
+
+.email-container {
+    display: flex; /* Flexbox 레이아웃 적용 */
+    align-items: center; 
+    margin-bottom: 5px;
+}
+
+.email-container input[type="text"],
+.email-container span {
+    margin: 0 5px;
+}
+
+.email-container input[type="text"] {
+    flex-grow: 1; /* 입력 필드 너비를 동적으로 조정 */
+}
+
+.email-container span {
+    white-space: nowrap; /* @ 기호가 줄바꿈되지 않도록 처리 */
+}
+
+#special-text {
+    font-size: 20px;       
+}
+
+.genderContainer {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* 버튼 사이의 간격 */
+    margin-top: 20px;
+}
+
+.genderOption {
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 2px solid #ccc; 
+    background-color: white; 
+    color: black; 
+    border-radius: 10px; 
+    transition: all 0.3s ease; 
+}
+
+.genderOption.selected {
+    background-color: black; 
+    color: white; 
+    border-color: #007bff; 
+}
+
+.genderOption:hover {
+    background-color: #0056b3; 
+    border-color: #0056b3; 
+}
