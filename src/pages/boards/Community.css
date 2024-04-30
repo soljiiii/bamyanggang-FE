@@ -208,3 +208,27 @@
     cursor: pointer;
     background-color: rgba(107, 113, 125, 0.5);
 }
+
+.pagingButton {
+    border: none;
+    border-radius: 8px;
+    background: #6E98B8;
+    color: white;
+    font-size: 15px;
+    padding: 10px;
+    margin: 2px;
+}
+
+.pagingButton:hover{
+    background: rgba(60, 98, 127, 0.5);
+    cursor: pointer;
+}
+.pagingButton[disabled] {
+    background: grey;
+    cursor: auto;
+}
+
+.pagingButton[aria-current]{
+    background: #3C627F;
+}
+

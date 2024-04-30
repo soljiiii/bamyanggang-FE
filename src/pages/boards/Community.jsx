@@ -5,17 +5,28 @@ import CommunityList from "../../component/boards/CommunityList";
 import { useNavigate } from "react-router";
 import "./Community.css";
 import Button from "../../component/common/Button";
+import Pagination from "../../component/boards/Pagination";
 import axios from "axios";
 
 function Community(){
-
+    
     const navigate = useNavigate();
-
-    //커뮤니티 글 리스트 저장
     const [community, setCommunity] = useState([]);
     const [limit, setLimit] = useState(10);
-    const [page, setPage] =useState(1);
-    const offset = (page - 1) * limit ;
+    const [page, setPage] = useState(1);
+    
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/community')
+            .then(response => {
+                setCommunity(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log("error:", error);
+            });
+    }, []);
+
 
     return(
         <div>
@@ -29,6 +40,9 @@ function Community(){
                 onClickItem={(communityData)=>{
                     navigate(`/community/${communityData.postNo}`)
                 }}
+                community={community} //props전달
+                limit={limit}
+                page={page}
                 />
 
                     <div className="buttonArea">
@@ -42,7 +56,12 @@ function Community(){
                     </div>
                     
                     <div className="pageArea">
-                        {community.slice(offset, offset+limit)}
+                        <Pagination
+                        total={community.length}
+                        limit={limit}
+                        page={page}
+                        setPage={setPage}
+                        />
                     </div>
             </div>
         </div>
