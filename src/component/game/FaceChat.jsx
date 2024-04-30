@@ -1,52 +1,15 @@
-import adapter from 'webrtc-adapter';
 import React, { useEffect, useRef, useState } from 'react';
-import Janus from "../../apis/janus";
 import "../../pages/game/OnGame.css";
 
-function FaceChat({ onGameParty }) {
+function FaceChat({ onGameParty,janus,pluginHandle }) {
     const videoRef = useRef(null);
-    const [janus, setJanus] = useState(null);
 
     useEffect(() => {
-        async function initializeJanus() {
-            if (!adapter.browserDetails.browser) {
-                console.error("WebRTC adapter not found!");
-                return;
-            }
-            try {
-                await Janus.init({ debug: "all" });
-                const janusInstance = new Janus({ server: 'https://janus.jsflux.co.kr/janus' });
-                setJanus(janusInstance);
-            } catch (error) {
-                console.error("Error initializing Janus:", error);
-            }
-        }
-        initializeJanus();
-    }, []);
-
-    useEffect(() => {
-        if (!janus) return;
-
-        async function attachVideoRoomPlugin() {
-            try {
-                await janus.attach({
-                    plugin: "janus.plugin.videoroom",
-                    opaqueId: "videoroomtest-"+Janus.randomString(12),
-                    success: function (pluginHandle) {
-                        setSfutest(pluginHandle);
-                        console.log("Plugin attached! (" + pluginHandle.getPlugin() + ", id=" + pluginHandle.getId() + ")");
-                        console.log("  -- This is a publisher/manager");
-                    },
-                    error: function (error) {
-                        console.error("Error attaching plugin...", error);
-                    }
-                });
-            } catch (error) {
-                console.error("Error attaching VideoRoom plugin:", error);
-            }
-        }
-        attachVideoRoomPlugin();
-    }, [janus]);
+        if (!janus || !pluginHandle || !videoRef.current) return;
+    
+        // 비디오 엘리먼트에 스트림 연결
+        janus.attachMediaStream(videoRef.current, pluginHandle.webrtcStuff.remoteStream);
+    }, [janus, pluginHandle]);
 
     return (
         <div className="faceChatContent">

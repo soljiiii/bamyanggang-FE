@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import axios from "axios";
 import FaceChat from "../../component/game/FaceChat";
 import Button  from "../../component/common/Button";
+import Janus from "../../apis/janus";
 
 function OnGame(){
     const {roomNo} = useParams();
@@ -11,12 +12,13 @@ function OnGame(){
     const [selectedParty, setSelectedParty] = useState("");
     const [nowUser, setNowUser] = useState([]); //현재 세션 id를 가진 사용자의 정보 
     const [onGameState,setOnGameState] = useState(0); //게임 진행중
-    //const [onDiePage, setOnDiePage] = useState(0); //죽음 페이지 띄우기
     const [winner, setWinner] = useState(0); //게임 승자 
     const [onNormalVote, setOnNormalVote] = useState(0); //전체 투표
     const [onMafiaVote, setOnMafiaVote] = useState(0); //마피아 투표
     const [onDiePeople, setOnDiePeople] = useState("");//죽은 사람 받기
     const [timeLineState, setTimeLineState] = useState("🎲🤖게임 시작🤖🎲");
+    const [janus, setJanus] = useState(null);
+    const [pluginHandle, setPluginHandle] = useState(null);
 
     const userIdentity = "test1";
 
@@ -41,6 +43,68 @@ function OnGame(){
             }
         })
     },[])
+    
+    //야누스
+    useEffect(() => {
+        async function initializeJanus() {
+            
+            try {
+                // Janus 초기화
+                await Janus.init({ debug: "all" });
+                const janusInstance = new Janus({ server: 'https://janus.jsflux.co.kr/janus' });
+                setJanus(janusInstance);
+            } catch (error) {
+                console.error("Error initializing Janus:", error);
+            }
+        }
+        initializeJanus();
+    }, []);
+
+    useEffect(() => {
+
+        async function attachVideoRoomPlugin() {
+            try {
+                if (!janus) return;
+                // 비디오룸 플러그인에 attach
+                const plugin = "janus.plugin.videoroom";
+                await janus.attach({
+                    plugin: plugin,
+                    opaqueId:"videoroomtest-"+Janus.randomString(12),
+                    success: function (pluginHandle) {
+                        console.log("Plugin attached! (" + pluginHandle.getPlugin() + ", id=" + pluginHandle.getId() + ")");
+                        setPluginHandle(pluginHandle);
+                        
+                        // 모든 사용자에 대해 화상채팅 시작
+                        onGameParty.forEach(user => startVideoChat(pluginHandle, user));
+                    },
+                    error: function (error) {
+                        console.error("Error attaching plugin...", error);
+                    }
+                });
+            } catch (error) {
+                console.error("Error attaching VideoRoom plugin:", error);
+            }
+        }
+        attachVideoRoomPlugin();
+    }, [janus]);
+
+    // 화상채팅 시작 함수
+    function startVideoChat(pluginHandle, user) {
+        pluginHandle.send({
+            message: {
+                request: "join", // 참여 요청
+                room: 1234, // 방 번호 설정
+                ptype: "publisher", // 발행자로 참여
+                display: user.displayName // 사용자 이름 설정
+            },
+            success: function (response) {
+                console.log(user.displayName, "started video chat:", response);
+            },
+            error: function (error) {
+                console.error("Error starting video chat for", user.displayName, ":", error);
+            }
+        });
+    }
 
     //게임로직 타임라인 
     useEffect(() => {
@@ -165,7 +229,10 @@ function OnGame(){
                     {onGameParty.map((onGameParty, index)=>(
                         <div key={index} className="onGamePartyBox">
                             <FaceChat 
+                                key={onGameParty.userId}
                                 onGameParty={onGameParty}
+                                janus={janus}
+                                pluginHandle={pluginHandle}
                             />
                         </div>
                     ))}
