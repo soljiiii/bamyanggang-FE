@@ -71,7 +71,7 @@ function GameReady(){
     return (
         <div className="gameContainer">
             <div className="gameReadyContainer">
-                <div className="userContainer">
+                <div className="userContainer_game">
                     {gameParty && gameParty.map((party,index)=>(
                         <div key={index} className="userInfo">
                             <Party
