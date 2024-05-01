@@ -1,19 +1,7 @@
-// webrtc-adapter 가져오기
-import 'https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js';
+import Janus from "./janus";
+import $ from 'jquery'
 
-// jQuery 가져오기
-import 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js';
-
-// 기타 라이브러리 가져오기
-import 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js';
-
-import Janus from './janus';
-
-{var version = 1.2;
+var version = 1.2;
 var server = null;
 server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
 
@@ -40,9 +28,9 @@ $(document).ready(function() {
 	// Initialize the library (all console debuggers enabled)
 	Janus.init({debug: "all", callback: function() {
 		// Use a button to start the demo
-		$('#start').one('click', function() {
+		//$('#start').one('click', function() {
 
-			$(this).attr('disabled', true).unbind('click');
+			//$(this).attr('disabled', true).unbind('click');
 			// Make sure the browser supports WebRTC
 			if(!Janus.isWebrtcSupported()) {
 				bootbox.alert("No WebRTC support... ");
@@ -74,8 +62,8 @@ $(document).ready(function() {
 											janus.destroy();
 										});
 
-                    Janus.log("Room List > ");
-                    //roomList();
+								Janus.log("Room List > ");
+								//roomList();
 								},
 								error: function(error) {
 									Janus.error("  -- Error attaching plugin...", error);
@@ -323,7 +311,7 @@ $(document).ready(function() {
 						window.location.reload();
 					}
 				});
-		});
+		//});
 	}});
 });
 
@@ -834,5 +822,4 @@ function updateSimulcastButtons(feed, substream, temporal) {
 		$('#tl' + index + '-0').removeClass('btn-primary btn-success').addClass('btn-primary');
 	}
 }
-}
-export default videoroomtest;
+

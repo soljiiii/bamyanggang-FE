@@ -3,9 +3,9 @@ import { useParams } from "react-router";
 import axios from "axios";
 import FaceChat from "../../component/game/FaceChat";
 import Button  from "../../component/common/Button";
-import Janus from "../../apis/janus";
-//import videoroomtest from "../../apis/videoroomtest";
+import "../../apis/videoroomtest";
 
+import Janus from "../../apis/janus";
 function OnGame(){
     const {roomNo} = useParams();
     const [onGameInfo,setOnGameInfo] = useState([]);
@@ -45,103 +45,66 @@ function OnGame(){
         })
     },[])
     
-    //야누스
-    useEffect(() => {
-        async function initializeJanus() {
-            try {
-                // Janus 초기화
-                await Janus.init({ debug: "all" });
-                const janusInstance = new Janus({ server: 'https://janus.jsflux.co.kr/janus' });
-                setJanus(janusInstance);
-            } catch (error) {
-                console.error("Error initializing Janus:", error);
-            }
-        }
-        initializeJanus();
+    // // 야누스 초기화
+    // useEffect(() => {
+    //     async function initializeJanus() {
+    //         try {
+    //             // Janus 초기화
+    //             await Janus.init({ debug: "all" });
+    //             const janusInstance = new Janus({ 
+    //                 server: 'https://janus.jsflux.co.kr/janus',
+    //                 success:function(){},
+    //                 error:function(cause){},
+    //                 //destroyed:function(){}
+    //             });
+    //             setJanus(janusInstance);
+    //         } catch (error) {
+    //             console.error("Error initializing Janus:", error);
+    //         }
+    //     }
+    //     initializeJanus();
 
-        // 컴포넌트 언마운트 시 Janus 인스턴스 해제
-        return () => {
-            if (janus) {
-                janus.destroy();
-            }
-        };
-    }, []);
+    //     // 컴포넌트 언마운트 시 Janus 인스턴스 해제
+    //     return () => {
+    //         if (janus) {
+    //             janus.destroy();
+    //         }
+    //     };
+    // }, []);
 
-    useEffect(() => {
-        async function attachVideoRoomPlugin() {
-            try {
-                if (!janus) return;
-                // VideoRoom 플러그인에 attach
-                const plugin = "janus.plugin.videoroom";
-                await janus.attach({
-                    plugin: plugin,
-                    opaqueId: "videoroomtest-" + Janus.randomString(12),
-                    success: function (pluginHandle) {
-                        console.log("Plugin attached! (" + pluginHandle.getPlugin() + ", id=" + pluginHandle.getId() + ")");
-                        setPluginHandle(pluginHandle);
-                        // 플러그인 attach 성공 후 추가 작업 수행 (사용자 정보 attach 등)
-                        attachUsers(pluginHandle);
-                    },
-                    error: function (error) {
-                        console.error("Error attaching VideoRoom plugin:", error);
-                        // 플러그인 attach 실패 시 처리
-                    }
-                });
-            } catch (error) {
-                console.error("Error attaching VideoRoom plugin:", error);
-            }
-        }
-        attachVideoRoomPlugin();
+    // // janus 객체가 변경될 때마다 VideoRoom 플러그인에 attach
+    // useEffect(() => {
+    //     if (!janus) return;
 
-        // 컴포넌트 언마운트 시 플러그인 detach
-        return () => {
-            if (pluginHandle) {
-                pluginHandle.detach();
-            }
-        };
-    }, [janus]);
+    //     async function attachVideoRoomPlugin() {
 
-    // 사용자 정보를 attach하는 함수
-    async function attachUsers(pluginHandle) {
-        try {
-            if (!pluginHandle) return;
-    
-            // 사용자의 비디오 및 오디오 스트림 생성
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    
-            // Janus 서버에 스트림 attach
-            const opaqueId = "streamtest-" + Janus.randomString(12);
-            const roomId = roomNo;
-            const feed = await pluginHandle.createOffer({
-                media: { audioRecv: false, videoRecv: false, audioSend: true, videoSend: true },
-                success: function(jsep) {
-                    // offer 생성 성공 시 처리
-                    Janus.debug("Got publisher SDP!", jsep);
-                },
-                error: function(error) {
-                    // offer 생성 실패 시 처리
-                    Janus.error("WebRTC error:", error);
-                }
-            });
-    
-            // Offer SDP를 Janus 서버로 전송
-            const message = { request: "configure", audio: true, video: true };
-            pluginHandle.send({ message: message, jsep: feed });
-    
-            // VideoRoom에 사용자 추가
-            const registerMessage = { request: "join", room: roomId, ptype: "publisher", display: "user" };
-            pluginHandle.send({ message: registerMessage, jsep: null });
-    
-            // 스트림을 HTML video 요소에 연결하여 화면에 표시
-            const videoElement = document.getElementById('userVideo');
-            if (videoElement) {
-                videoElement.srcObject = stream;
-            }
-        } catch (error) {
-            console.error("Error attaching user:", error);
-        }
-    }
+    //         // VideoRoom 플러그인에 attach
+    //         const plugin = "janus.plugin.videoroom";
+    //         await Janus.attach({
+    //             plugin: plugin,
+    //             opaqueId: "videoroomtest-" + Janus.randomString(12),
+    //             success: function (pluginHandle) {
+    //                 console.log("Plugin attached! (" + pluginHandle.getPlugin() + ", id=" + pluginHandle.getId() + ")");
+    //                 setPluginHandle(pluginHandle);
+    //                 // 플러그인 attach 성공 후 추가 작업 수행 (사용자 정보 attach 등)
+    //                 attachUsers(pluginHandle);
+    //             },
+    //             error: function (error) {
+    //                 console.error("Error attaching VideoRoom plugin:", error);
+    //                 // 플러그인 attach 실패 시 처리
+    //             }
+    //         });
+    //     }
+    //     attachVideoRoomPlugin();
 
+    //     // 컴포넌트 언마운트 시 플러그인 detach
+    //     return () => {
+    //         if (pluginHandle) {
+    //             pluginHandle.detach();
+    //         }
+    //     };
+    // }, [janus]);
+    
     //게임로직 타임라인 
     useEffect(() => {
         const timerFunction = () => {
@@ -267,7 +230,7 @@ function OnGame(){
                             <FaceChat 
                                 key={onGameParty.userId}
                                 onGameParty={onGameParty}
-                                janus={janus}
+                                janus={Janus}
                                 pluginHandle={pluginHandle}
                             />
                         </div>
