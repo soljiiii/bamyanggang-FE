@@ -4,6 +4,7 @@ import axios from "axios";
 import FaceChat from "../../component/game/FaceChat";
 import Button  from "../../component/common/Button";
 import Janus from "../../apis/janus";
+//import videoroomtest from "../../apis/videoroomtest";
 
 function OnGame(){
     const {roomNo} = useParams();
@@ -47,7 +48,6 @@ function OnGame(){
     //야누스
     useEffect(() => {
         async function initializeJanus() {
-            
             try {
                 // Janus 초기화
                 await Janus.init({ debug: "all" });
@@ -58,27 +58,33 @@ function OnGame(){
             }
         }
         initializeJanus();
+
+        // 컴포넌트 언마운트 시 Janus 인스턴스 해제
+        return () => {
+            if (janus) {
+                janus.destroy();
+            }
+        };
     }, []);
 
     useEffect(() => {
-
         async function attachVideoRoomPlugin() {
             try {
                 if (!janus) return;
-                // 비디오룸 플러그인에 attach
+                // VideoRoom 플러그인에 attach
                 const plugin = "janus.plugin.videoroom";
                 await janus.attach({
                     plugin: plugin,
-                    opaqueId:"videoroomtest-"+Janus.randomString(12),
+                    opaqueId: "videoroomtest-" + Janus.randomString(12),
                     success: function (pluginHandle) {
                         console.log("Plugin attached! (" + pluginHandle.getPlugin() + ", id=" + pluginHandle.getId() + ")");
                         setPluginHandle(pluginHandle);
-                        
-                        // 모든 사용자에 대해 화상채팅 시작
-                        onGameParty.forEach(user => startVideoChat(pluginHandle, user));
+                        // 플러그인 attach 성공 후 추가 작업 수행 (사용자 정보 attach 등)
+                        attachUsers(pluginHandle);
                     },
                     error: function (error) {
-                        console.error("Error attaching plugin...", error);
+                        console.error("Error attaching VideoRoom plugin:", error);
+                        // 플러그인 attach 실패 시 처리
                     }
                 });
             } catch (error) {
@@ -86,24 +92,54 @@ function OnGame(){
             }
         }
         attachVideoRoomPlugin();
+
+        // 컴포넌트 언마운트 시 플러그인 detach
+        return () => {
+            if (pluginHandle) {
+                pluginHandle.detach();
+            }
+        };
     }, [janus]);
 
-    // 화상채팅 시작 함수
-    function startVideoChat(pluginHandle, user) {
-        pluginHandle.send({
-            message: {
-                request: "join", // 참여 요청
-                room: 1234, // 방 번호 설정
-                ptype: "publisher", // 발행자로 참여
-                display: user.displayName // 사용자 이름 설정
-            },
-            success: function (response) {
-                console.log(user.displayName, "started video chat:", response);
-            },
-            error: function (error) {
-                console.error("Error starting video chat for", user.displayName, ":", error);
+    // 사용자 정보를 attach하는 함수
+    async function attachUsers(pluginHandle) {
+        try {
+            if (!pluginHandle) return;
+    
+            // 사용자의 비디오 및 오디오 스트림 생성
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    
+            // Janus 서버에 스트림 attach
+            const opaqueId = "streamtest-" + Janus.randomString(12);
+            const roomId = roomNo;
+            const feed = await pluginHandle.createOffer({
+                media: { audioRecv: false, videoRecv: false, audioSend: true, videoSend: true },
+                success: function(jsep) {
+                    // offer 생성 성공 시 처리
+                    Janus.debug("Got publisher SDP!", jsep);
+                },
+                error: function(error) {
+                    // offer 생성 실패 시 처리
+                    Janus.error("WebRTC error:", error);
+                }
+            });
+    
+            // Offer SDP를 Janus 서버로 전송
+            const message = { request: "configure", audio: true, video: true };
+            pluginHandle.send({ message: message, jsep: feed });
+    
+            // VideoRoom에 사용자 추가
+            const registerMessage = { request: "join", room: roomId, ptype: "publisher", display: "user" };
+            pluginHandle.send({ message: registerMessage, jsep: null });
+    
+            // 스트림을 HTML video 요소에 연결하여 화면에 표시
+            const videoElement = document.getElementById('userVideo');
+            if (videoElement) {
+                videoElement.srcObject = stream;
             }
-        });
+        } catch (error) {
+            console.error("Error attaching user:", error);
+        }
     }
 
     //게임로직 타임라인 
