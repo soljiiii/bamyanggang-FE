@@ -29,7 +29,6 @@ function CommunityWrite(){
         //title, content 길이 유효성 검사
         if (title.length > 100){
             alert('제목은 100자 이내로 입력해주세요');
-            setTitle('');
             return;
         }
 
@@ -41,18 +40,20 @@ function CommunityWrite(){
         //게시글 추가
         alert('게시글 추가');
         axios.post('http://localhost:3001/community',{
+            //postNo는 나중에 삭제
             'postNo' : postNo,
             'title' : title,
             'content' : content,
             'wrtnDate' : formatDate
         }).then(function (response){
-            console.log(response)
-        // navigate(`/community`);
+            navigate(`/community`);
+
         }).catch(function(error){
-            console.log("error", error)
+            console.log("error", error);
+
         });
 
-        navigate(`/community`);
+        
     }
 
     return(
