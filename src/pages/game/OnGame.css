@@ -10,26 +10,27 @@
     display: flex;
     flex-wrap: wrap;
     margin-left: 30px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 .faceChatContent {
     width: 350px;
     height: 300px;
-    border: 1px solid #838383;
+    border: 1px solid none;
     position: relative;
 }
 .videoBox {
     width: 350px;
     height: 250px;
-    border: 1px solid none;
+    border: 1px solid rgb(19, 56, 92);
     position: absolute;
+    border-radius: 10px;
 }
 .nickNmContent {
     width: 350px;
-    height: 50px;
+    height: 40px;
     position: absolute;
-    border-top: 1px solid #838383;
-    bottom: 0px;
+    border-bottom: 3px solid rgb(19, 56, 92);
+    bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,28 +40,32 @@
 .roleBox{
     width: 350px;
     height: 50px;
-    border: 1px solid black;
+    border: 1px solid none;
     margin-left: 1130px;
-    margin-top: -60px;
+    margin-top: -70px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    background-color: #c2d2de;
 }
 .timeLineBox{
     width: 500px;
     height: 50px;
-    border: 1px solid black;
+    border: 1px solid none;
+    border-radius: 10px;
     margin-left: 310px;
     margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #c2d2de;
 }
 /*투표*/
 .voteBox {
     width: 350px;
     height: 200px;
-    border: 1px solid black;
+    border: 1px solid none;
     margin-top: 30px;
     margin-left: 1130px;
 }
@@ -71,14 +76,21 @@
     margin-left: 125px;
     display: flex;
     align-items: center;
-
 }
 .voteButton {
     width: 100px;
-    height: 50px;    
+    height: 50px;   
+    border-radius: 10px;
+    background-color: #27425f;
+}
+.voteButton:hover{
+    background-color: #1b2c3a;
+}
+.voteButton::selection{
+    background-color: #1b2c3a;
 }
 .partyVoteBox {
-    border: 1px solid black;
+    border: 1px solid none;
     width: 350px;
     height: 130px;
     display: flex;
@@ -89,10 +101,10 @@
     width: calc(33.3% - 5px );
 }
 .customRadioButton {
-    border: 1px solid #007bff;
+    border: 1px solid #648ca5;
     border-radius: 5px;
-    background-color: #fff;
-    color: #007bff;
+    background-color: #f1f9fd;
+    color: #436d99;
     cursor: pointer;
     width: 110px;
     height: 60px;
@@ -102,12 +114,12 @@
     justify-content: center;
 }
 .customRadioButton.selected {
-    background-color: #007bff;
-    color: #894444;
+    background-color: #648ca5;
+    color: #780202;
 }
 
 .customRadioButton:hover {
-    background-color: #a97777;
+    background-color: #648ca5;
 }
 
 .customRadioButton input[type="radio"] {

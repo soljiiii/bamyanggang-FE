@@ -24,7 +24,6 @@
 
 // List of sessions
 import adapter from 'webrtc-adapter';
-
 Janus.sessions = {};
 
 Janus.isExtensionEnabled = function() {
@@ -530,7 +529,7 @@ function Janus(gatewayCallbacks) {
 		return maxBitrates;
 	}
 
-	var connected = true;
+	var connected = false;
 	var sessionId = null;
 	var pluginHandles = {};
 	var that = this;
