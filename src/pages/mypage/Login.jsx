@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-    const [credentials, setCredentials] = useState({ user_id: '', user_pw: '' });
+    const [credentials, setCredentials] = useState({ userId: '', userPw: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get('http://localhost:3001/member?user_id=' + credentials.user_id + '&user_pw=' + credentials.user_pw);
+            const response = await axios.get('http://localhost:3001/member?userId=' + credentials.userId + '&userPw=' + credentials.userPw);
             if (response.data.length > 0) {
                 localStorage.setItem('user', JSON.stringify(response.data[0]));  // 사용자 정보를 로컬 스토리지에 저장
                 alert('로그인 성공');
@@ -34,23 +34,23 @@ function Login() {
             <form onSubmit={handleSubmit}>
                 <h1>로그인</h1>
                 <div>
-                    <label htmlFor="user_id">아이디:</label>
+                    <label htmlFor="userId">아이디:</label>
                     <input
                         type="text"
-                        name="user_id"
-                        id="user_id"
-                        value={credentials.user_id}
+                        name="userId"
+                        id="userId"
+                        value={credentials.userId}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="user_pw">비밀번호:</label>
+                    <label htmlFor="userPw">비밀번호:</label>
                     <input
                         type="password"
-                        name="user_pw"
-                        id="user_pw"
-                        value={credentials.user_pw}
+                        name="userPw"
+                        id="userPw"
+                        value={credentials.userPw}
                         onChange={handleChange}
                         required
                     />
