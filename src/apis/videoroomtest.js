@@ -1,5 +1,6 @@
+import adapter from "webrtc-adapter"; // WebRTC 어댑터 라이브러리
+import $ from "jquery"; // jQuery
 import Janus from "./janus";
-import $ from 'jquery'
 
 var version = 1.2;
 var server = null;
@@ -28,9 +29,9 @@ $(document).ready(function() {
 	// Initialize the library (all console debuggers enabled)
 	Janus.init({debug: "all", callback: function() {
 		// Use a button to start the demo
-		//$('#start').one('click', function() {
+		$('#start').one('click', function() {
 
-			//$(this).attr('disabled', true).unbind('click');
+			$(this).attr('disabled', true).unbind('click');
 			// Make sure the browser supports WebRTC
 			if(!Janus.isWebrtcSupported()) {
 				bootbox.alert("No WebRTC support... ");
@@ -62,8 +63,8 @@ $(document).ready(function() {
 											janus.destroy();
 										});
 
-								Janus.log("Room List > ");
-								//roomList();
+                    Janus.log("Room List > ");
+                    //roomList();
 								},
 								error: function(error) {
 									Janus.error("  -- Error attaching plugin...", error);
@@ -311,7 +312,7 @@ $(document).ready(function() {
 						window.location.reload();
 					}
 				});
-		//});
+		});
 	}});
 });
 
@@ -822,4 +823,3 @@ function updateSimulcastButtons(feed, substream, temporal) {
 		$('#tl' + index + '-0').removeClass('btn-primary btn-success').addClass('btn-primary');
 	}
 }
-

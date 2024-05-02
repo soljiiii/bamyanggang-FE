@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "../../pages/game/OnGame.css";
+//import "../../apis/videoroomtest";
 
 function FaceChat({ onGameParty, janus, pluginHandle }) {
     const videoRef = useRef(null);
 
+    
     useEffect(() => {
         if (!janus || !pluginHandle || !videoRef.current) return;
 
