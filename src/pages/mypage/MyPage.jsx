@@ -3,17 +3,17 @@ import axios from 'axios';
 
 const MyPage = () => {
     const [userData, setUserData] = useState({
-        user_id: '',
-        user_pw: '',
-        user_nm: '',
-        user_nicknm: '',
-        user_tel1: '',
-        user_tel2: '',
-        user_tel3: '',
-        user_email1: '',
-        user_email2: '',
-        user_birth: '',
-        user_gender: ''
+        userId: '',
+        userPw: '',
+        userNm: '',
+        userNicknm: '',
+        userTel1: '',
+        userTel2: '',
+        userTel3: '',
+        userEmail1: '',
+        userEmail2: '',
+        userBirth: '',
+        userGender: ''
     });
 
     useEffect(() => {
@@ -38,16 +38,16 @@ const MyPage = () => {
         <div>
             <h1>마이 페이지</h1>
             <div>
-                <p>아이디: {userData.user_id}</p>
-                <p>이름: {userData.user_nm}</p>
-                <p>닉네임: {userData.user_nicknm}</p>
-                <p>전화번호: {`${userData.user_tel1}-${userData.user_tel2}-${userData.user_tel3}`}</p>
-                <p>이메일: {`${userData.user_email1}@${userData.user_email2}`}</p>
-                <p>생년월일: {userData.user_birth}</p>
-                <p>성별: {userData.user_gender}</p>
+                <p>아이디: {userData.userId}</p>
+                <p>이름: {userData.userNm}</p>
+                <p>닉네임: {userData.userNicknm}</p>
+                <p>전화번호: {`${userData.userTel1}-${userData.userTel2}-${userData.userTel3}`}</p>
+                <p>이메일: {`${userData.userEmail1}@${userData.userEmail2}`}</p>
+                <p>생년월일: {userData.userBirth}</p>
+                <p>성별: {userData.userGender}</p>
             </div>
-            <button onClick={() => alert('회원정보 수정 기능 준비 중')}>회원정보 수정</button>
-            <button onClick={() => alert('회원탈퇴 기능 준비 중')}>회원탈퇴</button>
+            <button type="button" onClick={() => navigate('/MemberModify')}>회원수정</button>
+            <button onClick={() => alert('회원탈퇴 되었습니다')}>회원탈퇴</button>
         </div>
     );
 };
