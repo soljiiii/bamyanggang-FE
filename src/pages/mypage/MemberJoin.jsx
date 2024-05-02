@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './MemberJoin.css';
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위해 사용
 
 const MemberJoin = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const MemberJoin = () => {
     });
     const [errors, setErrors] = useState({});
     const [checking, setChecking] = useState({});
+    const navigate = useNavigate(); // 페이지 이동을 위한 훅 사용
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,7 +46,7 @@ const MemberJoin = () => {
         }
         setChecking(prev => ({ ...prev, [field]: true }));
         try {
-            const response = await axios.post('http://your-api-url/check-duplicate', {
+            const response = await axios.post('http://localhost:3001/member/check-duplicate', {
                 field: field,
                 value: formData[field]
             });
@@ -63,10 +65,12 @@ const MemberJoin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Ensure you replace 'http://your-api-url/api/register' with the actual API URL
-            const response = await axios.post('http://your-api-url/api/register', formData);
-            if (response.data.success) {
-                console.log('회원가입 성공');
+            const response = await axios.post('http://localhost:3001/member', formData);
+            console.log (response.data)
+            console.log (response.status)
+            if (response.status === 201) {
+                alert('회원가입 성공');
+                navigate('/login'); // 로그인 페이지로 이동
             } else {
                 console.log('회원가입 실패:', response.data.message);
             }
@@ -95,7 +99,7 @@ const MemberJoin = () => {
                 {errors.user_birth && <p className="error-message">{errors.user_birth}</p>}
                 <div className='email-container'>
                     <input type="text" name="user_email1" value={formData.user_email1} onChange={handleChange} placeholder="이메일 앞부분" />
-                    <span id="special-text">@</span>
+                    <span>@</span>
                     <input type="text" name="user_email2" value={formData.user_email2} onChange={handleChange} placeholder="이메일 뒷부분" />
                 </div>
                 <div className='phonenum'>
