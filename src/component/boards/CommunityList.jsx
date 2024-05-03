@@ -1,26 +1,14 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import React, { useEffect, useState } from "react";
 import CommunityListItem from "./CommunityListItem";
 
 function CommunityList(props){
-    const {onClickItem} = props;
-    const [communities, setCommunities] = useState([]);
-    
-    useEffect(()=>{
-        axios.get('http://localhost:3001/community')
-            .then(response=>{
-                setCommunities(response.data);
-                console.log(response.data);
-            })
-
-            .catch(error=>{
-                console.log("error:", error);
-            })
-    },[]);
+    const {onClickItem, community, limit, page} = props;
+    const offset = (page - 1) * limit;
 
     return(
         <div>
-            {communities.map((communityData) =>{
+            {community.slice(offset, offset+limit).map((communityData) => {
                 return(
                     <CommunityListItem
                     key={communityData.postNo}

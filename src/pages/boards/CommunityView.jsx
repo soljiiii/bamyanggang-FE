@@ -3,8 +3,13 @@ import { useNavigate, useParams } from "react-router";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import axios from "axios";
+import ReplyList from "../../component/boards/ReplyList";
+import ReplyWrite from "../../component/boards/ReplyWrite";
 
 function CommunityView(){
+
+    const navigate = useNavigate();
+
     //url parameter 값으로 사용할 변수 설정
     const {postNo} = useParams();
     const [selectedCommunity, setSelectedCommunity] = useState([]);
@@ -14,8 +19,6 @@ function CommunityView(){
 
     const nextPostNo = parseInt(postNo)+1;
     const [nextCommunity, setNextCommunity] = useState([]);
-
-    const navigate = useNavigate();
 
     useEffect(()=>{
         axios.get(`http://localhost:3001/community?postNo=${prevPostNo}`)
@@ -36,7 +39,6 @@ function CommunityView(){
         axios.get(`http://localhost:3001/community?postNo=${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data[0]);
-                console.log("데이터", response.data[0]);
             })
 
             .catch(error=>{
@@ -59,6 +61,8 @@ function CommunityView(){
         })
     },[nextPostNo]);
     
+
+
     return(
         <div>
             <Header />
@@ -100,31 +104,42 @@ function CommunityView(){
                             )
                         })}
                     </div>
-
+                    
+                    {/*댓글 리스트 부분*/}
+                    <div className="replyArea">
+                        <ReplyList 
+                        selectedCommunity={selectedCommunity}
+                        />
+                    </div>
+                    
                     <div>
-                        댓글 컴포넌트
+                        <ReplyWrite 
+                        postNo={postNo}
+                        />
                     </div>
 
                     <div className="navCommunity">
                         {prevCommunity && prevCommunity.title ? (
                             <div className="prevCommunity" onClick={()=> navigate(`/community/${prevCommunity.postNo}`)}>
-                                <div>이전글 : {prevCommunity.title}</div>
-                                <div>{prevCommunity.wrtnDate}</div>
+                                <div className="prevMenu">이전글</div>
+                                <div className="prevTitle"> {prevCommunity.title}</div>
+                                <div className="prevDate">{prevCommunity.wrtnDate}</div>
                             </div>
                         ):(
                             <div className="nonPrevCommunity">
-                                이전글 : 이전글이 없습니다.
+                                이전글이 없습니다.
                             </div>
                         )}
 
                         {nextCommunity && nextCommunity.title ? (
                             <div className="nextCommunity" onClick={()=> navigate(`/community/${nextCommunity.postNo}`)}>
-                                <div>다음글 : {nextCommunity.title}</div>
-                                <div>{nextCommunity.wrtnDate}</div>
+                                <div className="nextMenu">다음글</div>
+                                <div className="nextTitle"> {nextCommunity.title}</div>
+                                <div className="nextDate">{nextCommunity.wrtnDate}</div>
                             </div>
                         ):(
                             <div className="nonNextCommunity">
-                                다음글 : 다음글이 없습니다.
+                                다음글이 없습니다.
                             </div>
                         )}
                     </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "../../component/common/Button";
 import Header from "../../layouts/Header";
@@ -9,8 +9,10 @@ import "./Community.css";
 function CommunityWrite(){
     const navigate = useNavigate();
 
+    const [postNo, setPostNo] =useState();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [img, setImage] = useState('');
 
     //날짜 출력
     const date = new Date();
@@ -28,7 +30,6 @@ function CommunityWrite(){
         //title, content 길이 유효성 검사
         if (title.length > 100){
             alert('제목은 100자 이내로 입력해주세요');
-            setTitle('');
             return;
         }
 
@@ -40,17 +41,21 @@ function CommunityWrite(){
         //게시글 추가
         alert('게시글 추가');
         axios.post('http://localhost:3001/community',{
+            //postNo는 나중에 삭제
             'postNo' : postNo,
             'title' : title,
             'content' : content,
-            'wrtnDate' : formatDate
+            'wrtnDate' : formatDate,
+            'img' : img
+
         }).then(function (response){
-            console.log(response)
+            navigate(`/community`);
+
         }).catch(function(error){
-            console.log("error", error)
+            console.log("error", error);
+
         });
 
-        navigate(`/community/${postNo}`);
     }
 
     return(
@@ -79,6 +84,16 @@ function CommunityWrite(){
                                 setContent(event.target.value);
                             }}
                         />
+                    </div>
+                    
+                        
+                    <div>
+                        <button>
+                            <input hidden
+                            type="file"
+                            accept="image/jpg,image/png,image/jpeg,image/gif" 
+                            />
+                        </button>
                     </div>
 
                     <div className="writeButton">

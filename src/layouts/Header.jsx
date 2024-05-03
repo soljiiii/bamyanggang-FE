@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
+import { useCookies } from "react-cookie";
 
 function Header(){
+    // const [cookies, setCookie] = useCookiesCookies(['refreshToken']);
+    // const accessToken = localStorage.getItem('accessToken');
+
  return(
+    
     <div>
         <div className="headerArea">
             <div className="headerLeft">
