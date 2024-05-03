@@ -1,19 +1,8 @@
-// webrtc-adapter 가져오기
-import 'https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js';
+import adapter from "webrtc-adapter"; // WebRTC 어댑터 라이브러리
+import $ from "jquery"; // jQuery
+import Janus from "./janus";
 
-// jQuery 가져오기
-import 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js';
-
-// 기타 라이브러리 가져오기
-import 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js';
-
-import Janus from './janus';
-
-{var version = 1.2;
+var version = 1.2;
 var server = null;
 server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
 
@@ -834,5 +823,3 @@ function updateSimulcastButtons(feed, substream, temporal) {
 		$('#tl' + index + '-0').removeClass('btn-primary btn-success').addClass('btn-primary');
 	}
 }
-}
-export default videoroomtest;

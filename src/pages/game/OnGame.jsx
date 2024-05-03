@@ -3,9 +3,9 @@ import { useParams } from "react-router";
 import axios from "axios";
 import FaceChat from "../../component/game/FaceChat";
 import Button  from "../../component/common/Button";
-import Janus from "../../apis/janus";
-//import videoroomtest from "../../apis/videoroomtest";
 
+
+import Janus from "../../apis/janus";
 function OnGame(){
     const {roomNo} = useParams();
     const [onGameInfo,setOnGameInfo] = useState([]);
@@ -18,11 +18,10 @@ function OnGame(){
     const [onMafiaVote, setOnMafiaVote] = useState(0); //마피아 투표
     const [onDiePeople, setOnDiePeople] = useState("");//죽은 사람 받기
     const [timeLineState, setTimeLineState] = useState("🎲🤖게임 시작🤖🎲");
-    const [janus, setJanus] = useState(null);
     const [pluginHandle, setPluginHandle] = useState(null);
+    const [userNick, setUserNick] = useState("");
 
     const userIdentity = "test1";
-
 
     //게임 방에 대한 정보 받아옴
     useEffect(()=>{
@@ -40,107 +39,198 @@ function OnGame(){
             for(var i=0; i<response.data.length; i++){
                 if(response.data[i].userId === userIdentity){
                     setNowUser(response.data[i])
+                    setUserNick(response.data[i].userNickNm)
                 }
             }
         })
-    },[])
-    
-    //야누스
+    },[roomNo])
+
+    //미디어 송출
     useEffect(() => {
-        async function initializeJanus() {
-            try {
-                // Janus 초기화
-                await Janus.init({ debug: "all" });
-                const janusInstance = new Janus({ server: 'https://janus.jsflux.co.kr/janus' });
-                setJanus(janusInstance);
-            } catch (error) {
-                console.error("Error initializing Janus:", error);
-            }
-        }
-        initializeJanus();
-
-        // 컴포넌트 언마운트 시 Janus 인스턴스 해제
-        return () => {
-            if (janus) {
-                janus.destroy();
-            }
-        };
-    }, []);
-
-    useEffect(() => {
-        async function attachVideoRoomPlugin() {
-            try {
-                if (!janus) return;
-                // VideoRoom 플러그인에 attach
-                const plugin = "janus.plugin.videoroom";
-                await janus.attach({
-                    plugin: plugin,
-                    opaqueId: "videoroomtest-" + Janus.randomString(12),
-                    success: function (pluginHandle) {
-                        console.log("Plugin attached! (" + pluginHandle.getPlugin() + ", id=" + pluginHandle.getId() + ")");
-                        setPluginHandle(pluginHandle);
-                        // 플러그인 attach 성공 후 추가 작업 수행 (사용자 정보 attach 등)
-                        attachUsers(pluginHandle);
-                    },
-                    error: function (error) {
-                        console.error("Error attaching VideoRoom plugin:", error);
-                        // 플러그인 attach 실패 시 처리
-                    }
-                });
-            } catch (error) {
-                console.error("Error attaching VideoRoom plugin:", error);
-            }
-        }
-        attachVideoRoomPlugin();
-
-        // 컴포넌트 언마운트 시 플러그인 detach
-        return () => {
-            if (pluginHandle) {
-                pluginHandle.detach();
-            }
-        };
-    }, [janus]);
-
-    // 사용자 정보를 attach하는 함수
-    async function attachUsers(pluginHandle) {
-        try {
-            if (!pluginHandle) return;
+        let stream = null;
     
-            // 사용자의 비디오 및 오디오 스트림 생성
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    
-            // Janus 서버에 스트림 attach
-            const opaqueId = "streamtest-" + Janus.randomString(12);
-            const roomId = roomNo;
-            const feed = await pluginHandle.createOffer({
-                media: { audioRecv: false, videoRecv: false, audioSend: true, videoSend: true },
-                success: function(jsep) {
-                    // offer 생성 성공 시 처리
-                    Janus.debug("Got publisher SDP!", jsep);
-                },
-                error: function(error) {
-                    // offer 생성 실패 시 처리
-                    Janus.error("WebRTC error:", error);
+        // getUserMedia를 사용하여 비디오 스트림을 요청합니다.
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((userStream) => {
+                stream = userStream;
+                // 성공적으로 스트림을 가져온 경우, 해당 스트림을 비디오 요소에 연결합니다.
+                const videoElement = document.getElementById('video1'); // video1 요소에 연결
+                if (videoElement) {
+                    videoElement.srcObject = stream;
                 }
+            })
+            .catch((error) => {
+                console.error('Error accessing media devices:', error);
             });
     
-            // Offer SDP를 Janus 서버로 전송
-            const message = { request: "configure", audio: true, video: true };
-            pluginHandle.send({ message: message, jsep: feed });
-    
-            // VideoRoom에 사용자 추가
-            const registerMessage = { request: "join", room: roomId, ptype: "publisher", display: "user" };
-            pluginHandle.send({ message: registerMessage, jsep: null });
-    
-            // 스트림을 HTML video 요소에 연결하여 화면에 표시
-            const videoElement = document.getElementById('userVideo');
-            if (videoElement) {
-                videoElement.srcObject = stream;
+        // Clean-up 함수를 반환하여 컴포넌트가 언마운트될 때 스트림을 정리합니다.
+        return () => {
+            if (stream) {
+                stream.getTracks().forEach((track) => {
+                    track.stop();
+                });
             }
-        } catch (error) {
-            console.error("Error attaching user:", error);
+        };
+    }, []); // 이펙트는 한 번만 실행됩니다.
+    
+    
+    useEffect(() => {
+
+        var server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
+        var janus = null;
+        var sfutest = null; //플러그인 객체
+        var opaqueId = "videoroomtest-"+Janus.randomString(12); //플러그인 인스턴스 식별
+        var myroom = roomNo; //비디오 룸 식별 (방 이름 개념)
+        var room = null; //비디오 룸 식별 (서버에서)
+        var myid = null; //클라이언트 식별
+        var mypvtid = null; //클라이언트의 개인 id
+        var username = userNick;
+
+        if (roomNo !== null && userNick !== "") {
+
+            //야누스 초기화
+            Janus.init({
+                debug: "all",
+                callback: function() {
+                    if (!Janus.isWebrtcSupported()) {
+                        //bootbox.alert("No WebRTC support... ");
+                        alert("No WebRTC support... ");
+                        return;
+                    }
+                    janus = new Janus({
+                        server: server,
+                        success: function() {
+                            //서버에 attach
+                            janus.attach({
+                                plugin: "janus.plugin.videoroom",
+                                opaqueId: opaqueId,
+                                success: function(pluginHandle) {
+                                    sfutest = pluginHandle;
+                                    Janus.log("Plugin attached! (" + sfutest.getPlugin() + ", id=" + sfutest.getId() + ")");
+                                    Janus.log("  -- This is a publisher/manager");
+                            
+                                    var isRoomCreated = false;
+
+                                    var createRoom = {
+                                        request: "create",
+                                        room: Number(myroom),
+                                        permanent: false,
+                                        record: false,
+                                        publishers: 6,
+                                        bitrate: 128000,
+                                        fir_freq: 10,
+                                        ptype: "publisher",
+                                        description: "test",
+                                        is_private: false
+                                    };
+                                
+                                    // 방을 생성하고 사용자를 참여시키는 코드
+                                    
+                                    if (isRoomCreated) {
+                                        sfutest.send({ message: createRoom, success: function(result) {
+                                            var event = result["videoroom"]; 
+                                            Janus.debug("Event: " + event);
+                                            if (event != undefined && event != null) {
+                                                // Our own screen sharing session has been created, join it
+                                                console.log("Room Create Result: " + result);
+                                                console.log("error: " + result["error"]);
+                                                room = result["room"];
+                                                console.log("Screen sharing session created: " + room);
+                                                
+                                                var register = { 
+                                                    request: "join", 
+                                                    room: Number(myroom), 
+                                                    ptype: "publisher", 
+                                                    display: username 
+                                                };
+                                                sfutest.send({"message": register});
+                                                Janus.log(username,"방생성");
+                                            }
+                                        }});
+                                        isRoomCreated = false;
+                                    } else {
+                                        console.log("Room already exists with ID: " + myroom);
+                                        var register = {
+                                            request: "join", 
+                                            room: Number(myroom), 
+                                            ptype: "publisher", 
+                                            display: username
+                                        };
+                                        sfutest.send({ message: register });
+                                        Janus.log(username,"참여");
+                                    }
+
+                                    Janus.log("Entered the room!!!!!!", Number(myroom));
+                                },
+                                error: function(error) {
+									Janus.error("  -- Error attaching plugin...", error);
+									//bootbox.alert("Error attaching plugin... " + error);
+                                    alert("Error attaching plugin... " + error);
+								},
+                            //카메라 허용 alert 창
+                            consentDialog: function(on) {
+                                Janus.debug("Consent dialog should be " + (on ? "on" : "off") + " now");
+                                if (on) {
+                                    // 방에 조인한 경우에만 실행
+                                    alert("비디오를 허용하시겠습니까?");
+                                    console.log("카메라 허용");
+                                } else {
+                                    console.log("카메라 권한 오류")
+                                }
+                            },
+                            //webrtc 연결 설정 프로토콜 로그 기록
+                            iceState: function(state) {
+                                Janus.log("ICE state changed to " + state);
+                            },
+                                //미디어 수신 상태 변경 기록
+                            mediaState: function(medium, on) {
+                                Janus.log("Janus " + (on ? "started" : "stopped") + " receiving our " + medium);
+                            },
+                                //janus 연결상태 확인
+                            webrtcState: function(on) {
+                                Janus.log("Janus says this WebRTC PeerConnection");
+                            },
+
+                                //비디오 및 사용자 정보 출력
+                            onmessage: function(msg, jsep) {
+                            },
+                                
+                            onlocalstream: function(stream) {
+                                // The subscriber stream is recvonly, we don't expect anything here
+                            },
+                            // Janus onremotestream 콜백 함수
+                            onremotestream: function(stream) {
+                                Janus.debug("Remote feed #" + remoteFeed.rfindex + ", stream:", stream);
+                                var videoElementId = 'video' + remoteFeed.rfindex;
+                                var videoElement = document.getElementById(videoElementId);
+                                if(videoElement) {
+                                    videoElement.srcObject = stream;
+                                }
+                            },
+
+
+                            // oncleanup: function() {
+                            // // Handle cleanup
+                            //     Janus.log(" ::: Got a cleanup notification: we are unpublished now :::");
+                            // }
+                                
+                            });
+                        },
+                        error: function(error) {
+                            Janus.error(error);
+                            //bootbox.alert(error, function() {
+                                alert(error, function() {
+                                window.location.reload();
+                            });
+                        },
+                        destroyed: function() {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
         }
-    }
+    }, [roomNo, userNick]);
 
     //게임로직 타임라인 
     useEffect(() => {
@@ -262,16 +352,35 @@ function OnGame(){
                     {timeLineState}
                 </div>
                 <div className="faceBox">
-                    {onGameParty.map((onGameParty, index)=>(
+                    {/* {onGameParty.map((onGameParty, index)=>(
                         <div key={index} className="onGamePartyBox">
                             <FaceChat 
                                 key={onGameParty.userId}
                                 onGameParty={onGameParty}
-                                janus={janus}
+                                janus={Janus}
                                 pluginHandle={pluginHandle}
                             />
                         </div>
-                    ))}
+                    ))} */}
+                        <div className="div1" id="div1">
+                            <video className="video1" id="video1" autoPlay playsInline muted></video>
+                        </div>
+                        <div className="div2" id="div2">
+                            <video className="video2" id="video2" autoPlay playsInline muted></video>
+                        </div>
+                        <div className="div3" id="div3">
+                            <video className="video3" id="video3" autoPlay playsInline muted></video>
+                        </div>
+                        <div className="div4" id="div4">
+                            <video className="video4" id="video4" autoPlay playsInline muted></video>
+                        </div>
+                        <div className="div5" id="div5">
+                            <video className="video5" id="video5" autoPlay playsInline muted></video>
+                        </div>
+                        <div className="div6" id="div6">
+                            <video className="video6" id="video6" autoPlay playsInline muted></video>
+                        </div>
+                    
                 </div>
                 <div className="roleBox">
                     {onGameParty.map((partyMafia, index)=>(
