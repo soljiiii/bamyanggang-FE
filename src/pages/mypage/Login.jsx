@@ -5,16 +5,18 @@ import { useCookies } from 'react-cookie';
 
 
 function Login() {
+    // const [userId, setUserId] = useState('')
     const [credentials, setCredentials] = useState({ userId: '', userPw: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
     //쿠키 가져오기
     const [cookies, setCookie] =useCookies(['refreshToken']);
 
+    // console.log(userId);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,6 +48,7 @@ function Login() {
                  console.error('로그인 처리 중 에러 발생:', error);
                  setError('로그인 처리 중 문제가 발생했습니다.');
             }
+
     };
 
     return (
