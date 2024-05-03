@@ -3,30 +3,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    // const [userId, setUserId] = useState('')
     const [credentials, setCredentials] = useState({ userId: '', userPw: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    // console.log(userId);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.get('http://localhost:3001/member?userId=' + credentials.userId + '&userPw=' + credentials.userPw);
-            if (response.data.length > 0) {
-                localStorage.setItem('user', JSON.stringify(response.data[0]));  // 사용자 정보를 로컬 스토리지에 저장
-                alert('로그인 성공');
-                navigate('/MyPage');  // MyPage로 리다이렉션
-            } else {
-                setError('로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.');
-            }
-        } catch (error) {
-            console.error('로그인 처리 중 에러 발생:', error);
-            setError('로그인 처리 중 문제가 발생했습니다.');
-        }
+     //   setUserId(e.target.value);
     };
 
     return (

@@ -4,6 +4,7 @@ import './MemberJoin.css';
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위해 사용
 
 const MemberJoin = () => {
+    const [userId, setUserId] = useState('')
     const [formData, setFormData] = useState({
         userId: '',
         userPw: '',
@@ -27,6 +28,9 @@ const MemberJoin = () => {
             ...prev,
             [name]: value
         }));
+        
+        setUserId(e.target.value);
+
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: null }));
         }
@@ -35,23 +39,24 @@ const MemberJoin = () => {
     const handleGenderSelect = (gender) => {
         setFormData(prev => ({
             ...prev,
-            user_gender: gender
+            userGender: gender
         }));
     };
 
     const checkDuplicate = async (field) => {
+        alert(field);
         if (!formData[field]) {
             setErrors(prev => ({ ...prev, [field]: '중복확인을 위해서 빈칸으로 둘 수 없습니다' }));
             return;
         }
         setChecking(prev => ({ ...prev, [field]: true }));
         try {
-            const response = await axios.post('http://localhost:3001/member/check-duplicate', {
+            const response = await axios.post('http://localhost:3001/member', {
                 field: field,
                 value: formData[field]
             });
             if (response.data.isDuplicate) {
-                setErrors(prev => ({ ...prev, [field]: `${field} is already in use.` }));
+                setErrors(prev => ({ ...prev, [field]: `${field} 다른 사용자가 사용중입니다.` }));
             } else {
                 setErrors(prev => ({ ...prev, [field]: null }));
             }
@@ -84,7 +89,7 @@ const MemberJoin = () => {
             <h1>회원가입</h1>
             <div className="userContainer">
                 <input type="text" name="userId" value={formData.userId} onChange={handleChange} placeholder="아이디" />
-                <button onClick={() => checkDuplicate('userId')} disabled={checking.userId}>중복확인</button>
+                <button  type="button" onClick={() => checkDuplicate({userId})} disabled={checking.userId}>중복확인</button>
                 {errors.userId && <p className="error-message">{errors.userId}</p>}
                 <input type="password" name="userPw" value={formData.userPw} onChange={handleChange} placeholder="비밀번호" />
                 {errors.userPw && <p className="error-message">{errors.userPw}</p>}
@@ -103,11 +108,11 @@ const MemberJoin = () => {
                     <input type="text" name="userEmail2" value={formData.userEmail2} onChange={handleChange} placeholder="이메일 뒷부분" />
                 </div>
                 <div className='phonenum'>
-                    <input type="text" name="userTel1" maxLength="3" value={formData.user_tel1} onChange={handleChange} placeholder="전화번호1" />
+                    <input type="text" name="userTel1" maxLength="3" value={formData.userTel1} onChange={handleChange} placeholder="전화번호1" />
                     -
-                    <input type="text" name="userTel2" maxLength="4" value={formData.user_tel2} onChange={handleChange} placeholder="전화번호2" />
+                    <input type="text" name="userTel2" maxLength="4" value={formData.userTel2} onChange={handleChange} placeholder="전화번호2" />
                     -
-                    <input type="text" name="userTel3" maxLength="4" value={formData.user_tel3} onChange={handleChange} placeholder="전화번호3" />
+                    <input type="text" name="userTel3" maxLength="4" value={formData.userTel3} onChange={handleChange} placeholder="전화번호3" />
                 </div>
             </div>
             <div className="genderContainer">
