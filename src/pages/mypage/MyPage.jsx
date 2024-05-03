@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const MyPage = () => {
+
+    const location = useLocation();
+    const userId = location.state.key;
+    const navigate = useNavigate();
+
+    console.log(userId);
+
+    // const [userId, setUserId] = useState({})
     const [userData, setUserData] = useState({
         userId: '',
         userPw: '',
@@ -20,9 +31,10 @@ const MyPage = () => {
         const fetchUserData = async () => {
             try {
                 // 모든 사용자 데이터 불러오기 (예시로 첫 번째 사용자 데이터 사용)
-                const response = await axios.get(`http://localhost:3001/member`);
+                const response = await axios.get(`http://localhost:3001/member?userId=${userId}`);
                 if (response.data && response.data.length > 0) {
                     setUserData(response.data[0]);  // 첫 번째 사용자 데이터를 state에 저장
+                    console.error('사용자 데이터가 있습니다.');
                 } else {
                     console.error('사용자 데이터가 없습니다.');
                 }
@@ -48,6 +60,7 @@ const MyPage = () => {
             </div>
             <button type="button" onClick={() => navigate('/MemberModify')}>회원수정</button>
             <button onClick={() => alert('회원탈퇴 되었습니다')}>회원탈퇴</button>
+
         </div>
     );
 };
