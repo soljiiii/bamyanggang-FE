@@ -35,6 +35,10 @@
     align-items: center;
     justify-content: center;
 }
+video {
+    width: 350px;
+    height: 250px;
+}
 
 /*역할박스*/
 .roleBox{
@@ -134,3 +138,4 @@
     margin-left: 1130px;
     margin-top: 20px;
 }
+
