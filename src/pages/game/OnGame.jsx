@@ -4,6 +4,7 @@ import axios from "axios";
 import Button  from "../../component/common/Button";
 import Janus from "../../apis/janus";
 import "./OnGame.css";
+import GameSideChat from "../../component/game/GameSideChat";
 
 function OnGame(){
     const {roomNo} = useParams();
@@ -536,7 +537,12 @@ function OnGame(){
                     {nowUser.roleSt===0?(
                         <div>죽은 자의 채팅입니다</div>
                     ):(
-                        <div className="onChating"></div>
+                        <div className="onChating">
+                            <GameSideChat
+                                roomNo={roomNo}
+                                nowUser={nowUser}
+                            />
+                        </div>
                     )}
                 </div>
 
