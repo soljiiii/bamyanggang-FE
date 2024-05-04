@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Stomp from '@stomp/stompjs';
+import {Stomp} from '@stomp/stompjs';
 
 function GameSideChat({roomNo, nowUser}){
     const userNicknm = nowUser.userNicknm;
@@ -15,8 +15,8 @@ function GameSideChat({roomNo, nowUser}){
             bamyanggangClient.send('/sendMessage', {}, JSON.stringify({roomId, sender: userNicknm, message}));
             /* 구독한 메시지가 들어올 자리 */
             bamyanggangClient.subscribe('/sub/' + roomId, (message) => {
-                const message = JSON.parse(message.body);
-                setMessage(preMessage => [...preMessage, message]);
+                const message1 = JSON.parse(message.body);
+                setMessages(preMessage => [...preMessage, message1]);
             });
             setMessage('');
         });
