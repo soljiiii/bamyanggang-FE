@@ -103,10 +103,11 @@
 .communityViewContent{
     margin-top: 20px;
     margin-bottom: 50px;
+    min-height: 200px;
 }
 
 .prevCommunity{
-    font-size: 18px;
+    font-size: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid black;
     cursor: pointer;
@@ -115,13 +116,13 @@
 }
 
 .nonPrevCommunity{
-    font-size: 18px;
+    font-size: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid black;
 }
 
 .nextCommunity{
-    font-size: 18px;
+    font-size: 15px;
     padding-top: 10px;
     cursor: pointer;
     display: flex;
@@ -129,10 +130,24 @@
 }
 
 .nonNextCommunity{
-    font-size: 18px;
+    font-size: 15px;
     padding-top: 10px;
 }
 
+.prevMenu, .nextMenu{
+    width : 10%;
+}
+
+.prevTitle, .nextTitle{
+    white-space: nowrap;
+    overflow: hidden;
+    width: 75%;
+}
+
+.prevDate, .nextDate{
+    width: 15%;
+    text-align: center;
+}
 .communityWrite{
 }
 
@@ -223,6 +238,7 @@
     background: rgba(60, 98, 127, 0.5);
     cursor: pointer;
 }
+
 .pagingButton[disabled] {
     background: grey;
     cursor: auto;
@@ -232,3 +248,73 @@
     background: #3C627F;
 }
 
+.replyCountArea{
+    font-size: 18px;
+    padding: 10px;
+    background-color: #e7e7e7;
+    display: flex;
+    justify-content: left;
+}
+
+.replyCount{
+    padding-left: 10px;
+    color: #3C627F;
+}
+
+.replyArea{
+    margin-bottom: 60px;
+}
+
+.replyItem{
+    border-top: 1px solid  #e7e7e7;
+    border-bottom: 1px solid  #e7e7e7;
+    padding: 10px;
+}
+
+.replyTop{
+    display: flex;
+    justify-content: left;
+    padding-bottom: 10px;
+}
+
+.replyId{
+    padding-right: 20px;
+    font-size: 18px;
+}
+
+.replyDate{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.replyContent{
+    font-size: 15px;
+    color: rgb(74, 74, 74);
+}
+
+.replyWriteArea{
+    padding: 10px;
+    background-color:   #e7e7e7;
+    margin-bottom: 50px;
+}
+
+.replyWrite{
+    width: 100%;
+    height: 100px;
+    resize: none;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.replyButton{
+    margin-right: 10px;
+    background-color: rgba(128, 128, 128, 0.5);
+    border: none;
+    border-radius: 10px;
+}
+
+.replyButton:hover{
+    background-color: grey;
+}

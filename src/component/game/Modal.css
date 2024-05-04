@@ -100,6 +100,7 @@ label {
     margin-left: 175px;
     background-color: #D0f0f5;
     cursor: pointer;
+    color: black;
 }
 .createButton:hover {
     background-color: #A8D0D6;

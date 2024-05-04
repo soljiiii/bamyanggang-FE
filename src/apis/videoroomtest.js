@@ -1,3 +1,7 @@
+import adapter from "webrtc-adapter"; // WebRTC 어댑터 라이브러리
+import $ from "jquery"; // jQuery
+import Janus from "./janus";
+
 var version = 1.2;
 var server = null;
 server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
