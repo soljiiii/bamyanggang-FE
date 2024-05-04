@@ -10,30 +10,21 @@
     display: flex;
     flex-wrap: wrap;
     margin-left: 30px;
-    margin-top: 15px;
+    margin-top: 25px;
 }
-.faceChatContent {
-    width: 350px;
-    height: 300px;
-    border: 1px solid none;
-    position: relative;
-}
-.videoBox {
+video {
     width: 350px;
     height: 250px;
-    border: 1px solid rgb(19, 56, 92);
-    position: absolute;
-    border-radius: 10px;
 }
-.nickNmContent {
-    width: 350px;
-    height: 40px;
-    position: absolute;
-    border-bottom: 3px solid rgb(19, 56, 92);
-    bottom: 10px;
+.nickBox1, .nickBox2, .nickBox3, .nickBox4, .nickBox5, .nickBox6 {
+    width: 340px;
+    height: 35px;
+    border: 1px solid #c2d2de;
+    border-radius: 10px;
+    margin-left: 5px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 /*역할박스*/
@@ -134,3 +125,4 @@
     margin-left: 1130px;
     margin-top: 20px;
 }
+
