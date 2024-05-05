@@ -14,15 +14,15 @@ function CommunityWrite(){
     const [content, setContent] = useState('');
     const [img, setImage] = useState('');
 
-    //날짜 출력
-    const date = new Date();
-    let year = date.getFullYear();
-    let month = (date.getMonth())+1;
-        month = month >=10 ? month : '0'+month;
-    let day = date.getDate();
+    // //날짜 출력
+    // const date = new Date();
+    // let year = date.getFullYear();
+    // let month = (date.getMonth())+1;
+    //     month = month >=10 ? month : '0'+month;
+    // let day = date.getDate();
 
-    //날짜 커스텀
-    const formatDate = year+('-')+month+('-')+day;
+    // //날짜 커스텀
+    // const formatDate = year+('-')+month+('-')+day;
     
     //db insert함수
     const insert=()=>{
@@ -40,12 +40,10 @@ function CommunityWrite(){
 
         //게시글 추가
         alert('게시글 추가');
-        axios.post('http://localhost:3001/community',{
+        axios.post('localhost://community/communitywrite',{
             //postNo는 나중에 삭제
-            'postNo' : postNo,
             'title' : title,
             'content' : content,
-            'wrtnDate' : formatDate,
             'img' : img
 
         }).then(function (response){
