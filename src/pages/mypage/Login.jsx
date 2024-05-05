@@ -17,6 +17,7 @@ function Login() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,9 +49,10 @@ function Login() {
                  console.error('로그인 처리 중 에러 발생:', error);
                  setError('로그인 처리 중 문제가 발생했습니다.');
             }
-        }
-
-    };
+            
+        };
+        
+    
 
     return (
         <div className="login-container">
