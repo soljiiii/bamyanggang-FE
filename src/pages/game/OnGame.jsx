@@ -5,6 +5,7 @@ import Button  from "../../component/common/Button";
 import Janus from "../../apis/janus";
 import "./OnGame.css";
 import GameSideChat from "../../component/game/GameSideChat";
+import LoginCheck from '../../utils/LoginCheck';
 
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
@@ -21,18 +22,19 @@ function OnGame(){
     const [timeLineState, setTimeLineState] = useState("🎲🤖게임 시작🤖🎲");
     const [pluginHandle, setPluginHandle] = useState(null);
     const [userNick, setUserNick] = useState("");
-
-    const userIdentity = "test2";
+    
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     //참여 user 정보 6개 받아옴
     useEffect(()=>{
-        axios.get(`gameStart/?roomNo=${roomNo}`)
+        axios.get(`http://localhost:80/gameStart?roomNo=${roomNo}`)
         .then(response =>{
-            setOnGameParty(response.data);
-            for(var i=0; i<response.data.length; i++){
-                if(response.data[i].userId === userIdentity){
-                    setNowUser(response.data[i])
-                    setUserNick(response.data[i].userNickNm)
+            setOnGameParty(response.data["사용자정보"]);
+            console.log("굿잡",response.data["사용자정보"]);
+            for(var i=0; i<response.data["사용자정보"].length; i++){
+                if(response.data["사용자정보"][i].userId === userIdToken){
+                    setNowUser(response.data["사용자정보"][i])
+                    setUserNick(response.data["사용자정보"][i].userNickNm)
                 }
             }
         })
@@ -437,7 +439,7 @@ function OnGame(){
             userId:selectedParty,
             roomNo:roomNo,
         }
-        axios.post(`vote`,data)
+        axios.post(`http://localhost:80/vote`,data)
         .then(response =>{
             console.log("누구죽음",data.userId);
         })
@@ -446,10 +448,10 @@ function OnGame(){
     //투표 결과 반환(get)
     const fetchVoteResult = async () => {
         try {
-            const response = await axios.get(`resultVote/?roomNo=${roomNo}`);
-            const victory = response.data[0].result;
+            const response = await axios.get(`http://localhost:80/resultVote?roomNo=${roomNo}`);
+            const victory = response.data["resultList"].result;
             if (victory === 0) {
-                const dieUserNickNm = response.data[0].dieUserNickNm;
+                const dieUserNickNm = response.data["resultList"].dieUserNickNm;
                 setOnDiePeople(dieUserNickNm);
             } else {
                 setOnGameState(1);
@@ -473,6 +475,7 @@ function OnGame(){
     return (
         onGameState === 0 ? ( 
             <div className="onGameBody">
+                <LoginCheck/>
                 <div className="timeLineBox">
                     {timeLineState}
                 </div>
@@ -504,7 +507,7 @@ function OnGame(){
                 </div>
                 <div className="roleBox">
                     {onGameParty.map((partyMafia, index)=>(
-                        partyMafia.userId===userIdentity?
+                        partyMafia.userId===userIdToken?
                         (partyMafia.role===1 ?
                             (<span key={index}>당신은 마피아입니다</span>)
                             :(<span key={index}>당신은 시민입니다</span>)):("")
