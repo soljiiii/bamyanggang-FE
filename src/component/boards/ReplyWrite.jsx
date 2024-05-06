@@ -13,23 +13,21 @@ function ReplyWrite(props){
     const [userId, setUserId] = useState('');
 
     //날짜 출력
-    const date = new Date();
-    let year = date.getFullYear();
-    let month = (date.getMonth())+1;
-        month = month >=10 ? month : '0'+month;
-    let day = date.getDate();
-        day = day >=10 ? day : '0'+day;
+    // const date = new Date();
+    // let year = date.getFullYear();
+    // let month = (date.getMonth())+1;
+    //     month = month >=10 ? month : '0'+month;
+    // let day = date.getDate();
+    //     day = day >=10 ? day : '0'+day;
 
     //날짜 커스텀
-    const formatDate = year+('-')+month+('-')+day;
+    // const formatDate = year+('-')+month+('-')+day;
 
      //댓글 insert함수
        const replyInsert=()=>{
         const data = {
-            replyNo : replyNo,
             userId : userId,
             content : content,
-            wrtnDate : formatDate,
             postNo : postNo
         }
            if(content===''){
@@ -42,7 +40,8 @@ function ReplyWrite(props){
            }
                 //댓글 추가
            alert('댓글 추가');
-           axios.post(`http://localhost:3001/community`, data)
+           
+           axios.post(`localhost://reply/replywrite`, data)
                .then(function(response){
                 console.log(response.data)
                 navigate(`/community/${postNo}`);

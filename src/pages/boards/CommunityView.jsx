@@ -21,7 +21,7 @@ function CommunityView(){
     const [nextCommunity, setNextCommunity] = useState([]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${prevPostNo}`)
+        axios.get(`localhost://community/communitycontent?postNo=${prevPostNo}`)
         .then((response)=>{
             if(response.data.length > 0){
                 setPrevCommunity(response.data[0])
@@ -36,7 +36,7 @@ function CommunityView(){
     },[prevPostNo]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${postNo}`)
+        axios.get(`localhost://community/communitycontent?postNo=${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data[0]);
             })
@@ -47,7 +47,7 @@ function CommunityView(){
     }, [postNo]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${nextPostNo}`)
+        axios.get(`localhost://community/communitycontent?postNo=${nextPostNo}`)
         .then((response)=>{
             if(response.data.length > 0){
                 setNextCommunity(response.data[0])
@@ -61,8 +61,6 @@ function CommunityView(){
         })
     },[nextPostNo]);
     
-
-
     return(
         <div>
             <Header />
