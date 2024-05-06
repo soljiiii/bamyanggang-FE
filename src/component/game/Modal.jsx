@@ -4,7 +4,7 @@ import Input from "../common/Input";
 import "./Modal.css"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+// *** 로그인 시에만 방 생성 가능한 로직 추가 + 아이디 값 불러오기 ***
 
 
 function Modal({ isOpen, onClose }) {
@@ -29,7 +29,7 @@ function Modal({ isOpen, onClose }) {
                 roomPw:roomPw
             };
     
-            axios.post('http://localhost:3001/dumi',data)
+            axios.post('createRoom',data)
                 .then(response => {
                     console.log(response.data)
                     const roomNo = 123; //response.data.roomNo;

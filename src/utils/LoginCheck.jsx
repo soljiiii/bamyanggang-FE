@@ -1,66 +1,62 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
-import { useCookies } from "react-cookie";
 
-function LoginCheck(){
+
+function LoginCheck() {
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(['refreshToken']);
-    const [userId, setUserId] = useState('');
 
-    const accessToken = localStorage.getItem('accessToken');
+    useEffect(() => {
+        const accessToken = localStorage.getItem('access');
 
-    useEffect(()=>{
-        if(accessToken){
-            //token의 내용을 decoding 
+        // AccessToken이 있는지 확인
+        if (accessToken !== null) {
+            // AccessToken의 만료 여부 확인
             const decodedToken = jwtDecode(accessToken);
-            //decoding한 token에서 만료시간을 expTime에 저장
             const expTime = decodedToken.exp;
-            //현재 시간 (초 단위)
             const curTime = Math.floor(Date.now() / 1000);
 
-            if(expTime < curTime) {
-                //accesstoken의 만료되었을 때 refreshtoken으로 재발급 받기
-                const refreshToken = cookies.refreshToken;
-                if(refreshToken){
-                axios.post('재발급',{refreshToken})
-                    .then(response =>{
-                        const newAccessToken = response.data.access;
-                        localStorage.setItem('accessToken', newAccessToken);
-                        //재발급 받고 id값 추출
-                        const {username} = decodedToken;
-                        setUserId(username);
+            if (expTime > curTime) {
+                // 만료되지 않은 경우, 마이페이지로 이동
+                navigate('/MyPage');
+            } else {
+                // AccessToken이 만료된 경우, 재발급 요청 보내기
+                const refreshToken = localStorage.getItem('refresh');
 
-                        //재발급한 후 이전 페이지로 이동
-                        navigate(-1);
+                if (refreshToken) {
+                    axios.post('/reissue', { refreshToken }, { withCredentials: true })
+                        .then(response => {
+                            const newAccessToken = response.headers['access'];
+                            const newRefreshToken = response.headers['refresh'];
 
-                    })
-                    .catch(error=>{
-                        console.error('토큰 재발급 요청 실패:', error);
-                        //재발급 요청 실패 시 로그인 페이지로 이동
-                        navigate('/login');
-                    })
-                }
-                //refreshToken이 없을 때
-                else{
+                            // 새로운 accessToken과 refreshToken을 localStorage에 저장
+                            localStorage.setItem('access', newAccessToken);
+                            localStorage.setItem('refresh', newRefreshToken);
+
+                            // 새로고침하여 현재 페이지를 다시 로드
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error('토큰 재발급 요청 실패:', error);
+                            // 재발급 요청 실패 시 로그인 페이지로 이동
+                            navigate('/login');
+                        });
+                } else {
+                    // refreshToken이 없으면 로그아웃 처리
                     console.log('RefreshToken이 없습니다.');
                     navigate('/login');
                 }
-
-            }else{
-                //만료시간이 남아있다면 이전 페이지로 이동
-                const {username} = decodedToken;
-                setUserId(username);
-                navigate(-1);
             }
-        }else{
+        } else {
+            // AccessToken이 없으면 로그인 페이지로 이동
             console.log('AccessToken이 없습니다.');
             navigate('/login');
         }
-    }, [cookies.refreshToken, navigate, accessToken]);
+    }, [navigate]);
 
-    return null; //화면에 보이지 않는 컴포넌트
-
+    return null;
 }
+
+
 export default LoginCheck;

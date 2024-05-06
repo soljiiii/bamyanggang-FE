@@ -5,6 +5,7 @@ import SubBanner from "../../layouts/SubBanner";
 import axios from "axios";
 import ReplyList from "../../component/boards/ReplyList";
 import ReplyWrite from "../../component/boards/ReplyWrite";
+import Button from "../../component/common/Button";
 
 function CommunityView(){
 
@@ -21,7 +22,7 @@ function CommunityView(){
     const [nextCommunity, setNextCommunity] = useState([]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${prevPostNo}`)
+        axios.get(`localhost://community/communitycontent/?postNo=${prevPostNo}`)
         .then((response)=>{
             if(response.data.length > 0){
                 setPrevCommunity(response.data[0])
@@ -36,7 +37,7 @@ function CommunityView(){
     },[prevPostNo]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${postNo}`)
+        axios.get(`localhost://community/communitycontent/?postNo=${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data[0]);
             })
@@ -47,7 +48,7 @@ function CommunityView(){
     }, [postNo]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${nextPostNo}`)
+        axios.get(`localhost://community/communitycontent/?postNo=${nextPostNo}`)
         .then((response)=>{
             if(response.data.length > 0){
                 setNextCommunity(response.data[0])
@@ -61,8 +62,28 @@ function CommunityView(){
         })
     },[nextPostNo]);
     
+    //데이터 삭제
+    const deletePost=()=>{
+        axios.post(`localhost://community/communitydelete/?postNo=${postNo}`,{
+            'postNo': postNo
+        }). then((response)=>{
+            if(response.data === 1){
+                //성공적으로 삭제
+                alert("삭제되었습니다.");
+                navigate(`/community`);
 
+            } else{
+                //삭제할 게시물이 없음
+                console.log("삭제할 게시물이 없습니다.");
+            }
+        })
 
+        .catch(error=>{
+            console.error("데이터 에러", error);
+        })
+    };
+
+    
     return(
         <div>
             <Header />
@@ -73,8 +94,29 @@ function CommunityView(){
                 <br/>
                 <div className="communityTotal">
                     <div className="communityViewHead">
-                        <div className="communityViewTitle">
-                            {selectedCommunity.title}
+                        <div className="communityViewTitleArea">
+                            <div className="communityViewTitle">
+                                {selectedCommunity.title}
+                            </div>
+
+                            <div className="requestArea">
+                                <div className="modifyButton">
+                                    <Button 
+                                    text={"수정"}
+                                    type={"communityButton"}
+                                    onClick={()=>{
+                                        navigate(`/community/post-modify/${postNo}`);
+                                    }}
+                                    />
+                                </div>
+                                <div className="deleteButton">
+                                    <Button 
+                                    text={"삭제"}
+                                    type={"communityButton"}
+                                    onClick={()=>deletePost()}
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="communityViewInfo">
@@ -105,7 +147,6 @@ function CommunityView(){
                         })}
                     </div>
                     
-                    {/*댓글 리스트 부분*/}
                     <div className="replyArea">
                         <ReplyList 
                         selectedCommunity={selectedCommunity}

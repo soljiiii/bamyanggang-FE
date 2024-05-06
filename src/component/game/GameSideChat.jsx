@@ -5,7 +5,7 @@ function GameSideChat({roomNo, userNick}){
     const [chatClient, setChatClient] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    
+    //
     // 최초 렌더링 시 방 생성, 방 입장, 구독 (chatClient가 없을 때만 실행)
     if (!chatClient) {
         // 서버 연결

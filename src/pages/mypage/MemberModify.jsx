@@ -1,45 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import './MemberModify.css';
-import { useLocation } from 'react-router';
 
 const MemberModify = () => {
-
-    const location = useLocation();
-    const userId = location.state.key
-
-    console.log(userId);
-
+    const { userId } = useParams();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         userId: '',
-        userPw: '',
-        userNm: '',
-        userNicknm: '',
-        userTel1: '',
-        userTel2: '',
-        userTel3: '',
-        userEmail1: '',
-        userEmail2: '',
+        passWd: '', // userPw를 passWd로 변경
+        userName: '', // userNm를 userName으로 변경
+        nickName: '', // userNicknm을 nickName으로 변경
+        phoneNum1: '', // userTel1을 phoneNum1으로 변경
+        phoneNum2: '', // userTel2를 phoneNum2으로 변경
+        phoneNum3: '', // userTel3을 phoneNum3으로 변경
+        emailNum1: '', // userEmail1을 emailNum1으로 변경
+        emailNum2: '', // userEmail2을 emailNum2으로 변경
         userBirth: '',
-        userGender: 'Male' // 기본값 설정
+        userGender: 'M'
     });
     const [errors, setErrors] = useState({});
-    const [checking, setChecking] = useState({});
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        // 사용자 데이터 로딩
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/member?userId=${userId}');
-                setFormData(response.data); // 응답 데이터로 폼 데이터 설정
-                setIsLoaded(true);
+                const response = await axios.get(`http://localhost:80/userInfo/${userId}`); // 수정된 URL
+                if (response.data) {
+                    setFormData(response.data);
+                    setIsLoaded(true);
+                }
             } catch (error) {
                 console.error('데이터 로딩 중 오류 발생:', error);
             }
         };
         fetchData();
-    }, []);
+    }, [userId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -52,29 +48,23 @@ const MemberModify = () => {
         }
     };
 
-    const handleGenderSelect = (gender) => {
-        setFormData(prev => ({
-            ...prev,
-            userGender: gender
-        }));
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put('http://localhost:3001/member', formData);
-            if (response.data.success) {
-                console.log('회원 수정 성공');
+            const response = await axios.put(`http://localhost:80/update/${userId}`, formData); // 수정된 URL
+            if (response.status === 200) {
+                alert('회원 정보가 수정되었습니다.');
+                navigate('/myPage'); // 수정이 성공하면 마이 페이지로 이동
             } else {
-                console.log('회원 수정 실패:', response.data.message);
+                console.error('회원 정보 수정 실패:', response.data.message);
             }
         } catch (error) {
-            console.error('회원 수정 처리 중 에러 발생:', error);
+            console.error('회원 정보 수정 처리 중 에러 발생:', error);
         }
     };
 
     if (!isLoaded) {
-        return <div>Loading...</div>;
+        return <div>Loading...</div>; // 데이터 로딩 중
     }
 
     return (
@@ -82,31 +72,31 @@ const MemberModify = () => {
             <h1>회원 수정</h1>
             <div className="userContainer">
                 <input type="text" name="userId" value={formData.userId} onChange={handleChange} placeholder="아이디" disabled />
-                <input type="password" name="userPw" value={formData.userPw} onChange={handleChange} placeholder="새 비밀번호" />
-                {errors.userPw && <p className="error-message">{errors.userPw}</p>}
+                <input type="password" name="passWd" value={formData.passWd} onChange={handleChange} placeholder="새 비밀번호" />
+                {errors.passWd && <p className="error-message">{errors.passWd}</p>}
             </div>
             <div className="infoContainer">
-                <input type="text" name="userNm" value={formData.userNm} onChange={handleChange} placeholder="이름" />
-                <input type="text" name="userNicknm" value={formData.userNicknm} onChange={handleChange} placeholder="닉네임" />
-                <input type="date" name="userBirth" value={formData.userBirth} onChange={handleChange} />
-                <div className='email-container'>
-                    <input type="text" name="userEail1" value={formData.userEmail1} onChange={handleChange} placeholder="이메일 앞부분" />
+                <input type="text" name="userName" value={formData.userName} onChange={handleChange} placeholder="이름" />
+                <input type="text" name="nickName" value={formData.nickName} onChange={handleChange} placeholder="닉네임" />
+                <input type="date" name="userBirth" value={formData.userBirth} onChange={handleChange} placeholder="생년월일" />
+                <div className="email-container">
+                    <input type="text" name="emailNum1" value={formData.emailNum1} onChange={handleChange} placeholder="이메일 앞부분" />
                     <span>@</span>
-                    <input type="text" name="userEmail2" value={formData.userEmail2} onChange={handleChange} placeholder="이메일 뒷부분" />
+                    <input type="text" name="emailNum2" value={formData.emailNum2} onChange={handleChange} placeholder="이메일 뒷부분" />
                 </div>
-                <div className='phonenum'>
-                    <input type="text" name="userTel1" maxLength="3" value={formData.userTel1} onChange={handleChange} placeholder="전화번호1" />
+                <div className="phonenum">
+                    <input type="text" name="phoneNum1" maxLength="3" value={formData.phoneNum1} onChange={handleChange} placeholder="전화번호1" />
                     -
-                    <input type="text" name="userTel2" maxLength="4" value={formData.userTel2} onChange={handleChange} placeholder="전화번호2" />
+                    <input type="text" name="phoneNum2" maxLength="4" value={formData.phoneNum2} onChange={handleChange} placeholder="전화번호2" />
                     -
-                    <input type="text" name="userTel3" maxLength="4" value={formData.userTel3} onChange={handleChange} placeholder="전화번호3" />
+                    <input type="text" name="phoneNum3" maxLength="4" value={formData.phoneNum3} onChange={handleChange} placeholder="전화번호3" />
                 </div>
             </div>
             <div className="genderContainer">
-                <button type="button" onClick={() => handleGenderSelect('Male')} className={`genderOption ${formData.userGender === 'Male' ? 'selected' : ''}`}>
+                <button type="button" onClick={() => setFormData({ ...formData, userGender: 'Male' })} className={`genderOption ${formData.userGender === 'Male' ? 'selected' : ''}`}>
                     남자
                 </button>
-                <button type="button" onClick={() => handleGenderSelect('Female')} className={`genderOption ${formData.userGender === 'Female' ? 'selected' : ''}`}>
+                <button type="button" onClick={() => setFormData({ ...formData, userGender: 'Female' })} className={`genderOption ${formData.userGender === 'Female' ? 'selected' : ''}`}>
                     여자
                 </button>
             </div>

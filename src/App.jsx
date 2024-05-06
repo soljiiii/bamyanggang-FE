@@ -15,6 +15,7 @@ import MemberDelete from './pages/mypage/MemberDelete';
 import Community from './pages/boards/Community';
 import CommunityView from './pages/boards/CommunityView';
 import CommunityWrite from './pages/boards/CommunityWrite';
+import CommunityModify from './pages/boards/CommunityModify';
 
 function App() {
   return (
@@ -30,10 +31,12 @@ function App() {
           <Route path="/community" element={<Community />} />
           <Route path="/community/:postNo" element={<CommunityView />} />
           <Route path="/community/post-write" element={<CommunityWrite />} />
+          <Route path="/community/post-modify/:postNo" element={<CommunityModify />} />
           <Route path="/guide" element={<Guide/>}/>
           <Route path="/myPage" element={<MyPage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/memberModify" element={<MemberModify/>}/>
+          <Route path="/memberModify/:userId" element={<MemberModify />} />
           <Route path="/memberDelete" element={<MemberDelete/>}/>
           <Route path="/memberJoin" element={<MemberJoin/>}/>
         </Routes>

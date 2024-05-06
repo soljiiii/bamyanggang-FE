@@ -9,6 +9,7 @@ import PrivateRoom from "../../component/game/PrivateRoom";
 import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 
+// *** 아이디 값 불러오기 ***
 
 function GameSearch(){
 
@@ -16,7 +17,7 @@ function GameSearch(){
     const[roomList, setRoomList] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/game')
+        axios.get('getRoomList')
             .then(response => {
                 setRoomList(response.data);
             })

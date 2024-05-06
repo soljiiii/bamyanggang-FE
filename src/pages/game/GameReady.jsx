@@ -5,7 +5,7 @@ import axios from "axios";
 import Party from "../../component/game/Party";
 import "./GameReady.css";
 import { useNavigate } from 'react-router-dom';
-//id 값 가져와서 gamestart 권한 부분 수정하기
+// *** 아이디 값 불러오기 ***
 
 function GameReady(){
 
@@ -13,11 +13,12 @@ function GameReady(){
     const [gameInfo, setGameInfo] = useState([]);
     const [gameParty, setGameParty] = useState([]);
     const navigate = useNavigate();
+
     const userIdentity = "test1"; //jwt값 가져오기
 
     //게임 정보 불러오기
     useEffect(()=>{
-        axios.get (`http://localhost:3001/game/?roomNo=${roomNo}`)
+        axios.get (`getRoomInfo/?roomNo=${roomNo}`)
             .then(response => {
                 setGameInfo(response.data[0]);
             })
@@ -28,7 +29,7 @@ function GameReady(){
 
     //게임 참가자 정보 불러오기
     useEffect(()=>{
-        axios.get (`http://localhost:3001/party/?roomNo=${roomNo}`)
+        axios.get (`getUserInfo/?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data);
             })
@@ -60,7 +61,7 @@ function GameReady(){
             roomNo:gameInfo.roomNo,
             userId:userIdentity
         }
-        axios.post(`http://localhost:3001/dumi`)
+        axios.post(`exitRoom`)
         .then(response => {
             console.log("전송 성공");
             navigate(`/gameSearch`);
