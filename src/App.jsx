@@ -36,6 +36,7 @@ function App() {
           <Route path="/myPage" element={<MyPage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/memberModify" element={<MemberModify/>}/>
+          <Route path="/memberModify/:userId" element={<MemberModify />} />
           <Route path="/memberDelete" element={<MemberDelete/>}/>
           <Route path="/memberJoin" element={<MemberJoin/>}/>
         </Routes>

@@ -3,7 +3,7 @@ import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-//id 값 가져와서 id없을 시 join 안되는 로직 추가하기
+// *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
 function NormalRoom ({roomList}) {
 
@@ -24,7 +24,7 @@ function NormalRoom ({roomList}) {
                     userIdToken:'test',
                     roomNo:roomList.roomNo,
                 }
-                axios.post('http://localhost:3001/dumi',data)
+                axios.post('joinRoom',data)
                 .then(response => {
                     console.log(response.data);
                     const roomNo = response.data.roomNo

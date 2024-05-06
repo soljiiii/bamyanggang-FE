@@ -6,6 +6,8 @@ import Janus from "../../apis/janus";
 import "./OnGame.css";
 import GameSideChat from "../../component/game/GameSideChat";
 
+// *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
+
 function OnGame(){
     const {roomNo} = useParams();
     const [onGameParty, setOnGameParty] = useState([]);
@@ -24,7 +26,7 @@ function OnGame(){
 
     //참여 user 정보 6개 받아옴
     useEffect(()=>{
-        axios.get(`http://localhost:3001/party/?roomNo=${roomNo}`)
+        axios.get(`gameStart/?roomNo=${roomNo}`)
         .then(response =>{
             setOnGameParty(response.data);
             for(var i=0; i<response.data.length; i++){
@@ -435,7 +437,7 @@ function OnGame(){
             userId:selectedParty,
             roomNo:roomNo,
         }
-        axios.post(`http://localhost:3001/dumi`,data)
+        axios.post(`vote`,data)
         .then(response =>{
             console.log("누구죽음",data.userId);
         })
@@ -444,8 +446,8 @@ function OnGame(){
     //투표 결과 반환(get)
     const fetchVoteResult = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/vote/?roomNo=${roomNo}`);
-            const victory = response.data[0].vic;
+            const response = await axios.get(`resultVote/?roomNo=${roomNo}`);
+            const victory = response.data[0].result;
             if (victory === 0) {
                 const dieUserNickNm = response.data[0].dieUserNickNm;
                 setOnDiePeople(dieUserNickNm);
@@ -463,6 +465,8 @@ function OnGame(){
     };
 
     fetchVoteResult();
+
+    //게임 나가기 (mapping:gameOut)
     
     
 
