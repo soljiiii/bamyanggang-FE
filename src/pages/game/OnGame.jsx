@@ -447,7 +447,7 @@ function OnGame(){
     const fetchVoteResult = async () => {
         try {
             const response = await axios.get(`resultVote/?roomNo=${roomNo}`);
-            const victory = response.data[0].vic;
+            const victory = response.data[0].result;
             if (victory === 0) {
                 const dieUserNickNm = response.data[0].dieUserNickNm;
                 setOnDiePeople(dieUserNickNm);

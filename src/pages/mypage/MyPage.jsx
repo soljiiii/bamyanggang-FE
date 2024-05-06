@@ -1,66 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoginCheck from '../../utils/LoginCheck'; // LoginCheck 컴포넌트 import
 import axios from 'axios';
-
-
 const MyPage = () => {
-
-    const location = useLocation();
-    const userId = location.state.key;
     const navigate = useNavigate();
-
-    console.log(userId);
-
-    // const [userId, setUserId] = useState({})
-    const [userData, setUserData] = useState({
-        userId: '',
-        userPw: '',
-        userNm: '',
-        userNicknm: '',
-        userTel1: '',
-        userTel2: '',
-        userTel3: '',
-        userEmail1: '',
-        userEmail2: '',
-        userBirth: '',
-        userGender: ''
-    });
+    const [userData, setUserData] = useState(null); // 사용자 정보를 상태로 관리
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                // 모든 사용자 데이터 불러오기 (예시로 첫 번째 사용자 데이터 사용)
-                const response = await axios.get(`http://localhost:3001/member?userId=${userId}`);
-                if (response.data && response.data.length > 0) {
-                    setUserData(response.data[0]);  // 첫 번째 사용자 데이터를 state에 저장
-                    console.error('사용자 데이터가 있습니다.');
-                } else {
-                    console.error('사용자 데이터가 없습니다.');
-                }
-            } catch (error) {
-                console.error('회원 데이터를 불러오는 데 실패했습니다.', error);
-            }
-        };
+        // 로컬 스토리지에서 사용자 정보 가져오기
+        const storedUserData = JSON.parse(localStorage.getItem('user'));
+        setUserData(storedUserData);
+    }, []);
 
-        fetchUserData(); // 함수를 호출하여 데이터를 가져옴
-    }, []); // 빈 의존성 배열을 사용하여 컴포넌트 마운트 시 한 번만 실행
+    const handleModify = () => {
+        if (userData) {
+            navigate(`/memberModify/${userData.userId}`); // 사용자 아이디를 동적으로 URL에 추가하여 회원 수정 페이지로 이동
+        }
+    };
+
+    const handleDelete = () => {
+        navigate('/memberDelete'); // 회원 탈퇴 페이지로 이동
+    };
+
+    if (!userData) {
+        return <div>Loading...</div>; // 데이터 로딩 중
+    }
+
+    const handleReLogin = () => {
+        const accessToken = localStorage.getItem('access');
+        
+        if (accessToken) {
+            axios.post('http://localhost:80/reissue', { withCredentials: true })
+                .then(response => {
+                    const newAccessToken = response.headers['refresh'];
+                    localStorage.setItem('access', newAccessToken);
+                    console.log('토큰 재발급 요청 성공');
+                })
+                .catch(error => {
+                    console.error('토큰 재발급 요청 실패:', error);
+                });
+        } else {
+            // access 토큰이 없으면 로그아웃 처리 또는 다른 처리 수행
+            console.log('Access 토큰이 없습니다.');
+        }
+    };
 
     return (
         <div>
             <h1>마이 페이지</h1>
             <div>
                 <p>아이디: {userData.userId}</p>
-                <p>이름: {userData.userNm}</p>
-                <p>닉네임: {userData.userNicknm}</p>
-                <p>전화번호: {`${userData.userTel1}-${userData.userTel2}-${userData.userTel3}`}</p>
-                <p>이메일: {`${userData.userEmail1}@${userData.userEmail2}`}</p>
-                <p>생년월일: {userData.userBirth}</p>
-                <p>성별: {userData.userGender}</p>
+                <p>이름: {userData.userName}</p>
+                <p>닉네임: {userData.nickName}</p>
+                <p>전화번호: {`${userData.phoneNum1}-${userData.phoneNum2}-${userData.phoneNum3}`}</p>
+                <p>이메일: {`${userData.emailNum1}@${userData.emailNum2}`}</p>
+                <p>생년월일: {userData.birth}</p>
+                <p>성별: {userData.gender}</p>
             </div>
-            <button type="button" onClick={() => navigate('/MemberModify')}>회원수정</button>
-            <button onClick={() => alert('회원탈퇴 되었습니다')}>회원탈퇴</button>
-
+            <button type="button" onClick={handleModify}>회원수정</button>
+            <button type="button" onClick={handleDelete}>회원탈퇴</button> {/* 추가: 회원 탈퇴 버튼 */}
+            <button type="button" onClick={handleReLogin}>재로그인</button> {/* 추가: 재로그인 버튼 */}
+            <LoginCheck />
         </div>
     );
 };
