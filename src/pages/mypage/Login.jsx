@@ -1,59 +1,53 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-
+import './Login.css';
 
 function Login() {
     // const [userId, setUserId] = useState('')
     const [credentials, setCredentials] = useState({ userId: '', userPw: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    //쿠키 가져오기
-    const [cookies, setCookie] =useCookies(['refreshToken']);
 
     // console.log(userId);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
-    }
+     //   setUserId(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-            const response = await axios.post('localhost://login',{
-                userId : credentials.userId,
-                userPw : credentials.userPw
-            });
-
-            if (response.status === 200 && response.data){
-                const accessToken = response.data.access;
-                const refreshToken = response.data.refresh;
-
-                console.log(accessToken);
-                console.log(refreshToken);
-
-                localStorage.setItem('accessToken', accessToken);
-                setCookie('refreshToken', refreshToken);
-
-                axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken};`
-                alert('로그인 성공');
-
-                navigate('/');  // MyPage로 리다이렉션
-
-            } else if(response.status === 401){
-                setError('재 로그인이 필요합니다.');
-
-            }else{
-                 console.error('로그인 처리 중 에러 발생:', error);
-                 setError('로그인 처리 중 문제가 발생했습니다.');
-            }
+        try {
+            const response = await axios.post('http://localhost:80/login', credentials , 
+               
+                );
+                
+                if (response.status === 200) {
+                    
+                    const access = response?.headers['authorization']; // JWT 토큰 받기
+                    console.log(response.headers);
+                    console.log(access);
+                    localStorage.setItem('access', access); // 토큰을 로컬 스토리지에 저장
+                    
+                    const userInfoResponse = await axios.get(`http://localhost:80/userInfo/${credentials.userId}`);
+                    console.log(userInfoResponse);
+                    const userData = userInfoResponse.data; // 서버에서 받은 사용자 데이터
+                    localStorage.setItem('user', JSON.stringify(userData));
+              
+                    alert('로그인 성공');
+                    navigate('/MyPage', { state: { user: userData } }); // MyPage로 리다이렉션
+                    return; // 성공 시 함수 종료
+                }
             
-        };
-        
-    
-
+            // 에러 처리
+            setError('로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.');
+        } catch (error) {
+            console.error('로그인 처리 중 에러 발생:', error);
+            setError('로그인 처리 중 문제가 발생했습니다.');
+        }
+    };
     return (
         <div className="login-container">
             <form onSubmit={handleSubmit}>
