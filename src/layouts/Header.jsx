@@ -62,7 +62,8 @@ function Header(){
                     <div className="headerRight">
                         <div className="loginArea">
                             {isLoggedIn ? (
-                                <Link to="/myPage" className="loginButton">myPage</Link>
+                                <Link to="/myPage" className="loginButton">myPage</Link>,
+                                <Link to="/login" className="loginButton">LOGIN</Link>
                             ) : (
                                 <Link to="/login" className="loginButton">LOGIN</Link>
                             )}
