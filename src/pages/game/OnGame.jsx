@@ -30,7 +30,6 @@ function OnGame(){
         axios.get(`http://localhost:80/gameStart?roomNo=${roomNo}`)
         .then(response =>{
             setOnGameParty(response.data["사용자정보"]);
-            console.log("굿잡",response.data["사용자정보"]);
             for(var i=0; i<response.data["사용자정보"].length; i++){
                 if(response.data["사용자정보"][i].userId === userIdToken){
                     setNowUser(response.data["사용자정보"][i])
