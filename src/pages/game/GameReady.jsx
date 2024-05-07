@@ -45,20 +45,21 @@ function GameReady(){
     
 
     //게임 참가자 정보 불러오기
-    useEffect(()=>{
+    useEffect(() => {
+        const fetchGameInfo = async () => {
         axios.get (`http://localhost:80/getUserInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data["방 대기 정보"]);
-                for(var i=0;i<gameParty.length;i++){
-                    if(gameParty[i].userId===userIdToken){
-                        alert("이미 존재하는 사용자 입니다")
-                    }
-                }
             })
             .catch(error => {
                 console.error('Error get game:', error);
             });
-    },[]);
+
+            setTimeout(fetchGameInfo, 5000); 
+        };
+
+        fetchGameInfo();
+    }, [roomNo, pageState]);
 
     console.log("gmaInfo",gameInfo)
     console.log("방:",gameInfo.roomNm)

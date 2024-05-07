@@ -18,6 +18,7 @@ function GameSearch(){
     const[roomList, setRoomList] = useState([]);
 
     useEffect(() => {
+        const fetchGameList = async () => {
         axios.get('http://localhost:80/getRoomList')
             .then(response => {
                 setRoomList(response.data["방 목록"]);
@@ -25,7 +26,13 @@ function GameSearch(){
             .catch(error => {
                 console.error('Error get game:', error);
             });
-    }, []);
+            // 5초 후에 다시 실행하도록 설정
+            setTimeout(fetchGameList, 5000); // 5초(5000밀리초) 후에 다시 호출
+        };
+    
+        // 처음에 한 번 실행하고, 그 후에는 주기적으로 실행됨
+        fetchGameList();
+    }, [roomList]); // roomNo나 pageState가 변경될 때마다 Effect가 재실행됨
 
     
     //Modal 상태에 대해
