@@ -1,23 +1,33 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import "./Community.css";
 import axios from "axios";
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import Button from "../../component/common/Button";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
-import "./Community.css";
-import LoginCheck from "../../utils/LoginCheck";
 
-function CommunityWrite(){
+function CommunityModify(){
     const navigate = useNavigate();
-
-    const [postNo, setPostNo] =useState();
+    const {postNo} = useParams();
+    const [selectedCommunity, setSelectedCommunity] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [img, setImage] = useState('');
 
-    //userIdToken에서 parsing한 id
-    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
-    
+    //수정할 정보 가져오기
+    useEffect(()=>{
+        axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
+        .then(response=>{
+            setSelectedCommunity(response.data);
+            console.log("1", response.data);
+            setTitle(response.data.title);
+            setContent(response.data.content);
+        })
+
+        .catch(error=>{
+            console.error("데이터에러", error);
+        })
+    },[postNo]);
+
     //db insert함수
     const insert=()=>{
 
@@ -32,18 +42,18 @@ function CommunityWrite(){
             return;
         }
 
-        //게시글 추가
-        alert('게시글 추가');
-        axios.post(`http://localhost:80/community/communitywrite`,{
-            'userId' : userIdToken,
+        //게시글 수정
+        alert('게시글 수정');
+        axios.post(`http://localhost:80/community/comunityupdate/${postNo}`,{
+            //postNo는 나중에 삭제
             'title' : title,
             'content' : content,
-            'img' : img
+            // 'img' : img
 
-        }).then(function (response){
-            navigate(`/community`);
+        }).then(response=>{
+            navigate(`/community/${postNo}`);
 
-        }).catch(function(error){
+        }).catch(error=>{
             console.log("error", error);
 
         });
@@ -61,7 +71,6 @@ function CommunityWrite(){
                 <div className="communityWrite">
                     <div className="inputTitleArea">
                         <input className="inputTitle"
-                            placeholder="제목을 입력하세요"
                             value={title}
                             onChange={(event) => {
                                 setTitle(event.target.value);
@@ -78,7 +87,6 @@ function CommunityWrite(){
                         />
                     </div>
                     
-                        
                     <div>
                         <button>
                             <input hidden
@@ -112,6 +120,4 @@ function CommunityWrite(){
     )
 }
 
-
-
-export default CommunityWrite;
+export default CommunityModify;

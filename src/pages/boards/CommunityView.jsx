@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import axios from "axios";
 import ReplyList from "../../component/boards/ReplyList";
 import ReplyWrite from "../../component/boards/ReplyWrite";
+import Button from "../../component/common/Button";
 
 function CommunityView(){
 
@@ -21,45 +22,118 @@ function CommunityView(){
     const [nextCommunity, setNextCommunity] = useState([]);
 
     useEffect(()=>{
-        axios.get(`localhost://community/communitycontent?postNo=${prevPostNo}`)
-        .then((response)=>{
-            if(response.data.length > 0){
-                setPrevCommunity(response.data[0])
+        if(postNo){
+            //이전글 데이터
+            axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
+            .then((response)=>{
+            if(response.data!==null){
+                setPrevCommunity(response.data);
             }else{
                 setPrevCommunity(null);
+                console.log("이전글없어", response.data);
             }
         })
 
-        .catch(error=>{
-            console.error("데이터 에러", error);
+            .catch(error=>{
+                console.error("데이터 에러", error);
         })
-    },[prevPostNo]);
 
-    useEffect(()=>{
-        axios.get(`localhost://community/communitycontent?postNo=${postNo}`)
+        //현재글 데이터
+            axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
             .then((response)=>{
-                setSelectedCommunity(response.data[0]);
+                setSelectedCommunity(response.data);
+            })
+    
+            .catch(error=>{
+             console.error("데이터 에러", error);
+            })
+
+        //다음글 데이터
+            axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
+            .then((response)=>{
+                if(response.data!==null){
+                    setNextCommunity(response.data);
+                }else{
+                    setNextCommunity(null);
+                    console.log("다음글없어", response.data);
+                }
             })
 
             .catch(error=>{
                 console.error("데이터 에러", error);
             })
+        }
     }, [postNo]);
 
-    useEffect(()=>{
-        axios.get(`localhost://community/communitycontent?postNo=${nextPostNo}`)
-        .then((response)=>{
-            if(response.data.length > 0){
-                setNextCommunity(response.data[0])
-            }else{
-                setNextCommunity(null);
+    //이전글 데이터
+    // useEffect(()=>{
+    //     axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
+    //     .then((response)=>{
+    //         if(response.data!==null){
+    //             setPrevCommunity(response.data);
+    //         }else{
+    //             setPrevCommunity(null);
+    //             console.log("이전글없어", response.data);
+    //         }
+    //     })
+
+    //     .catch(error=>{
+    //         console.error("데이터 에러", error);
+    //     })
+    // },[prevPostNo]);
+
+    // //현재글 데이터
+    // useEffect(()=>{
+        
+    //     axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
+    //         .then((response)=>{
+    //             setSelectedCommunity(response.data);
+    //         })
+
+    //         .catch(error=>{
+    //             console.error("데이터 에러", error);
+    //         })
+    // }, [postNo]);
+
+    // //다음글 데이터
+    // useEffect(()=>{
+    //     axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
+    //     .then((response)=>{
+    //         if(response.data!==null){
+    //             setNextCommunity(response.data);
+    //         }else{
+    //             setNextCommunity(null);
+    //             console.log("다음글없어", response.data);
+    //         }
+    //     })
+
+    //     .catch(error=>{
+    //         console.error("데이터 에러", error);
+    //     })
+    // },[nextPostNo]);
+    
+    //데이터 삭제
+    const deletePost=useCallback(()=>{
+        axios.delete(`http://localhost:80/community/communitydelete/${postNo}`)
+        . then((response)=>{
+            console.log("삭제데이터", response.data);
+
+            if(response.data === 1){
+                //성공적으로 삭제
+                alert("삭제되었습니다.");
+                navigate(`/community`);
+
+            } else{
+                //삭제할 게시물이 없음
+                console.log("삭제할 게시물이 없습니다.");
             }
         })
 
         .catch(error=>{
             console.error("데이터 에러", error);
         })
-    },[nextPostNo]);
+    },[navigate, postNo]);
+
     
     return(
         <div>
@@ -71,8 +145,29 @@ function CommunityView(){
                 <br/>
                 <div className="communityTotal">
                     <div className="communityViewHead">
-                        <div className="communityViewTitle">
-                            {selectedCommunity.title}
+                        <div className="communityViewTitleArea">
+                            <div className="communityViewTitle">
+                                {selectedCommunity.title}
+                            </div>
+
+                            <div className="requestArea">
+                                <div className="modifyButton">
+                                    <Button 
+                                    text={"수정"}
+                                    type={"communityButton"}
+                                    onClick={()=>{
+                                        navigate(`/community/post-modify/${postNo}`);
+                                    }}
+                                    />
+                                </div>
+                                <div className="deleteButton">
+                                    <Button 
+                                    text={"삭제"}
+                                    type={"communityButton"}
+                                    onClick={()=>deletePost()}
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="communityViewInfo">
@@ -103,7 +198,6 @@ function CommunityView(){
                         })}
                     </div>
                     
-                    {/*댓글 리스트 부분*/}
                     <div className="replyArea">
                         <ReplyList 
                         selectedCommunity={selectedCommunity}
