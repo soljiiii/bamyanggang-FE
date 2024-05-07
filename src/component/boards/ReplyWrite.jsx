@@ -12,23 +12,16 @@ function ReplyWrite(props){
     const [content, setContent] = useState('');
     const [userId, setUserId] = useState('');
 
-    //날짜 출력
-    // const date = new Date();
-    // let year = date.getFullYear();
-    // let month = (date.getMonth())+1;
-    //     month = month >=10 ? month : '0'+month;
-    // let day = date.getDate();
-    //     day = day >=10 ? day : '0'+day;
+    //userIdToken에서 parsing한 id
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
-    //날짜 커스텀
-    // const formatDate = year+('-')+month+('-')+day;
 
      //댓글 insert함수
        const replyInsert=()=>{
         const data = {
-            userId : userId,
-            content : content,
-            postNo : postNo
+            'userId' : userIdToken,
+            'content' : content,
+            'postNo' : postNo
         }
            if(content===''){
                alert('댓글을 입력해주세요');
@@ -41,10 +34,12 @@ function ReplyWrite(props){
                 //댓글 추가
            alert('댓글 추가');
            
-           axios.post(`localhost://reply/replywrite`, data)
+           axios.post(`http://localhost:80/reply/replywrite`, data)
                .then(function(response){
-                console.log(response.data)
-                navigate(`/community/${postNo}`);
+                console.log(response.data);
+                
+                //새로고침
+                window.location.reload();
 
            }).catch(function(error){
                 console.log("error", error);

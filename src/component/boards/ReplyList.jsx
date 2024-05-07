@@ -15,12 +15,9 @@ function ReplyList(props){
         //community.postNo와 일치하는 댓글 정보 가져오기
         if(selectedCommunity && selectedCommunity.postNo){
         // axios.get(`localhost://reply/replylist/${selectedCommunity.postNo}`)
-        axios.get(`localhost://reply/replylist/?postNo=${postNo}`)
+        axios.get(`http://localhost:80/reply/replylist/${postNo}`)
             .then(response=>{
-                // setComments(response.data[0]);
-                // console.log(response.data[0]);
-                setComments(response.data);
-                console.log(response.data);
+                setComments(response.data.replylist);
             })
             .catch(error=>{
                 console.log("error", error);
@@ -41,6 +38,7 @@ function ReplyList(props){
                         key={comment.replyNo}
                         comment={comment}
                         postNo={postNo}
+                        replyNo={comments.replyNo}
                         />
                 );
             })}

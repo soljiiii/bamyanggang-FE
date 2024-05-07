@@ -26,24 +26,24 @@ const MyPage = () => {
         return <div>Loading...</div>; // 데이터 로딩 중
     }
 
-    const handleReLogin = () => {
-        const accessToken = localStorage.getItem('access');
+    // const handleReLogin = () => {
+    //     const accessToken = localStorage.getItem('access');
         
-        if (accessToken) {
-            axios.post('http://localhost:80/reissue', { withCredentials: true })
-                .then(response => {
-                    const newAccessToken = response.headers['refresh'];
-                    localStorage.setItem('access', newAccessToken);
-                    console.log('토큰 재발급 요청 성공');
-                })
-                .catch(error => {
-                    console.error('토큰 재발급 요청 실패:', error);
-                });
-        } else {
-            // access 토큰이 없으면 로그아웃 처리 또는 다른 처리 수행
-            console.log('Access 토큰이 없습니다.');
-        }
-    };
+    //     if (accessToken) {
+    //         axios.post('http://localhost:80/reissue', { withCredentials: true })
+    //             .then(response => {
+    //                 const newAccessToken = response.headers['refresh'];
+    //                 localStorage.setItem('access', newAccessToken);
+    //                 console.log('토큰 재발급 요청 성공');
+    //             })
+    //             .catch(error => {
+    //                 console.error('토큰 재발급 요청 실패:', error);
+    //             });
+    //     } else {
+    //         // access 토큰이 없으면 로그아웃 처리 또는 다른 처리 수행
+    //         console.log('Access 토큰이 없습니다.');
+    //     }
+    // };
 
     return (
         <div>
@@ -59,8 +59,8 @@ const MyPage = () => {
             </div>
             <button type="button" onClick={handleModify}>회원수정</button>
             <button type="button" onClick={handleDelete}>회원탈퇴</button> {/* 추가: 회원 탈퇴 버튼 */}
-            <button type="button" onClick={handleReLogin}>재로그인</button> {/* 추가: 재로그인 버튼 */}
-            <LoginCheck />
+            {/* <button type="button" onClick={handleReLogin}>재로그인</button>  */}
+            {/* 추가: 재로그인 버튼 */}
         </div>
     );
 };
