@@ -37,7 +37,7 @@ function Login() {
                     localStorage.setItem('user', JSON.stringify(userData));
               
                     alert('로그인 성공');
-                    navigate('/MyPage', { state: { user: userData } }); // MyPage로 리다이렉션
+                    navigate('/', { state: { user: userData } }); // MyPage로 리다이렉션
                     return; // 성공 시 함수 종료
                 }
             

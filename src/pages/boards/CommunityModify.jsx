@@ -44,7 +44,7 @@ function CommunityModify(){
 
         //게시글 수정
         alert('게시글 수정');
-        axios.post(`http://localhost:80/community/comunityupdate/${postNo}`,{
+        axios.post(`http://localhost:80/community/communityupdate/${postNo}`,{
             //postNo는 나중에 삭제
             'title' : title,
             'content' : content,
@@ -88,12 +88,12 @@ function CommunityModify(){
                     </div>
                     
                     <div>
-                        <button>
+                        {/* <button>
                             <input hidden
                             type="file"
                             accept="image/jpg,image/png,image/jpeg,image/gif" 
                             />
-                        </button>
+                        </button> */}
                     </div>
 
                     <div className="writeButton">
