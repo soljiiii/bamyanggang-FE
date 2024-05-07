@@ -25,17 +25,25 @@ function GameReady(){
         axios.get (`http://localhost:80/getRoomInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameInfo(response.data["방 대기 정보"]);
+                if(pageState===1 ){
+                    navigate(`/onGame/${roomNo}`);
+                }
             })
             .catch(error => {
                 console.error('Error get game:', error);
             });
-    },[roomNo]);
+    },[roomNo, pageState]);
 
     //게임 참가자 정보 불러오기
     useEffect(()=>{
         axios.get (`http://localhost:80/getUserInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data["방 대기 정보"]);
+                for(var i=0;i<gameParty.length;i++){
+                    if(gameParty[i].userId===userIdToken){
+                        alert("이미 존재하는 사용자 입니다")
+                    }
+                }
             })
             .catch(error => {
                 console.error('Error get game:', error);
@@ -53,19 +61,20 @@ function GameReady(){
     
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (userParty && userParty.master === 1) {
-            navigate(`/onGame/${roomNo}`);
+            axios.get(`http://localhost:80/getIsOnGame?roomNo=${roomNo}`)
+            .then(response =>{
+                setPageState(response.data);
+                if(pageState===1){
+                    navigate(`/onGame/${roomNo}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error get game:', error);
+            });
         } else {
             alert("권한이 없다능");
         }
     }
-
-    //게임 페이지 이동
-    useEffect(()=>{
-        if(pageState===1){
-            navigate(`/onGame/${roomNo}`);
-        }
-    },[])
-    
 
     //게임 나가기
     function handleExit(){
@@ -80,6 +89,31 @@ function GameReady(){
             navigate(`/gameSearch`);
         });
     }
+
+    //url 벗어나면 퇴장
+    useEffect(() => {
+        // 페이지 이동할 때 실행될 cleanup 함수
+        const cleanup = () => {
+            const data = {
+                roomNo: roomNo,
+                userId: userIdToken
+            };
+            console.log(data);
+            axios.post(`http://localhost:80/exitRoom`, data)
+                .then(response => {
+                    console.log("전송 성공");
+                    history.push(`/gameSearch`);
+                })
+                .catch(error => {
+                    console.error("전송 실패", error);
+                });
+        };
+
+        // 페이지 이동될 때 cleanup 함수 실행
+        return () => {
+            cleanup();
+        };
+    }, [roomNo, userIdToken, history]);
 
 
     return (

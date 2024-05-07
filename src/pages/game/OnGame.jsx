@@ -468,6 +468,31 @@ function OnGame(){
 
     fetchVoteResult();
 
+    //url 벗어나면 퇴장
+    useEffect(() => {
+        // 페이지 이동할 때 실행될 cleanup 함수
+        const cleanup = () => {
+            const data = {
+                roomNo: roomNo,
+                userId: userIdToken
+            };
+            console.log(data);
+            axios.post(`http://localhost:80/exitRoom`, data)
+                .then(response => {
+                    console.log("전송 성공");
+                    history.push(`/gameSearch`);
+                })
+                .catch(error => {
+                    console.error("전송 실패", error);
+                });
+        };
+
+        // 페이지 이동될 때 cleanup 함수 실행
+        return () => {
+            cleanup();
+        };
+    }, [roomNo, userIdToken, history]);    
+
     //게임 나가기 (mapping:gameOut)
     
     
