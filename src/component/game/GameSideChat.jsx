@@ -68,7 +68,7 @@ function GameSideChat({roomNo, userNick}){
     };
 
     return(
-        <div className="chatBox">
+        <div className="chatBox2">
             <div>
                 {messages.map((object, index) => (
                     <div key={index}>
