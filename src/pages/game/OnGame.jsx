@@ -34,7 +34,7 @@ function OnGame(){
             for(var i=0; i<response.data["사용자정보"].length; i++){
                 if(response.data["사용자정보"][i].userId === userIdToken){
                     setNowUser(response.data["사용자정보"][i])
-                    setUserNick(response.data["사용자정보"][i].userNickNm)
+                    setUserNick(response.data["사용자정보"][i].userNicknm)
                 }
             }
         })
@@ -451,7 +451,7 @@ function OnGame(){
             const response = await axios.get(`http://localhost:80/resultVote?roomNo=${roomNo}`);
             const victory = response.data["resultList"].result;
             if (victory === 0) {
-                const dieUserNickNm = response.data["resultList"].dieUserNickNm;
+                const dieUserNickNm = response.data["resultList"].dieUserNicknm;
                 setOnDiePeople(dieUserNickNm);
             } else {
                 setOnGameState(1);
@@ -542,7 +542,7 @@ function OnGame(){
                     <div className="partyVoteBox">
                         {onGameParty.map(party =>(
                             <div key={party.userId} className="radioButtonBox">
-                                <label className={`customRadioButton ${selectedParty === party.userId ? 'selected' : ''}`}>{party.userNickNm}
+                                <label className={`customRadioButton ${selectedParty === party.userId ? 'selected' : ''}`}>{party.userNicknm}
                                     <input 
                                         type="radio" 
                                         name="party"

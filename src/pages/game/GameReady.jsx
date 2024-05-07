@@ -20,19 +20,29 @@ function GameReady(){
 
 
 
-    //게임 정보 불러오기
-    useEffect(()=>{
-        axios.get (`http://localhost:80/getRoomInfo?roomNo=${roomNo}`)
-            .then(response => {
+    useEffect(() => {
+        const fetchGameInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:80/getRoomInfo?roomNo=${roomNo}`);
                 setGameInfo(response.data["방 대기 정보"]);
-                if(pageState===1 ){
+                setPageState(response.data["방 대기 정보"].isOnGame);
+                console.log(pageState);
+                if (pageState === 1) {
                     navigate(`/onGame/${roomNo}`);
+                    window.location.reload();
                 }
-            })
-            .catch(error => {
-                console.error('Error get game:', error);
-            });
-    },[roomNo, pageState]);
+            } catch (error) {
+                console.error('Error getting game:', error);
+            }
+            
+            // 5초 후에 다시 실행하도록 설정
+            setTimeout(fetchGameInfo, 5000); // 5초(5000밀리초) 후에 다시 호출
+        };
+    
+        // 처음에 한 번 실행하고, 그 후에는 주기적으로 실행됨
+        fetchGameInfo();
+    }, [roomNo, pageState]); // roomNo나 pageState가 변경될 때마다 Effect가 재실행됨
+    
 
     //게임 참가자 정보 불러오기
     useEffect(()=>{
@@ -48,7 +58,7 @@ function GameReady(){
             .catch(error => {
                 console.error('Error get game:', error);
             });
-    },[roomNo]);
+    },[]);
 
     console.log("gmaInfo",gameInfo)
     console.log("방:",gameInfo.roomNm)
@@ -63,10 +73,8 @@ function GameReady(){
         if (userParty && userParty.master === 1) {
             axios.get(`http://localhost:80/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
-                setPageState(response.data);
-                if(pageState===1){
-                    navigate(`/onGame/${roomNo}`);
-                }
+                setPageState(response.data["isOnGame"]);
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error get game:', error);
@@ -90,30 +98,30 @@ function GameReady(){
         });
     }
 
-    //url 벗어나면 퇴장
-    useEffect(() => {
-        // 페이지 이동할 때 실행될 cleanup 함수
-        const cleanup = () => {
-            const data = {
-                roomNo: roomNo,
-                userId: userIdToken
-            };
-            console.log(data);
-            axios.post(`http://localhost:80/exitRoom`, data)
-                .then(response => {
-                    console.log("전송 성공");
-                    history.push(`/gameSearch`);
-                })
-                .catch(error => {
-                    console.error("전송 실패", error);
-                });
-        };
+    // //url 벗어나면 퇴장
+    // useEffect(() => {
+    //     // 페이지 이동할 때 실행될 cleanup 함수
+    //     const cleanup = () => {
+    //         const data = {
+    //             roomNo: roomNo,
+    //             userId: userIdToken
+    //         };
+    //         console.log(data);
+    //         axios.post(`http://localhost:80/exitRoom`, data)
+    //             .then(response => {
+    //                 console.log("전송 성공");
+    //                 history.push(`/gameSearch`);
+    //             })
+    //             .catch(error => {
+    //                 console.error("전송 실패", error);
+    //             });
+    //     };
 
-        // 페이지 이동될 때 cleanup 함수 실행
-        return () => {
-            cleanup();
-        };
-    }, [roomNo, userIdToken, history]);
+    //     // 페이지 이동될 때 cleanup 함수 실행
+    //     return () => {
+    //         cleanup();
+    //     };
+    // }, [roomNo, userIdToken, history]);
 
 
     return (
