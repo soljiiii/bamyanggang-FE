@@ -1,54 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 import "./Header.css";
-import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 
 function Header(){
     // const [cookies, setCookie] = useCookiesCookies(['refreshToken']);
     // const accessToken = localStorage.getItem('accessToken');
 
-    const [cookies, setCookie] = useCookies(['refreshToken']);
-
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('access');
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(()=>{
-        //accessToken이 있다면
+        console.log("헤더실행");
+        console.log("Access", accessToken);
+
         if(accessToken){
+
             const decodedToken = jwtDecode(accessToken);
             const expTime = decodedToken.exp;
             const curTime = Math.floor(Date.now()/1000);
-            if(expTime < curTime){
-                //accessToken이 만료되었을 때 refreshToken으로 재발급 받기
-                const refreshToken = cookies. refreshToken;
-                if(refreshToken){
-                    //재발급 api에 refreshtoken이 담겨져있는 쿠키를 전달
-                    axios.post('재발급api',{refreshToken})
-                    .then(response=>{
-                        const newAccessToken = response.data.access;
-                        localStorage.setItem('accessToken', newAccessToken);
-                        //재발급 한 후, 로그인 된 header로 변경
-                        setIsLoggedIn(true);
-                    })
-                    .catch(error=>{
-                        console.error('토큰 재발급 요청 실패:', error);
-                        //재발급 실패 -> 로그인 xx헤더
-                        setIsLoggedIn(false);
-                    })
-                }else{
-                    console.log('RefreshToken이 없습니다.');
-                    setIsLoggedIn(false);
-                }
+            //만료시간이 남아있을 때 = accessToken 있을 때
+            if(expTime > curTime){
+                setIsLoggedIn(true);
+
             }else{
-                //로그인 xx 헤더
-                console.log('AccessToken이 없습니다.');
                 setIsLoggedIn(false);
             }
+
+        }else{
+            //로그인을 하지 않았을 때
+            setIsLoggedIn(false);
         }
-    }, [cookies.refreshToken, accessToken])
+    
+    }, [accessToken]);
+
+    
 
         return(
             <div>
@@ -62,8 +49,10 @@ function Header(){
                     <div className="headerRight">
                         <div className="loginArea">
                             {isLoggedIn ? (
-                                <Link to="/myPage" className="loginButton">myPage</Link>,
-                                <Link to="/login" className="loginButton">LOGIN</Link>
+                                <div>
+                                <Link to="/myPage" className="myPageButton">MyPage</Link>
+                                <Link to="/login" className="logoutButton">LOGOUT</Link>
+                                </div>
                             ) : (
                                 <Link to="/login" className="loginButton">LOGIN</Link>
                             )}
@@ -102,3 +91,31 @@ function Header(){
 }
 
 export default Header;
+
+
+           // if(expTime < curTime){
+            //     //accessToken이 만료되었을 때 refreshToken으로 재발급 받기
+            //     const refreshToken = cookies. refreshToken;
+            //     if(refreshToken){
+            //         //재발급 api에 refreshtoken이 담겨져있는 쿠키를 전달
+            //         axios.post('재발급api',{refreshToken})
+            //         .then(response=>{
+            //             const newAccessToken = response.data.access;
+            //             localStorage.setItem('accessToken', newAccessToken);
+            //             //재발급 한 후, 로그인 된 header로 변경
+            //             setIsLoggedIn(true);
+            //         })
+            //         .catch(error=>{
+            //             console.error('토큰 재발급 요청 실패:', error);
+            //             //재발급 실패 -> 로그인 xx헤더
+            //             setIsLoggedIn(false);
+            //         })
+            //     }else{
+            //         console.log('RefreshToken이 없습니다.');
+            //         setIsLoggedIn(false);
+            //     }
+            // }else{
+            //     //로그인 xx 헤더
+            //     console.log('AccessToken이 없습니다.');
+            //     setIsLoggedIn(false);
+            // }

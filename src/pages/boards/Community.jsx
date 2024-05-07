@@ -18,7 +18,7 @@ function Community(){
 
     useEffect(() => {
         //community 정보 가져오기
-        axios.get('localhost://community/communitylist')
+        axios.get('http://localhost:80/community/communitylist')
             .then(response => {
                 setCommunity(response.data);
                 console.log(response.data);

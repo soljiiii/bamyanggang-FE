@@ -21,7 +21,7 @@ function NoticeView(props){
     //이전 noticeView 컨텐츠 출력
     //prevPostNo가 0일때는 axios 실행되지 않는다.
     useEffect(()=>{
-            axios.get(`http://localhost://notice/noticecontent/?postNo=${prevPostNo}`)
+            axios.get(`localhost:80/notice/noticecontent/?postNo=${prevPostNo}`)
 
             //noticelist에서 클릭한 데이터의 postNo을 저장하여, postNo가 일치한 notice데이터를 출력
             //notice 데이터를 setSelectedNotice에 저장
@@ -42,7 +42,7 @@ function NoticeView(props){
     //현재 noticeView 컨텐츠 출력
    useEffect(()=>{
         
-        axios.get(`http://localhost://notice/noticecontent/?postNo=${postNo}`)
+        axios.get(`localhost:80/notice/noticecontent/?postNo=${postNo}`)
         //noticelist에서 클릭한 데이터의 postNo을 저장하여, postNo가 일치한 notice데이터를 출력
         //notice 데이터를 setSelectedNotice에 저장
             .then((response) =>{
@@ -58,7 +58,7 @@ function NoticeView(props){
    //다음 noticeView 컨텐츠 출력
    //nextPostNo으로 데이터를 요청했을 때 데이터가 있으면 NextNotice에 저장, 없으면 null
    useEffect(()=>{
-    axios.get(`localhost://notice/noticecontent/?postNo=${nextPostNo}`)
+    axios.get(`localhost:80/notice/noticecontent/?postNo=${nextPostNo}`)
         .then((response)=>{
 
             if(response.data.length > 0){

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import "./Community.css";
 import axios from "axios";
 import Button from "../../component/common/Button";
+import Header from "../../layouts/Header";
+import SubBanner from "../../layouts/SubBanner";
 
 function CommunityModify(){
     const navigate = useNavigate();
@@ -13,11 +15,12 @@ function CommunityModify(){
 
     //수정할 정보 가져오기
     useEffect(()=>{
-        axios.get(`http://localhost:3001/community?postNo=${postNo}`)
+        axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
         .then(response=>{
-            setSelectedCommunity(response.data[0]);
-            setTitle(response.data[0].title);
-            setContent(response.data[0].content);
+            setSelectedCommunity(response.data);
+            console.log("1", response.data);
+            setTitle(response.data.title);
+            setContent(response.data.content);
         })
 
         .catch(error=>{
@@ -41,16 +44,16 @@ function CommunityModify(){
 
         //게시글 수정
         alert('게시글 수정');
-        axios.post('http://localhost:3001/community',{
+        axios.post(`http://localhost:80/community/comunityupdate/${postNo}`,{
             //postNo는 나중에 삭제
             'title' : title,
             'content' : content,
             // 'img' : img
 
-        }).then(function (response){
+        }).then(response=>{
             navigate(`/community/${postNo}`);
 
-        }).catch(function(error){
+        }).catch(error=>{
             console.log("error", error);
 
         });

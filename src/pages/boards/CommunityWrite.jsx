@@ -5,6 +5,7 @@ import Button from "../../component/common/Button";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import "./Community.css";
+import LoginCheck from "../../utils/LoginCheck";
 
 function CommunityWrite(){
     const navigate = useNavigate();
@@ -14,15 +15,8 @@ function CommunityWrite(){
     const [content, setContent] = useState('');
     const [img, setImage] = useState('');
 
-    // //날짜 출력
-    // const date = new Date();
-    // let year = date.getFullYear();
-    // let month = (date.getMonth())+1;
-    //     month = month >=10 ? month : '0'+month;
-    // let day = date.getDate();
-
-    // //날짜 커스텀
-    // const formatDate = year+('-')+month+('-')+day;
+    //userIdToken에서 parsing한 id
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
     
     //db insert함수
     const insert=()=>{
@@ -40,7 +34,8 @@ function CommunityWrite(){
 
         //게시글 추가
         alert('게시글 추가');
-        axios.post('localhost://community/communitywrite',{
+        axios.post(`http://localhost:80/community/communitywrite`,{
+            'userId' : userIdToken,
             'title' : title,
             'content' : content,
             'img' : img

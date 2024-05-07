@@ -4,17 +4,17 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 function ReplyListItem(props){
-    const {comment, postNo} =props;
+    const {comment, postNo, replyNo} =props;
     const [mode, setMode] = useState(false);
     const navigate = useNavigate();
 
     //수정 버튼을 눌렀을 때 textarea에 나타나는 comment
     const [content, setContent] = useState(comment.content);
     
-    //댓글 insert함수
+    //댓글 수정 함수
     const replyModify=()=>{
         const data = {
-            content : content
+            'content' : content
         }
            if(content===''){
                alert('댓글을 입력해주세요');
@@ -24,15 +24,15 @@ function ReplyListItem(props){
                alert('댓글은 200자 이내로 입력해주세요');
                return;
            }
-                //댓글 추가
+            //댓글 추가
            alert('댓글 수정');
            
-            axios.post(`localhost://reply/replyupdate?postNo=${postNo}/?replyNo=${replyNo}`,data)
+            axios.post(`http://localhost:80/reply/replyupdate/${postNo}/${replyNo}`,data)
                .then((response)=>{
-                console.log(response.data)
+                console.log(response.data);
 
                 //새로고침
-                window.location.reload();
+                //window.location.reload();
 
            })
 
@@ -41,8 +41,9 @@ function ReplyListItem(props){
             })
        }
     
+    //댓글 삭제
     const replyDelete=()=>{
-        axios.post(`localhost://reply/replydelete?postNo=${postNo}/?replyNo=${replyNo}`,{
+        axios.post(`localhost:80/reply/replydelete${postNo}/${replyNo}`,{
             'postNo' : postNo,
             'replyNo' : replyNo
         }).then((response)=>{
