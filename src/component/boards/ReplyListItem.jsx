@@ -30,10 +30,8 @@ function ReplyListItem(props){
             axios.post(`http://localhost:80/reply/replyupdate/${postNo}/${replyNo}`,data)
                .then((response)=>{
                 console.log(response.data);
-
                 //새로고침
                 //window.location.reload();
-
            })
 
             .catch(error=>{
