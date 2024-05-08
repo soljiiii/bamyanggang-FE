@@ -1,32 +1,71 @@
+/* 전체 컨테이너 스타일 */
 .login-container {
-    width: 100%;
-    max-width: 400px;
-    height: 100vh; 
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
-    margin: 0 auto;
+    width: 980px; /* 너비를 명시적으로 설정 */
+    margin: 0 auto; /* 상하 마진 없이 좌우 마진을 자동으로 설정하여 가운데 정렬 */
     padding: 20px;
-    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background-color: #fff;
 }
 
-.login-container form {
-    width: 300px; 
+/* 폼 스타일 */
+form {
     display: flex;
     flex-direction: column;
-    box-sizing: border-box; 
+    gap: 15px; /* 각 요소 사이의 간격 */
 }
 
-.login-container input[type="text"],
-.login-container input[type="password"],
-.login-container button {
-    width: 100%; 
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* 라벨 스타일 */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+    text-align: right;
+    margin-right: 10px;
+    width: 200px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
     padding: 10px;
-    margin-top: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #0056b3;
+    outline: none;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 10px 0;
+    color: white;
+    background-color: #6E98B8; /* 기본 버튼 색상 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #3C627F; /* 호버 시 버튼 색상 */
+}
+
+/* 에러 메시지 스타일 */
 .error {
-    color: red;
+    color: #ff0000;
+    text-align: center;
     margin-top: 10px;
-    text-align: center; 
 }
