@@ -24,9 +24,6 @@ function GameSearch(){
             .then(response => {
                 setRoomList(response.data["방 목록"]);
             })
-            .catch(error => {
-                console.error('Error get game:', error);
-            });
             // 10 후에 다시 실행하도록 설정
             setTimeout(fetchGameList, 10000); // 
         };

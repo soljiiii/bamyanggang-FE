@@ -51,6 +51,7 @@ function GameReady(){
                 for(var i=0; i<response.data["방 대기 정보"].length; i++){
                     if(response.data["방 대기 정보"][i].userId === userIdToken){
                         setNowUser(response.data["방 대기 정보"][i])
+                        console.log("한번찍어주실수있습니까",gameParty)
                     }
                 }
             })
@@ -75,8 +76,6 @@ function GameReady(){
             axios.get(`http://localhost:80/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
                 setPageState(response.data["isOnGame"]);
-                navigate(`/onGame/${roomNo}`)
-                //window.location.reload();
             })
             .catch(error => {
                 console.error('Error get game:', error);
