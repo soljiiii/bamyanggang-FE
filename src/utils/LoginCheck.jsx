@@ -19,7 +19,9 @@ function LoginCheck() {
 
             if (expTime > curTime) {
                 // 만료되지 않은 경우, 마이페이지로 이동
+
                 // navigate('/');
+
 
             } else {
                 // AccessToken이 만료된 경우, 재발급 요청 보내기

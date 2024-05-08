@@ -8,7 +8,6 @@ import NormalRoom from "../../component/game/NormalRoom";
 import PrivateRoom from "../../component/game/PrivateRoom";
 import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
-import LoginCheck from '../../utils/LoginCheck';
 
 // *** 아이디 값 불러오기 ***
 
@@ -71,7 +70,6 @@ function GameSearch(){
         <>
         <Header/>
         <SubBanner/>
-        <LoginCheck/>
         <div className="gameSearchContainer">
             <div className="topBody">
                 <div className="gameCreateButton">
