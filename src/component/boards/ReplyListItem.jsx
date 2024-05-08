@@ -2,15 +2,24 @@ import React, { useEffect, useState } from "react";
 import Button from "../../component/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
 
 function ReplyListItem(props){
-    const {comment, postNo, replyNo} =props;
+    const {comment, postNo, replyNo, myId} =props;
     const [mode, setMode] = useState(false);
     const navigate = useNavigate();
 
     //수정 버튼을 눌렀을 때 textarea에 나타나는 comment
     const [content, setContent] = useState(comment.content);
+
+    //로그인 상태 확인
+    const accessToken = localStorage.getItem('access');
+    const [isPluggedIn, setIsPluggedIn] = useState(false);
     
+
+    //userIdToken에서 parsing한 id
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
+
     //댓글 수정 함수
     const replyModify=()=>{
         const data = {
@@ -61,6 +70,29 @@ function ReplyListItem(props){
         })
     }
     
+    useEffect(()=>{
+        if(accessToken){
+
+            const decodedToken = jwtDecode(accessToken);
+            const expTime = decodedToken.exp;
+            const curTime = Math.floor(Date.now()/1000);
+
+            if(expTime > curTime){
+                if(myId===userIdToken){
+                    setIsPluggedIn(true);
+                } else{
+                    setIsPluggedIn(false);
+                }
+            }
+            else{
+                setIsPluggedIn(false);
+            }
+        }else{
+            //로그인을 하지 않았을 때
+            setIsPluggedIn(false);
+        }
+    })
+    console.log("myID",myId);
     return(
         
         <div className="replyItem">
