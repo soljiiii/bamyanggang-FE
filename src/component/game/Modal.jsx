@@ -8,15 +8,13 @@ import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 방 생성 가능한 로직 추가 + 아이디 값 불러오기 ***
 
 
-function Modal({ isOpen, onClose }) {
+function Modal({ isOpen, onClose, userIdToken }) {
     
     const [roomNm, setRoomNm] = useState("");
     const [isPrivate, setIsPrivate] = useState(0);
     const [roomPw, setRoomPw] = useState("");
 
     const navigate = useNavigate();
-
-    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     //new게임 버튼 눌렀을때 post 수행
     function createGame(){

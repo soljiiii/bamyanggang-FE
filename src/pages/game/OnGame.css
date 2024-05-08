@@ -130,3 +130,19 @@ video {
     position: absolute;
 }
 
+/*게임엔딩페이지*/
+.gameEndExitButton{
+    margin-left:1200px;
+    margin-top: 200px;
+    width: 250px;
+    height: 100px;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: #436d99;
+}
+
+.normalWinner, .mafiaWinner{
+    font-size: 100px;
+    text-align: center;
+    margin-top: 200px;
+}

@@ -6,13 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
-function NormalRoom ({roomList}) {
+function NormalRoom ({roomList,userIdToken}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
     const [joinCnt, setJoinCnt] = useState(roomList.joinCnt);
     const navigate = useNavigate();
-
-    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     function handleJoinNormal(){
         if(isOnGame===1){

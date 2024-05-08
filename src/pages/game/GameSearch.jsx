@@ -10,6 +10,8 @@ import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 
 // *** 아이디 값 불러오기 ***
+const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
+console.log(userIdToken)
 
 function GameSearch(){
 
@@ -25,8 +27,8 @@ function GameSearch(){
             .catch(error => {
                 console.error('Error get game:', error);
             });
-            // 5초 후에 다시 실행하도록 설정
-            setTimeout(fetchGameList, 5000); // 5초(5000밀리초) 후에 다시 호출
+            // 10 후에 다시 실행하도록 설정
+            setTimeout(fetchGameList, 10000); // 
         };
     
         // 처음에 한 번 실행하고, 그 후에는 주기적으로 실행됨
@@ -81,6 +83,7 @@ function GameSearch(){
                     <Modal
                         isOpen={isModalOpen} 
                         onClose={ModalOpenState}
+                        userIdToken={userIdToken}
                     />
                 </div>
                 <div className="onlyWatingButton">
@@ -110,10 +113,12 @@ function GameSearch(){
                             {room.roomSt ===0? 
                                 <NormalRoom
                                 roomList={room}
+                                userIdToken={userIdToken}
                                 />
                             : 
                                 <PrivateRoom   
                                 roomList={room}
+                                userIdToken={userIdToken}
                                 />
                             }
                         </div>
