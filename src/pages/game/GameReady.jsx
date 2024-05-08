@@ -14,6 +14,7 @@ function GameReady(){
     const [gameInfo, setGameInfo] = useState([]);
     const [gameParty, setGameParty] = useState([]);
     const [pageState, setPageState] = useState(0);
+    const [nowUser, setNowUser] = useState([]);
     const navigate = useNavigate();
 
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
@@ -22,18 +23,15 @@ function GameReady(){
 
     useEffect(() => {
         const fetchGameInfo = async () => {
-            try {
+            
                 const response = await axios.get(`http://localhost:80/getRoomInfo?roomNo=${roomNo}`);
                 setGameInfo(response.data["방 대기 정보"]);
                 setPageState(response.data["방 대기 정보"].isOnGame);
                 console.log(pageState);
-                if (pageState === 1) {
+                if (response.data["방 대기 정보"].isOnGame === 1) {
                     navigate(`/onGame/${roomNo}`);
                     window.location.reload();
                 }
-            } catch (error) {
-                console.error('Error getting game:', error);
-            }
             
             // 5초 후에 다시 실행하도록 설정
             setTimeout(fetchGameInfo, 5000); // 5초(5000밀리초) 후에 다시 호출
@@ -50,6 +48,12 @@ function GameReady(){
         axios.get (`http://localhost:80/getUserInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data["방 대기 정보"]);
+                for(var i=0; i<response.data["방 대기 정보"].length; i++){
+                    if(response.data["방 대기 정보"][i].userId === userIdToken){
+                        setNowUser(response.data["방 대기 정보"][i])
+                        console.log("한번찍어주실수있습니까",gameParty)
+                    }
+                }
             })
             .catch(error => {
                 console.error('Error get game:', error);
@@ -67,15 +71,11 @@ function GameReady(){
 
     //게임 시작
     function handleStart() {
-        // userIdentity와 일치하는 요소를 찾기
-        const userParty = gameParty.find(party => party.userId === userIdToken);
-    
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
-        if (userParty && userParty.master === 1) {
+        if (gameParty && nowUser.master === 1) {
             axios.get(`http://localhost:80/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
                 setPageState(response.data["isOnGame"]);
-                window.location.reload();
             })
             .catch(error => {
                 console.error('Error get game:', error);
@@ -98,32 +98,6 @@ function GameReady(){
             navigate(`/gameSearch`);
         });
     }
-
-    // //url 벗어나면 퇴장
-    // useEffect(() => {
-    //     // 페이지 이동할 때 실행될 cleanup 함수
-    //     const cleanup = () => {
-    //         const data = {
-    //             roomNo: roomNo,
-    //             userId: userIdToken
-    //         };
-    //         console.log(data);
-    //         axios.post(`http://localhost:80/exitRoom`, data)
-    //             .then(response => {
-    //                 console.log("전송 성공");
-    //                 history.push(`/gameSearch`);
-    //             })
-    //             .catch(error => {
-    //                 console.error("전송 실패", error);
-    //             });
-    //     };
-
-    //     // 페이지 이동될 때 cleanup 함수 실행
-    //     return () => {
-    //         cleanup();
-    //     };
-    // }, [roomNo, userIdToken, history]);
-
 
     return (
         <div className="gameContainer">

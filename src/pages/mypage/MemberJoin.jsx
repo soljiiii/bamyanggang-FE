@@ -2,6 +2,7 @@ import  { useState } from 'react';
 import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
+import "./MemberJoin.css";
 
 
 function MemberJoin(props) {
@@ -127,7 +128,7 @@ const navigate = useNavigate();
     }
   };
 // phoneNum 유효성 검사
- 
+
   const handleCheckPhoneNumAvailability = async () => {
     try {
       const response = await axios.post('http://localhost:80/checkIdAvailability/phoneNumCheck', [phoneNum1, phoneNum2, phoneNum3]
@@ -205,40 +206,44 @@ const navigate = useNavigate();
 
   return (
     <>
-      <h2>회원가입</h2>
+      <h2 class="signup-title">회원가입</h2>
 
-      <div >
+      <div className='totalcontainer'>
+        <p>아이디:</p>
         <p>
           <input className="login" type="text" placeholder="아이디" value={userId} onChange={handleIdChange} />
+        </p>
           <button onClick={handleCheckIdAvailability}>중복 확인</button>
           {isIdAvailable === true ? <span style={{ color: 'green' }}>사용 가능한 아이디입니다.</span> : isIdAvailable === false ? <span style={{ color: 'red' }}>이미 사용 중인 아이디입니다.</span> : null}
-        </p>
-        <p>
+        <p>사용자 이름:</p>
+        <p>   
           <input className="login" type="text" placeholder="사용자 이름" value={username} onChange={event => setUsername(event.target.value)} />
         </p>
+        <p>닉네임:</p>
         <p>
           <input className="login" type="text" placeholder="닉네임" value={nickName} onChange={event => setNickName(event.target.value)}  />
+        </p>
           <button onClick={handleCheckNickNameAvailability}>중복 확인</button>
           {isNickNameAvailable === true ? <span style={{ color: 'green' }}>사용 가능한 닉네임입니다.</span> : isNickNameAvailable === false ? <span style={{ color: 'red' }}>이미 사용 중인 닉네임입니다.</span> : null}
-        </p>
-        <p>
-          프로필 이미지:
-          <input className="login" type="file" accept="image/*" onChange={handleProfileImageChange} />
-        </p>
+        <p>비밀번호:</p>
         <p>
           <input className="login" type="password" placeholder="비밀번호" onChange={event => setPassword(event.target.value)} />
         </p>
+        <p>프로필 이미지:</p>
         <p>
-          핸드폰 번호:
-          <input className="login" type="text" maxLength="3" value={phoneNum1} onChange={event => handlePhoneNumberChange(event, setPhoneNumber1)} /> -
-          <input className="login" type="text" maxLength="4" value={phoneNum2} onChange={event => handlePhoneNumberChange2(event, setPhoneNumber2)} /> -
-          <input className="login" type="text" maxLength="4" value={phoneNum3} onChange={event => handlePhoneNumberChange3(event, setPhoneNumber3)} />
+          <input className="login4" type="file" accept="image/*" onChange={handleProfileImageChange} />
+        </p>
+        <p>핸드폰 번호:</p>
+        <p className='phone-group'>
+          <input className="login1" type="text" maxLength="3" value={phoneNum1} onChange={event => handlePhoneNumberChange(event, setPhoneNumber1)} /> -
+          <input className="login2" type="text" maxLength="4" value={phoneNum2} onChange={event => handlePhoneNumberChange2(event, setPhoneNumber2)} /> -
+          <input className="login3" type="text" maxLength="4" value={phoneNum3} onChange={event => handlePhoneNumberChange3(event, setPhoneNumber3)} />
+        </p>
           <button onClick={handleCheckPhoneNumAvailability}>중복 확인</button>
           {isPhoneNumAvailable === true ? <span style={{ color: 'green' }}>사용 가능한 핸드폰 번호입니다.</span> : isPhoneNumAvailable === false ? <span style={{ color: 'red' }}>이미 사용 중인 핸드폰 번호입니다.</span> : null}
-        </p>
-        <p>
-          이메일:
-          <input className="login" type="text" placeholder="아이디" onChange={event => setEmailNum1(event.target.value)} />
+        <p>이메일:</p>
+        <p className='email-group'>
+          <input className="login5" type="text" placeholder="아이디" onChange={event => setEmailNum1(event.target.value)} />
           @
           <select value={emailDomain} onChange={handleEmailDomainChange}>
             {emailDomains.map(domain => (
@@ -246,18 +251,18 @@ const navigate = useNavigate();
             ))}
           </select>
           {emailDomainInput &&
-            <input className="login" type="text" placeholder="도메인을 직접 입력하세요" onChange={event => setEmailDomain(event.target.value)} />
+            <input className="login6" type="text" placeholder="도메인을 직접 입력하세요" onChange={event => setEmailDomain(event.target.value)} />
           }
+        </p>
           <button onClick={handleCheckEmailAvailability}>중복 확인</button>
           {isEmailAvailable === true ? <span style={{ color: 'green' }}>사용 가능한 이메일입니다.</span> : isEmailAvailable === false ? <span style={{ color: 'red' }}>이미 사용 중인 이메일입니다.</span> : null}
-        </p>
+        <p>생년월일:</p>
         <p>
-          생년월일:
           <input className="login" type="text" placeholder="YYYY-MM-DD" value={birth} onChange={event => setBirth(event.target.value)} />
         </p>
+        <p>성별:</p>
         <p>
-          성별:
-          <select onChange={event => setGender(event.target.value)}>
+          <select class="gender-select" onChange={event => setGender(event.target.value)}>
             <option value="남성">남성</option>
             <option value="여성">여성</option>
           </select>
@@ -265,7 +270,7 @@ const navigate = useNavigate();
         <p><input className="btn" type="submit" value="회원가입" onClick={handleSubmit} /></p>
       </div>
 
-      <p>로그인화면으로 돌아가기  <button onClick={() => {
+      <p className="login-return">로그인화면으로 돌아가기  <button onClick={() => {
         props.setMode("LOGIN");
       }}>로그인</button></p>
     </>

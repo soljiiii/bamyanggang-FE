@@ -6,14 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
-function PrivateRoom ({roomList}) {
+function PrivateRoom ({roomList, userIdToken}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
     const [joinCnt, setJoinCnt] = useState(roomList.joinCnt);
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     function handleInputChange(e){
         if(password.length<4){
@@ -58,7 +57,6 @@ function PrivateRoom ({roomList}) {
 
     return(
         <div className="privateRoomContainer">
-            <LoginCheck/>
             <div className="privateName">
                 {roomList.roomNm}
             </div>

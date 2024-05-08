@@ -6,6 +6,7 @@ import Janus from "../../apis/janus";
 import "./OnGame.css";
 import GameSideChat from "../../component/game/GameSideChat";
 import LoginCheck from '../../utils/LoginCheck';
+import { useNavigate } from 'react-router-dom';
 
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
@@ -22,14 +23,16 @@ function OnGame(){
     const [timeLineState, setTimeLineState] = useState("🎲🤖게임 시작🤖🎲");
     const [pluginHandle, setPluginHandle] = useState(null);
     const [userNick, setUserNick] = useState("");
+    const navigate = useNavigate();
     
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     //참여 user 정보 6개 받아옴
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(`http://localhost:80/gameStart?roomNo=${roomNo}`)
         .then(response =>{
             setOnGameParty(response.data["사용자정보"]);
+            console.log("끼긱",response.data["사용자정보"])
             for(var i=0; i<response.data["사용자정보"].length; i++){
                 if(response.data["사용자정보"][i].userId === userIdToken){
                     setNowUser(response.data["사용자정보"][i])
@@ -37,7 +40,7 @@ function OnGame(){
                 }
             }
         })
-    },[roomNo])    
+    }, [roomNo]);    
     
     useEffect(() => {
 
@@ -337,7 +340,9 @@ function OnGame(){
                                     return;
                                 }
                                 // gameOnstate 변수가 1인 경우에만 방을 나감
+                                else{
                                 sfutest.send({ message: { request: "leave" } });
+                                }
                             }
                         });
                         },
@@ -359,37 +364,87 @@ function OnGame(){
     //게임로직 타임라인 
     useEffect(() => {
         const timerFunction = () => {
+            //if(onGameParty.length=2){
             if(onGameState===0){
+
                 const timer1 = setTimeout(() => {
-                    //setOnDiePage(0);
                     setOnNormalVote(1);
                     setTimeLineState("마피아 투표시간입니다. 마피아 용의자를 투표해주세요.");
-                    console.log("낮투표")
                 }, 10000); //60000
-        
-                const timer2 = setTimeout(() => {
-                    //setOnDiePage(1);
+
+                const timer2 = setTimeout(()=>{
                     setOnNormalVote(0);
+                    axios.get(`http://localhost:80/resultVote?roomNo=${roomNo}`)
+                    .then((response)=>{
+                        const victory = response.data["resultList"].result;
+                        console.log("과각",response.data["resultList"]);
+                        if (victory === 0) {
+                            const dieUserNicknm = response.data["resultList"].userNicknm;
+                            setOnDiePeople(dieUserNicknm);
+                            setOnGameState(0);
+                        } else {
+                            setOnGameState(1);
+                            if (victory === 1) {
+                                setWinner(1);
+                            } else if (victory === 2) {
+                                setWinner(2);
+                            }
+                        }
+                    })
+                },20000)
+        
+                const timer3 = setTimeout(() => {
+                    setOnNormalVote(0);
+                    if(onDiePeople===""){
+                        setTimeLineState("무사히 낮이 지나갔습니다")
+                    }
+                    else{
                     setTimeLineState(`${JSON.stringify(onDiePeople)}이 죽었습니다`);
+                    }
                     console.log("낮죽음")
                 }, 20000); //90000
         
-                const timer3 = setTimeout(() => {
-                    //setOnDiePage(0);
+                const timer4 = setTimeout(() => {
                     setOnMafiaVote(1);
                     setTimeLineState("마피아의 밤입니다. 마피아는 타켓을 지목해주세요.");
                     console.log("밤투표")
                 }, 30000); //100000
+
+                const timer5 = setTimeout(()=>{
+                    setOnMafiaVote(0);
+                    axios.get(`http://localhost:80/resultVote?roomNo=${roomNo}`)
+                    .then((response)=>{
+                        const victory = response.data["resultList"].result;
+                        console.log("과각",response.data["resultList"]);
+                        if (victory === 0) {
+                            const dieUserNicknm = response.data["resultList"].userNicknm;
+                            setOnDiePeople(dieUserNicknm);
+                            setOnGameState(0);
+                        } else {
+                            setOnGameState(1);
+                            if (victory === 1) {
+                                setWinner(1);
+                            } else if (victory === 2) {
+                                setWinner(2);
+                            }
+                        }
+                    })
+                },10000)
         
-                const timer4 = setTimeout(() => {
+                const timer6 = setTimeout(() => {
                     //setOnDiePage(1);
                     setOnMafiaVote(0);
+                    if(onDiePeople===""){
+                        setTimeLineState("무사히 밤이 지나갔습니다")
+                    }
+                    else{
                     setTimeLineState(`${JSON.stringify(onDiePeople)}이 죽었습니다`);
+                    }
                     console.log("밤죽음")
                     
                 }, 40000); //130000
         
-                const timer5 = setTimeout(() => {
+                const timer7 = setTimeout(() => {
                     //setOnDiePage(0);
                     setTimeLineState("자유 토론");
                     console.log("시민토론")
@@ -401,8 +456,11 @@ function OnGame(){
                     clearTimeout(timer3);
                     clearTimeout(timer4);
                     clearTimeout(timer5);
+                    clearTimeout(timer6);
+                    clearTimeout(timer7);
                 };
             }
+        //}
         };
     
         // 최초 실행
@@ -415,7 +473,7 @@ function OnGame(){
     
         // 컴포넌트가 언마운트되거나 업데이트되기 전에 clearInterval을 호출하여 메모리 누수를 방지합니다.
         return () => clearInterval(intervalId);
-    }, [onDiePeople]);
+    }, []);
     
 
     //투표할때 클릭 관련
@@ -444,32 +502,9 @@ function OnGame(){
         })
     }
 
-    //투표 결과 반환(get)
-    const fetchVoteResult = async () => {
-        try {
-            const response = await axios.get(`http://localhost:80/resultVote?roomNo=${roomNo}`);
-            const victory = response.data["resultList"].result;
-            if (victory === 0) {
-                const dieUserNickNm = response.data["resultList"].dieUserNicknm;
-                setOnDiePeople(dieUserNickNm);
-            } else {
-                setOnGameState(1);
-                if (victory === 1) {
-                    setWinner(1);
-                } else if (victory === 2) {
-                    setWinner(2);
-                }
-            }
-        } catch (error) {
-            console.error("Error fetching vote result:", error);
-        }
-    };
-
-    fetchVoteResult();
-
-    //url 벗어나면 퇴장
+    
+    // 페이지를 벗어날 때 실행될 cleanup 함수
     useEffect(() => {
-        // 페이지 이동할 때 실행될 cleanup 함수
         const cleanup = () => {
             const data = {
                 roomNo: roomNo,
@@ -479,7 +514,6 @@ function OnGame(){
             axios.post(`http://localhost:80/exitRoom`, data)
                 .then(response => {
                     console.log("전송 성공");
-                    history.push(`/gameSearch`);
                 })
                 .catch(error => {
                     console.error("전송 실패", error);
@@ -490,11 +524,16 @@ function OnGame(){
         return () => {
             cleanup();
         };
-    }, [roomNo, userIdToken, history]);    
+    }, [roomNo, userIdToken, navigate]);
+
 
     //게임 나가기 (mapping:gameOut)
-    
-    
+    function gameEndExit(){
+        //야누스 방 나가기
+
+        //네비게이트(방 목록)
+        navigate(`/gameSearch`);
+    }
 
     return (
         onGameState === 0 ? ( 
@@ -530,12 +569,10 @@ function OnGame(){
                     </div>
                 </div>
                 <div className="roleBox">
-                    {onGameParty.map((partyMafia, index)=>(
-                        partyMafia.userId===userIdToken?
-                        (partyMafia.role===1 ?
-                            (<span key={index}>당신은 마피아입니다</span>)
-                            :(<span key={index}>당신은 시민입니다</span>)):("")
-                    ))}
+                    {nowUser.role==="마피아" ?
+                            (<span>당신은 마피아입니다</span>)
+                            :(<span>당신은 시민입니다</span>)
+                    }
                 </div>
                 <div className="voteBox">
                     <div className="partyVoteBox">
@@ -554,7 +591,7 @@ function OnGame(){
                             </div>   
                         ))}
                     </div>
-                    {nowUser.roleSt===0 && ((nowUser.role===1&&onMafiaVote===1)||(onNormalVote===1))?
+                    {nowUser.roleSt===0 && ((nowUser.role==="마피아"&&onMafiaVote===1)||(onNormalVote===1))?
                     (<div className="voteButtonBox">
                         <Button
                             type="voteButton"
@@ -571,7 +608,7 @@ function OnGame(){
                         <div className="onChating">
                             <GameSideChat
                                 roomNo={roomNo}
-                                nowUser={nowUser}
+                                userNick={userNick}
                             />
                         </div>
                     )}
@@ -584,13 +621,21 @@ function OnGame(){
             <div className="endGamePage">
                 {winner===1?(
                     <div className="normalWinner">
-                        <img></img>
-                        <Button/>
+                        <div>시민 승</div>
+                        <Button
+                        text="나가기"
+                        type="gameEndExitButton"
+                        onClick={gameEndExit}
+                        />
                     </div>
                 ):(
                     <div className="mafiaWinner">
-                        <img></img>
-                        <Button/>
+                        <div>마피아 승</div>
+                        <Button
+                        text="나가기"
+                        type="gameEndExitButton"
+                        onClick={gameEndExit}
+                        />
                     </div>
                 )}
             </div>
