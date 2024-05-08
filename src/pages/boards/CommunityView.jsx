@@ -13,29 +13,84 @@ function CommunityView(){
     const navigate = useNavigate();
 
     //url parameter 값으로 사용할 변수 설정
-    const {postNo} = useParams();
+    const {postNo,} = useParams();
     const [selectedCommunity, setSelectedCommunity] = useState([]);
-    const [selectedCount, setSelectedCount] = useState('');
 
-    const prevPostNo = parseInt(postNo)-1;
-    const [prevCommunity, setPrevCommunity] = useState([]);
+    // const prevPostNo = parseInt(postNo)-1;
+     const [prevCommunity, setPrevCommunity] = useState([]);
 
-    const nextPostNo = parseInt(postNo)+1;
-    const [nextCommunity, setNextCommunity] = useState([]);
+    // const nextPostNo = parseInt(postNo)+1;
+     const [nextCommunity, setNextCommunity] = useState([]);
 
     //로그인 상태 확인
     const accessToken = localStorage.getItem('access');
     const [isPluggedIn, setIsPluggedIn] = useState(false);
     const [myId,setMyId] = useState("");
     
+    //이전 글, 다음 글
+    const [prevPostNo,setPrePostNo] =useState();
+    const [nextPostNo, setNextPostNo] = useState();
+
     //userIdToken에서 parsing한 id
      const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     useEffect(()=>{
 
-        if(postNo){
+        
+        //현재글 데이터
+        axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
+            .then((response)=>{
+                setSelectedCommunity(response.data);
+                console.log("res", response.data);
+                setMyId(response.data.userId);
+            })
+            .catch(error=>{
+            console.error("데이터 에러", error);
+
+            })
+
+        }, []);
+
+        // if(postNo){
 
             //이전글 데이터 받기
+            // axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
+            //     .then((response)=>{
+            //         if(response.data!==null){
+            //             setPrevCommunity(response.data);
+            //         }else{
+            //             setPrevCommunity(null);
+            //             console.log("이전글없어", response.data);
+            //         }
+            //     })
+            //         .catch(error=>{
+            //             console.error("데이터 에러", error);
+            //     })
+
+
+            //다음글 데이터
+        //     axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
+        //         .then((response)=>{
+        //             if(response.data!==null){
+        //                 setNextCommunity(response.data);
+        //             }else{
+        //                 setNextCommunity(null);
+        //                 console.log("다음글없어", response.data);
+        //             }
+        //         })
+
+        //         .catch(error=>{
+        //             console.error("데이터 에러", error);
+        //         })
+        // }
+            //}
+
+
+    console.log("이전글", prevPostNo);
+    console.log("다음글", nextPostNo);
+
+    useEffect(()=>{
+                   //이전글 데이터 받기
             axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
                 .then((response)=>{
                     if(response.data!==null){
@@ -49,18 +104,7 @@ function CommunityView(){
                         console.error("데이터 에러", error);
                 })
 
-            //현재글 데이터
-            axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
-                .then((response)=>{
-                    setSelectedCommunity(response.data);
-                    console.log("res", response.data);
-                    setMyId(response.data.userId);
-                })
-                .catch(error=>{
-                console.error("데이터 에러", error);
-                })
-
-            //다음글 데이터
+                            //다음글 데이터
             axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
                 .then((response)=>{
                     if(response.data!==null){
@@ -74,10 +118,9 @@ function CommunityView(){
                 .catch(error=>{
                     console.error("데이터 에러", error);
                 })
-        }
+        
+    },[postNo,selectedCommunity]);
 
-    }, [postNo]);
-    
     useEffect(()=>{
         if(accessToken){
 
