@@ -10,11 +10,11 @@ function NoticeList(props){
 
     useEffect(()=>{
         //axios를 사용하여 localhost:3301에서 notice 정보를 가져옴.
-        axios.get('localhost://notice/noticelist')
+        axios.get(`http://localhost:80/notice/noticelist`)
             .then(response=> {
                 //가져온 데이터를 상태로 설정
-                setNotices(response.data);
-                console.log(response.data);
+                setNotices(response.data.notices);
+                console.log("데이터",response.data.notices);
             })
             .catch(error =>{
                 console.error("해당 데이터 에러", error);
@@ -24,7 +24,7 @@ function NoticeList(props){
 
     return(
         <div>
-            {notices.map((noticeData, index) => {
+            {notices.length > 0 && notices.map((noticeData) => {
                 return(
                    <NoticeListItem
                         key={noticeData.postNo}
@@ -35,6 +35,7 @@ function NoticeList(props){
                     />
                 );
             })}
+            <div id="observer" style={{height :"10px"}}> </div>
         </div>
     );
    

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
 
 function ReplyListItem(props){
-    const {comment, postNo, replyNo, myId} =props;
+    const {comment, postNo, replyNo, userId} =props;
     const [mode, setMode] = useState(false);
     const navigate = useNavigate();
 
@@ -15,16 +15,13 @@ function ReplyListItem(props){
     //로그인 상태 확인
     const accessToken = localStorage.getItem('access');
     const [isPluggedIn, setIsPluggedIn] = useState(false);
-    
 
     //userIdToken에서 parsing한 id
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
 
     //댓글 수정 함수
     const replyModify=()=>{
-        const data = {
-            'content' : content
-        }
+
            if(content===''){
                alert('댓글을 입력해주세요');
                return;
@@ -36,24 +33,28 @@ function ReplyListItem(props){
             //댓글 추가
            alert('댓글 수정');
            
-            axios.post(`http://localhost:80/reply/replyupdate/${postNo}/${replyNo}`,data)
+            axios.post(`http://localhost:80/reply/replyupdate/${postNo}/${replyNo}`,{
+                'postNo' : postNo,
+                'replyNo' : replyNo,
+                'content' : content
+            })
                .then((response)=>{
                 console.log(response.data);
+
                 //새로고침
-                //window.location.reload();
+                window.location.reload();
            })
 
             .catch(error=>{
-            console.error("데이터 에러",error);
+                console.error("데이터 에러",error);
             })
        }
     
     //댓글 삭제
     const replyDelete=()=>{
-        axios.post(`localhost:80/reply/replydelete${postNo}/${replyNo}`,{
-            'postNo' : postNo,
-            'replyNo' : replyNo
-        }).then((response)=>{
+        axios.delete(`http://localhost:80/reply/replydelete/${postNo}/${replyNo}`)
+        .then((response)=>{
+
             if(response.data ===1){
                 //성공적으로 삭제
                 console.log("삭제되었습니다.");
@@ -61,6 +62,7 @@ function ReplyListItem(props){
 
                 //새로고침
                 window.location.reload();
+
             }else{
                 console.log("삭제할 댓글이 없습니다.");
             }
@@ -78,7 +80,7 @@ function ReplyListItem(props){
             const curTime = Math.floor(Date.now()/1000);
 
             if(expTime > curTime){
-                if(myId===userIdToken){
+                if(userId ===userIdToken){
                     setIsPluggedIn(true);
                 } else{
                     setIsPluggedIn(false);
@@ -92,7 +94,7 @@ function ReplyListItem(props){
             setIsPluggedIn(false);
         }
     })
-    console.log("myID",myId);
+
     return(
         
         <div className="replyItem">
@@ -107,7 +109,9 @@ function ReplyListItem(props){
             </div>
 
             <div className="replyBottom">
-            {mode ? (
+            {isPluggedIn ? (
+                <div>
+                    {mode ? (
                     <div>
                         <textarea className="replyWrite"
                         value={content}
@@ -151,6 +155,10 @@ function ReplyListItem(props){
                         </div>
                     </div>
                 )}
+            </div>)
+                :(<div className="replyContent">
+                    {comment.content}
+                </div>)}
             </div>
 
            
