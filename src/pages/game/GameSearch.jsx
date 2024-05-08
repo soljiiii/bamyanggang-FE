@@ -10,8 +10,6 @@ import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 
 // *** 아이디 값 불러오기 ***
-const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
-console.log(userIdToken)
 
 function GameSearch(){
 
@@ -24,8 +22,8 @@ function GameSearch(){
             .then(response => {
                 setRoomList(response.data["방 목록"]);
             })
-            // 10 후에 다시 실행하도록 설정
-            setTimeout(fetchGameList, 10000); // 
+            // 30 후에 다시 실행하도록 설정
+            setTimeout(fetchGameList, 30000); // 
         };
     
         // 처음에 한 번 실행하고, 그 후에는 주기적으로 실행됨
