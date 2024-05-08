@@ -41,7 +41,7 @@ function OnGame(){
             }
         })
     }, [roomNo]);    
-    
+    console.log("")
     useEffect(() => {
 
         var server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
