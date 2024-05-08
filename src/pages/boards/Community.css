@@ -211,6 +211,11 @@
     outline: none;
 }
 
+.inputContent::placeholder {
+    text-align: left;
+    padding-left: 30px;
+}
+
 .writeButton{
     display: flex;
     justify-content: center;
