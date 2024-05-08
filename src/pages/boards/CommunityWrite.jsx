@@ -5,7 +5,6 @@ import Button from "../../component/common/Button";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import "./Community.css";
-import LoginCheck from "../../utils/LoginCheck";
 
 function CommunityWrite(){
     const navigate = useNavigate();
@@ -22,8 +21,18 @@ function CommunityWrite(){
     const insert=()=>{
 
         //title, content 길이 유효성 검사
+        if (title === ''){
+            alert('제목을 입력해주세요');
+            return;
+        }
+
         if (title.length > 100){
             alert('제목은 100자 이내로 입력해주세요');
+            return;
+        }
+
+        if(content === ''){
+            alert('내용을 입력해주세요');
             return;
         }
 
@@ -71,6 +80,7 @@ function CommunityWrite(){
                     
                     <div className="inputContentArea">
                         <textarea className="inputContent" 
+                            placeholder="내용을 입력하세요"
                             value={content}
                             onChange={(event)=>{
                                 setContent(event.target.value);

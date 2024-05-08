@@ -8,13 +8,11 @@ function ReplyWrite(props){
 
     const navigate = useNavigate();
 
-    const [replyNo, setReplyNo] =useState();
     const [content, setContent] = useState('');
-    const [userId, setUserId] = useState('');
 
     //userIdToken에서 parsing한 id
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
-
+    
 
      //댓글 insert함수
        const replyInsert=()=>{
@@ -36,7 +34,6 @@ function ReplyWrite(props){
            
            axios.post(`http://localhost:80/reply/replywrite`, data)
                .then(function(response){
-                console.log(response.data);
                 
                 //새로고침
                 window.location.reload();

@@ -9,6 +9,7 @@ function ReplyList(props){
     
     const [comments, setComments] = useState(selectedCommunity ? selectedCommunity.reply || [] : []);
     
+    const [myId,setMyId] = useState("");
    
 
     useEffect(()=>{
@@ -18,6 +19,9 @@ function ReplyList(props){
         axios.get(`http://localhost:80/reply/replylist/${postNo}`)
             .then(response=>{
                 setComments(response.data.replylist);
+                console.log(response.data.replylist[0]);
+                console.log("여기" ,response.data.replylist[0].userId);
+                setMyId(response.data.replyList);
             })
             .catch(error=>{
                 console.log("error", error);
@@ -26,6 +30,7 @@ function ReplyList(props){
 
     },[selectedCommunity]);
     
+    console.log("리스트id", myId);
     return(
         <div>
             <div className="replyCountArea">
@@ -39,6 +44,7 @@ function ReplyList(props){
                         comment={comment}
                         postNo={postNo}
                         replyNo={comments.replyNo}
+                        myId={myId}
                         />
                 );
             })}
