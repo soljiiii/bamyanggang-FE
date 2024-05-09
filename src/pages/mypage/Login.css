@@ -35,6 +35,7 @@
     font-size: 15px;
 }
 
+
 .btn2 {
     padding: 10px 20px;
     margin-top: 10px;
@@ -48,6 +49,7 @@
 .btn2:hover {
     background-color: #3C627F;
 }
+
 
 
 .error {

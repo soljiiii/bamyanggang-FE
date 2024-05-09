@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "../../component/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
 
 function ReplyListItem(props){
-    const {comment, postNo} =props;
+    const {comment, postNo, replyNo, userId} =props;
     const [mode, setMode] = useState(false);
     const navigate = useNavigate();
 
     //수정 버튼을 눌렀을 때 textarea에 나타나는 comment
     const [content, setContent] = useState(comment.content);
-    
-    //댓글 insert함수
+
+    //로그인 상태 확인
+    const accessToken = localStorage.getItem('access');
+    const [isPluggedIn, setIsPluggedIn] = useState(false);
+
+    //userIdToken에서 parsing한 id
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
+
+    //댓글 수정 함수
     const replyModify=()=>{
-        const data = {
-            content : content
-        }
+
            if(content===''){
                alert('댓글을 입력해주세요');
                return;
@@ -24,28 +30,31 @@ function ReplyListItem(props){
                alert('댓글은 200자 이내로 입력해주세요');
                return;
            }
-                //댓글 추가
+            //댓글 추가
            alert('댓글 수정');
            
-            axios.post(`localhost://reply/replyupdate?postNo=${postNo}/?replyNo=${replyNo}`,data)
+            axios.post(`http://localhost/api/reply/replyupdate/${postNo}/${replyNo}`,{
+                'postNo' : postNo,
+                'replyNo' : replyNo,
+                'content' : content
+            })
                .then((response)=>{
-                console.log(response.data)
+                console.log(response.data);
 
                 //새로고침
                 window.location.reload();
-
            })
 
             .catch(error=>{
-            console.error("데이터 에러",error);
+                console.error("데이터 에러",error);
             })
        }
     
-    const replyDelete=()=>{
-        axios.post(`localhost://reply/replydelete?postNo=${postNo}/?replyNo=${replyNo}`,{
-            'postNo' : postNo,
-            'replyNo' : replyNo
-        }).then((response)=>{
+    //댓글 삭제
+    const replyDelete=useCallback(()=>{
+        axios.delete(`http://localhost/api/reply/replydelete/${replyNo}`)
+        .then((response)=>{
+
             if(response.data ===1){
                 //성공적으로 삭제
                 console.log("삭제되었습니다.");
@@ -53,6 +62,7 @@ function ReplyListItem(props){
 
                 //새로고침
                 window.location.reload();
+
             }else{
                 console.log("삭제할 댓글이 없습니다.");
             }
@@ -60,8 +70,31 @@ function ReplyListItem(props){
         .catch(error=>{
             console.error("데이터 에러",error);
         })
-    }
+    },[replyNo]);
     
+    useEffect(()=>{
+        if(accessToken){
+
+            const decodedToken = jwtDecode(accessToken);
+            const expTime = decodedToken.exp;
+            const curTime = Math.floor(Date.now()/1000);
+
+            if(expTime > curTime){
+                if(userId ===userIdToken){
+                    setIsPluggedIn(true);
+                } else{
+                    setIsPluggedIn(false);
+                }
+            }
+            else{
+                setIsPluggedIn(false);
+            }
+        }else{
+            //로그인을 하지 않았을 때
+            setIsPluggedIn(false);
+        }
+    })
+
     return(
         
         <div className="replyItem">
@@ -76,7 +109,9 @@ function ReplyListItem(props){
             </div>
 
             <div className="replyBottom">
-            {mode ? (
+            {isPluggedIn ? (
+                <div>
+                    {mode ? (
                     <div>
                         <textarea className="replyWrite"
                         value={content}
@@ -120,6 +155,10 @@ function ReplyListItem(props){
                         </div>
                     </div>
                 )}
+            </div>)
+                :(<div className="replyContent">
+                    {comment.content}
+                </div>)}
             </div>
 
            

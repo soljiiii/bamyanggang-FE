@@ -5,6 +5,7 @@ import Button from "../../component/common/Button";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import "./Community.css";
+import { event } from "jquery";
 
 function CommunityWrite(){
     const navigate = useNavigate();
@@ -12,24 +13,29 @@ function CommunityWrite(){
     const [postNo, setPostNo] =useState();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [img, setImage] = useState('');
+    const [imgFile, setImageFile] = useState(null);
+    const [imgName, setImgName] =useState('');
+    
 
-    // //날짜 출력
-    // const date = new Date();
-    // let year = date.getFullYear();
-    // let month = (date.getMonth())+1;
-    //     month = month >=10 ? month : '0'+month;
-    // let day = date.getDate();
-
-    // //날짜 커스텀
-    // const formatDate = year+('-')+month+('-')+day;
+    //userIdToken에서 parsing한 id
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
     
     //db insert함수
     const insert=()=>{
 
         //title, content 길이 유효성 검사
+        if (title === ''){
+            alert('제목을 입력해주세요');
+            return;
+        }
+
         if (title.length > 100){
             alert('제목은 100자 이내로 입력해주세요');
+            return;
+        }
+
+        if(content === ''){
+            alert('내용을 입력해주세요');
             return;
         }
 
@@ -40,11 +46,21 @@ function CommunityWrite(){
 
         //게시글 추가
         alert('게시글 추가');
-        axios.post('localhost://community/communitywrite',{
+        const data={
+            'userId' : userIdToken,
             'title' : title,
             'content' : content,
-            'img' : img
+        }
 
+        const formData = new FormData();
+
+        formData.append("community", JSON.stringify(data));
+        formData.append("imgfile", imgFile);
+            
+        axios.post(`http://localhost/api/community/communitywrite`,formData, {
+            headers : {
+                'Content-Type': 'multipart/form-data'
+            }
         }).then(function (response){
             navigate(`/community`);
 
@@ -54,6 +70,7 @@ function CommunityWrite(){
         });
 
     }
+
 
     return(
         <div>
@@ -76,6 +93,7 @@ function CommunityWrite(){
                     
                     <div className="inputContentArea">
                         <textarea className="inputContent" 
+                            placeholder="내용을 입력하세요"
                             value={content}
                             onChange={(event)=>{
                                 setContent(event.target.value);
@@ -85,12 +103,18 @@ function CommunityWrite(){
                     
                         
                     <div>
-                        <button>
-                            <input hidden
+                        <input 
                             type="file"
                             accept="image/jpg,image/png,image/jpeg,image/gif" 
+                            value={imgFile}
+                            onChange={(event)=>{
+                                setImageFile(event.target.value);
+                            }}
                             />
-                        </button>
+                        {/* <Button
+                        text={"이미지등록"}
+                        type={"submitButton"}
+                        /> */}
                     </div>
 
                     <div className="writeButton">

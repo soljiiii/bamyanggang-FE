@@ -9,22 +9,49 @@ import PrivateRoom from "../../component/game/PrivateRoom";
 import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 
-// *** 아이디 값 불러오기 ***
 
 function GameSearch(){
+
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
+
+    //로그인 상태 확인
+    const accessToken = localStorage.getItem('access');
+    const [isPluggedIn, setIsPluggedIn] = useState(false);
+
+    useEffect(()=>{
+        if(accessToken){
+
+        //     const decodedToken = jwtDecode(accessToken);
+        //     const expTime = decodedToken.exp;
+        //     const curTime = Math.floor(Date.now()/1000);
+
+        //     if(expTime > curTime){
+        //         if(myId===userIdToken){
+        //             setIsPluggedIn(true);
+        //         } else{
+        //             setIsPluggedIn(false);
+        //         }
+        //     }
+        //     else{
+        //         setIsPluggedIn(false);
+        //     }
+        // }else{
+        //     //로그인을 하지 않았을 때
+        //     setIsPluggedIn(false);
+            setIsPluggedIn(true);
+        }                        
+    },[])
+    
 
     //방 목록 전체 불러오기
     const[roomList, setRoomList] = useState([]);
 
     useEffect(() => {
-        axios.get('getRoomList')
+        axios.get('http://localhost/api/getRoomList')
             .then(response => {
-                setRoomList(response.data);
+                setRoomList(response.data["방 목록"]);
             })
-            .catch(error => {
-                console.error('Error get game:', error);
-            });
-    }, []);
+    }, [roomList]); 
 
     
     //Modal 상태에 대해
@@ -74,6 +101,7 @@ function GameSearch(){
                     <Modal
                         isOpen={isModalOpen} 
                         onClose={ModalOpenState}
+                        userIdToken={userIdToken}
                     />
                 </div>
                 <div className="onlyWatingButton">
@@ -103,10 +131,14 @@ function GameSearch(){
                             {room.roomSt ===0? 
                                 <NormalRoom
                                 roomList={room}
+                                userIdToken={userIdToken}
+                                isPluggedIn={isPluggedIn}
                                 />
                             : 
                                 <PrivateRoom   
                                 roomList={room}
+                                userIdToken={userIdToken}
+                                isPluggedIn={isPluggedIn}
                                 />
                             }
                         </div>
@@ -130,39 +162,8 @@ function GameSearch(){
                         ))
                     )
                 ):
-                (watingButton===0?
-                    (roomList
-                        .map(room=>(
-                            <div key={room.roomNo} className="roomComponent"> 
-                                {room.roomSt ===0? 
-                                    <NormalRoom
-                                    roomList={room}
-                                    />
-                                : 
-                                    <PrivateRoom   
-                                    roomList={room}
-                                    />
-                                }   
-                            </div>
-                        ))
-                    )
-                    :(roomList
-                        .filter((room)=>room.isOnGame===0)
-                        .map(room=>(
-                            <div key={room.roomNo} className="roomComponent"> 
-                                {room.roomSt ===0? 
-                                    <NormalRoom
-                                    roomList={room}
-                                    />
-                                : 
-                                    <PrivateRoom   
-                                    roomList={room}
-                                    />
-                                }   
-                            </div>
-                        ))
-                    )
-                )}
+                <div>방이 없습니다 ! 새로운 게임을 시작해보세요!</div>
+            }
             </div>
         </div>
         </>

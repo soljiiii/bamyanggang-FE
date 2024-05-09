@@ -206,8 +206,7 @@ const navigate = useNavigate();
 
   return (
     <>
-      <h2 class="join-title">회원가입</h2>`
-  
+      <h2 className="join-title">회원가입</h2>
       <div className='totalcontainer'>
         <p>아이디:</p>
         <p>

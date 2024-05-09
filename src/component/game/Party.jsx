@@ -11,7 +11,7 @@ function Party ({party}) {
                         <span className="partyMaster">방장</span>
                     </div>
                     <div className="nickNmBox">
-                        {party.userNickNm}
+                        {party.userNicknm}
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@ function Party ({party}) {
                         <span className="partyNormal">일반</span>
                     </div>
                     <div className="nickNmBox">
-                        {party.userNickNm}                        
+                        {party.userNicknm}                        
                     </div>
                 </div>
             </div>

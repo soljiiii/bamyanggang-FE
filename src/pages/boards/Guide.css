@@ -1,9 +1,11 @@
+
 .guide {
     width: 980px;
     margin: auto;
     padding: 50px 20px 0px 20px;
     min-height: 1000px;
     position: relative; 
+    
 }
 
 .image-container {
