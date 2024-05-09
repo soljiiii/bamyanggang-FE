@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "../../component/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -51,8 +51,8 @@ function ReplyListItem(props){
        }
     
     //댓글 삭제
-    const replyDelete=()=>{
-        axios.delete(`http://localhost:80/reply/replydelete/${postNo}/${replyNo}`)
+    const replyDelete=useCallback(()=>{
+        axios.delete(`http://localhost:80/reply/replydelete/${replyNo}`)
         .then((response)=>{
 
             if(response.data ===1){
@@ -70,7 +70,7 @@ function ReplyListItem(props){
         .catch(error=>{
             console.error("데이터 에러",error);
         })
-    }
+    },[replyNo]);
     
     useEffect(()=>{
         if(accessToken){

@@ -21,7 +21,7 @@ function NoticeView(props){
     //이전 noticeView 컨텐츠 출력
     //prevPostNo가 0일때는 axios 실행되지 않는다.
     useEffect(()=>{
-            axios.get(`localhost:80/notice/noticecontent/?postNo=${prevPostNo}`)
+            axios.get(`http://localhost:80/notice/noticecontent/?postNo=${prevPostNo}`)
 
             //noticelist에서 클릭한 데이터의 postNo을 저장하여, postNo가 일치한 notice데이터를 출력
             //notice 데이터를 setSelectedNotice에 저장

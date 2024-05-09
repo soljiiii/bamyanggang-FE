@@ -16,7 +16,6 @@ form {
 }
 
 h1 {
-    text-align: center;
     color: #333;
 }
 
@@ -48,20 +47,8 @@ input[type="password"]:focus {
 }
 
 /* 버튼 스타일 */
-button {
-    padding: 10px 0;
-    color: white;
-    background-color: #6E98B8; /* 기본 버튼 색상 */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
 
-button:hover {
-    background-color: #3C627F; /* 호버 시 버튼 색상 */
-}
+
 
 /* 에러 메시지 스타일 */
 .error {
