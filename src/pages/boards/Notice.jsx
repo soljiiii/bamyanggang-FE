@@ -9,7 +9,6 @@ import { useState } from "react";
 function Notice(props){
 
     const navigate = useNavigate();
-    const [page, setPage] = useState(1);
     
     return(
         <div>

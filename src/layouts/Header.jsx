@@ -12,8 +12,6 @@ function Header(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(()=>{
-        console.log("헤더실행");
-        console.log("Access", accessToken);
 
         if(accessToken){
 

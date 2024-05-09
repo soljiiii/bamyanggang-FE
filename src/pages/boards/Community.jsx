@@ -21,10 +21,9 @@ function Community(){
 
     useEffect(() => {
         //community 정보 가져오기
-        axios.get('http://localhost/api/community/communitylist')
+        axios.get('community/communitylist')
             .then(response => {
                 setCommunity(response.data);
-                console.log(response.data);
             })
             .catch(error => {
                 console.log("error:", error);
@@ -32,8 +31,6 @@ function Community(){
     }, []);
 
     useEffect(()=>{
-        console.log("헤더실행");
-        console.log("Access", accessToken);
 
         if(accessToken){
 

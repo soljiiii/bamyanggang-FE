@@ -36,7 +36,7 @@ function CommunityView(){
 
         
         //현재글 데이터
-        axios.get(`http://localhost/api/community/communitycontent/${postNo}`)
+        axios.get(`community/communitycontent/${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data);
                 setMyId(response.data.userId);
@@ -52,7 +52,7 @@ function CommunityView(){
 
     useEffect(()=>{
                    //이전글 데이터 받기
-            axios.get(`http://localhost/api/community/communitycontent/${prevPostNo}`)
+            axios.get(`community/communitycontent/${prevPostNo}`)
                 .then((response)=>{
                     if(response.data===0){
                         setPrevCommunity(null);
@@ -65,7 +65,7 @@ function CommunityView(){
                 })
 
                             //다음글 데이터
-            axios.get(`http://localhost/api/community/communitycontent/${nextPostNo}`)
+            axios.get(`community/communitycontent/${nextPostNo}`)
                 .then((response)=>{
                     if(response===0){
                         setNextCommunity('');
@@ -107,9 +107,8 @@ function CommunityView(){
 
     //데이터 삭제
     const deletePost=useCallback(()=>{
-        axios.delete(`http://localhost:80/api/community/communitydelete/${postNo}`)
+        axios.delete(`community/communitydelete/${postNo}`)
         . then((response)=>{
-            console.log("삭제데이터", response.data);
 
             if(response.data === 1){
                 //성공적으로 삭제

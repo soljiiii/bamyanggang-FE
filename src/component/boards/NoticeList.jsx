@@ -37,7 +37,6 @@ function NoticeList(props) {
             setNotices((prevData) => [...prevData, ...nextData]);
             setPage((page) => page + 1);
             setHasMore(nextData.length > 0);
-            console.log("구현", page);
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
