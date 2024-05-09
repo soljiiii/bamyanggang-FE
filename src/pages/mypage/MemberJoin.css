@@ -22,6 +22,10 @@
     height: 38px;
 }
 
+.login ::placeholder {
+    text-align: left;
+}
+
 .phone-group, .email-group {
     display: flex;
     justify-content: space-between;

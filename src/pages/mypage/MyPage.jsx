@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './MyPage.css'; // CSS 파일 import
+import {Link} from "react-router-dom";
 
 const MyPage = () => {
     const navigate = useNavigate();
@@ -46,6 +47,11 @@ const MyPage = () => {
 
     return (
         <>
+        <div className="header-left">
+            <div className="MainButton">
+                <Link to="/"><img src="/images-jsx/밤양갱_white.svg" className="mainImage" alt="Main" /></Link>
+            </div>
+        </div>
         <h2 className="mypage-title">마이 페이지</h2>
             <div className='mypage-container'>
                 <div className='info'>
@@ -59,7 +65,9 @@ const MyPage = () => {
                 </div>
                 <button className='btn0' type="button" onClick={handleModify}>회원수정</button>
                 <button className='btn0' type="button" onClick={handleDelete}>회원탈퇴</button>
-                <button className='btn0' type="button" onClick={handleReLogin}>로그아웃</button>
+            </div>
+            <div className='logout-area'>
+                <button className='btn000' type="button" onClick={handleReLogin}>로그아웃</button>
             </div>
         </>
     );

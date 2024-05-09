@@ -280,7 +280,7 @@ const navigate = useNavigate();
         
         <p>성별:</p>
         <p>
-          <select class="gender-select" onChange={event => setGender(event.target.value)}>
+          <select className="gender-select" onChange={event => setGender(event.target.value)}>
             <option value="남성">남성</option>
             <option value="여성">여성</option>
           </select>
