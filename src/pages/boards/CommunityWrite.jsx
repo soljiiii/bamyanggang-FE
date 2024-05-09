@@ -52,7 +52,7 @@ function CommunityWrite(){
             'content' : content,
         }
 
-        axios.post(`community/communitywrite`, data
+        axios.post(`http://localhost:80/api/community/communitywrite`, data
 
         ).then(function (response){
             navigate(`/community`);
