@@ -37,7 +37,7 @@ function Login() {
                     localStorage.setItem('user', JSON.stringify(userData));
               
                     alert('로그인 성공');
-                    navigate('/MyPage', { state: { user: userData } }); // MyPage로 리다이렉션
+                    navigate('/', { state: { user: userData } }); // MyPage로 리다이렉션
                     return; // 성공 시 함수 종료
                 }
             
@@ -53,22 +53,24 @@ function Login() {
             <form onSubmit={handleSubmit}>
                 <h1>로그인</h1>
                 <div>
-                    <label htmlFor="userId">아이디:</label>
-                    <input
+                    {/* <label htmlFor="userId">아이디</label> */}
+                    <input className='text'
                         type="text"
                         name="userId"
                         id="userId"
+                        placeholder='아이디'
                         value={credentials.userId}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="userPw">비밀번호:</label>
-                    <input
+                    {/* <label htmlFor="userPw">비밀번호</label> */}
+                    <input className='text2'
                         type="password"
                         name="userPw"
                         id="userPw"
+                        placeholder='비밀번호'
                         value={credentials.userPw}
                         onChange={handleChange}
                         required

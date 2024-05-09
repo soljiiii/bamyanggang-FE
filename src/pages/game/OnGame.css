@@ -121,8 +121,77 @@ video {
 .chatBox {
     width: 350px;
     height: 300px;
-    border: 1px solid black;
+    border: 1px solid white;
     margin-left: 1130px;
     margin-top: 20px;
+    position: relative;
+    display : flex;
+}
+.chatBox2 {
+    width : 350px;
+    height : 300px;
+    display : flex;
+    position: relative;
+    justify-content: center;
+    border: 1px solid #648ca5;
+    border-radius: 10px;
+    color: #436d99;
+    background-color: #f1f9fd;
+}
+.messageBox {
+    width : 350px;
+    height : 270px;
+    position : absolute;
+    border : 0px solid #648ca5;
+    border-radius : 10px 10px 0px 0px;
+    overflow : auto;
+    color: #436d99;
+    background-color :  #f1f9fd;
+    scrollbar-width: none;
+    padding : 15px 20px;
+
+    box-sizing: border-box;
+}
+.sendBox {
+    width : 350px;
+    height : 30px;
+    position : absolute;
+    display : inline-block;
+    border-bottom : 1px solid #648ca5;
+    border-radius : 0px 0px 10px 10px;
+    color : #436d99;
+    background-color: white;
+    bottom : 0;
+}
+.sendInput {
+    width : 270px;
+    height : 30px;
+    border-top : 1px solid #648ca5;
+    border-radius : 0px 0px 0px 10px;
+    color : #436d99;
+    background-color: #f1f9fd;
+}
+.sendButton {
+    width : 80px;
+    height : 30px;
+    border : 0px solid #648ca5;
+    border-radius : 0px 0px 10px 0px;
+    background-color:  #436d99;
 }
 
+/*게임엔딩페이지*/
+.gameEndExitButton{
+    margin-left:1200px;
+    margin-top: 200px;
+    width: 250px;
+    height: 100px;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: #436d99;
+}
+
+.normalWinner, .mafiaWinner{
+    font-size: 100px;
+    text-align: center;
+    margin-top: 200px;
+}

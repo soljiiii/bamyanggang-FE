@@ -1,9 +1,81 @@
-.guideBack{
+.guideBack {
     background-color: rgba(34, 34, 34, 0.8);
+    min-height: 1300px;
 }
-.guide{
+
+.guide {
     width: 980px;
     margin: auto;
     padding: 50px 20px 0px 20px;
-    color: whiTE;
+    color: white;
+    min-height: 1000px;
+    position: relative; 
+}
+
+.gunback img {
+    position: absolute;
+    z-index: -1; 
+    width: 100%; 
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+    height: 900px;  
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.yanggang img, .yang img {
+    width: 100px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.guidecontent {
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    font-size: 20px;
+    overflow: auto;  
+    padding: 10px;   
+    word-wrap: break-word;  
+    min-width: 300px; 
+}
+
+.subtitle {
+    font-size: calc(28px + 1vmin); 
+    margin-bottom: 50px;
+    position: relative;  
+    z-index: 2;
+}
+
+.text1 {
+    font-size: calc(12px + 1vmin);
+    position: relative;  
+    z-index: 2;
+}
+
+.text2 {
+    font-size: calc(10px + 1vmin);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative; 
+    z-index: 2;
+}
+
+.text3, .text4, .text5 {
+    font-size: calc(10px + 1vmin);
+    margin-bottom: 20px; 
+    position: relative;  
+    z-index: 2;
+}
+
+.part {
+    margin-top: 20px;
+    position: relative;  
+    z-index: 2;
 }

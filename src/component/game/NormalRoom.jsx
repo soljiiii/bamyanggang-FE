@@ -3,9 +3,10 @@ import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
-function NormalRoom ({roomList}) {
+function NormalRoom ({roomList,userIdToken}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
     const [joinCnt, setJoinCnt] = useState(roomList.joinCnt);
@@ -21,10 +22,10 @@ function NormalRoom ({roomList}) {
             }
             else{
                 const data = {
-                    userIdToken:'test',
+                    userId:userIdToken,
                     roomNo:roomList.roomNo,
                 }
-                axios.post('joinRoom',data)
+                axios.post('http://localhost:80/joinRoom',data)
                 .then(response => {
                     console.log(response.data);
                     const roomNo = response.data.roomNo
@@ -39,6 +40,7 @@ function NormalRoom ({roomList}) {
 
     return(
         <div className="normalRoomContainer">
+            <LoginCheck/>
             <div className="normalName">
                 {roomList.roomNm}
             </div>

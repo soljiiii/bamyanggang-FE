@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
@@ -6,67 +6,151 @@ import axios from "axios";
 import ReplyList from "../../component/boards/ReplyList";
 import ReplyWrite from "../../component/boards/ReplyWrite";
 import Button from "../../component/common/Button";
+import { jwtDecode } from "jwt-decode";
 
 function CommunityView(){
 
     const navigate = useNavigate();
 
     //url parameter 값으로 사용할 변수 설정
-    const {postNo} = useParams();
+    const {postNo,} = useParams();
     const [selectedCommunity, setSelectedCommunity] = useState([]);
 
-    const prevPostNo = parseInt(postNo)-1;
-    const [prevCommunity, setPrevCommunity] = useState([]);
+    // const prevPostNo = parseInt(postNo)-1;
+     const [prevCommunity, setPrevCommunity] = useState([]);
 
-    const nextPostNo = parseInt(postNo)+1;
-    const [nextCommunity, setNextCommunity] = useState([]);
+    // const nextPostNo = parseInt(postNo)+1;
+     const [nextCommunity, setNextCommunity] = useState([]);
 
-    useEffect(()=>{
-        axios.get(`localhost://community/communitycontent/?postNo=${prevPostNo}`)
-        .then((response)=>{
-            if(response.data.length > 0){
-                setPrevCommunity(response.data[0])
-            }else{
-                setPrevCommunity(null);
-            }
-        })
-
-        .catch(error=>{
-            console.error("데이터 에러", error);
-        })
-    },[prevPostNo]);
-
-    useEffect(()=>{
-        axios.get(`localhost://community/communitycontent/?postNo=${postNo}`)
-            .then((response)=>{
-                setSelectedCommunity(response.data[0]);
-            })
-
-            .catch(error=>{
-                console.error("데이터 에러", error);
-            })
-    }, [postNo]);
-
-    useEffect(()=>{
-        axios.get(`localhost://community/communitycontent/?postNo=${nextPostNo}`)
-        .then((response)=>{
-            if(response.data.length > 0){
-                setNextCommunity(response.data[0])
-            }else{
-                setNextCommunity(null);
-            }
-        })
-
-        .catch(error=>{
-            console.error("데이터 에러", error);
-        })
-    },[nextPostNo]);
+    //로그인 상태 확인
+    const accessToken = localStorage.getItem('access');
+    const [isPluggedIn, setIsPluggedIn] = useState(false);
+    const [myId,setMyId] = useState("");
     
+    //이전 글, 다음 글
+    const [prevPostNo,setPrePostNo] =useState();
+    const [nextPostNo, setNextPostNo] = useState();
+
+    //userIdToken에서 parsing한 id
+     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
+
+    useEffect(()=>{
+
+        
+        //현재글 데이터
+        axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
+            .then((response)=>{
+                setSelectedCommunity(response.data);
+                console.log("res", response.data);
+                setMyId(response.data.userId);
+            })
+            .catch(error=>{
+            console.error("데이터 에러", error);
+
+            })
+
+        }, []);
+
+        // if(postNo){
+
+            //이전글 데이터 받기
+            // axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
+            //     .then((response)=>{
+            //         if(response.data!==null){
+            //             setPrevCommunity(response.data);
+            //         }else{
+            //             setPrevCommunity(null);
+            //             console.log("이전글없어", response.data);
+            //         }
+            //     })
+            //         .catch(error=>{
+            //             console.error("데이터 에러", error);
+            //     })
+
+
+            //다음글 데이터
+        //     axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
+        //         .then((response)=>{
+        //             if(response.data!==null){
+        //                 setNextCommunity(response.data);
+        //             }else{
+        //                 setNextCommunity(null);
+        //                 console.log("다음글없어", response.data);
+        //             }
+        //         })
+
+        //         .catch(error=>{
+        //             console.error("데이터 에러", error);
+        //         })
+        // }
+            //}
+
+
+    console.log("이전글", prevPostNo);
+    console.log("다음글", nextPostNo);
+
+    useEffect(()=>{
+                   //이전글 데이터 받기
+            axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
+                .then((response)=>{
+                    if(response.data!==null){
+                        setPrevCommunity(response.data);
+                    }else{
+                        setPrevCommunity(null);
+                        console.log("이전글없어", response.data);
+                    }
+                })
+                    .catch(error=>{
+                        console.error("데이터 에러", error);
+                })
+
+                            //다음글 데이터
+            axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
+                .then((response)=>{
+                    if(response.data!==null){
+                        setNextCommunity(response.data);
+                    }else{
+                        setNextCommunity(null);
+                        console.log("다음글없어", response.data);
+                    }
+                })
+
+                .catch(error=>{
+                    console.error("데이터 에러", error);
+                })
+        
+    },[postNo,selectedCommunity]);
+
+    useEffect(()=>{
+        if(accessToken){
+
+            const decodedToken = jwtDecode(accessToken);
+            const expTime = decodedToken.exp;
+            const curTime = Math.floor(Date.now()/1000);
+
+            if(expTime > curTime){
+                if(myId===userIdToken){
+                    setIsPluggedIn(true);
+                } else{
+                    setIsPluggedIn(false);
+                }
+            }
+            else{
+                setIsPluggedIn(false);
+            }
+        }else{
+            //로그인을 하지 않았을 때
+            setIsPluggedIn(false);
+        }
+                        
+    },[selectedCommunity])
+
     //데이터 삭제
-    const deletePost=()=>{
-        axios.post(`localhost://community/communitydelete/?postNo=${postNo}`,{
-            'postNo': postNo
-        }). then((response)=>{
+    const deletePost=useCallback(()=>{
+        axios.delete(`http://localhost:80/community/communitydelete/${postNo}`)
+        . then((response)=>{
+            console.log("삭제데이터", response.data);
+
             if(response.data === 1){
                 //성공적으로 삭제
                 alert("삭제되었습니다.");
@@ -81,9 +165,8 @@ function CommunityView(){
         .catch(error=>{
             console.error("데이터 에러", error);
         })
-    };
+    },[navigate, postNo]);
 
-    
     return(
         <div>
             <Header />
@@ -99,7 +182,8 @@ function CommunityView(){
                                 {selectedCommunity.title}
                             </div>
 
-                            <div className="requestArea">
+                            {isPluggedIn ? (
+                            <div className="requestArea"> 
                                 <div className="modifyButton">
                                     <Button 
                                     text={"수정"}
@@ -116,7 +200,9 @@ function CommunityView(){
                                     onClick={()=>deletePost()}
                                     />
                                 </div>
-                            </div>
+                            </div> 
+                            ) : (<></>)
+                            }
                         </div>
 
                         <div className="communityViewInfo">

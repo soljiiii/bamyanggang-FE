@@ -4,10 +4,11 @@ import Input from "../common/Input";
 import "./Modal.css"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 방 생성 가능한 로직 추가 + 아이디 값 불러오기 ***
 
 
-function Modal({ isOpen, onClose }) {
+function Modal({ isOpen, onClose, userIdToken }) {
     
     const [roomNm, setRoomNm] = useState("");
     const [isPrivate, setIsPrivate] = useState(0);
@@ -23,16 +24,16 @@ function Modal({ isOpen, onClose }) {
         else {
             if(isPrivate===0||(isPrivate===1&&roomPw!=="")){
             const data = {
-                userIdToken:'test',
+                userId:userIdToken,
                 roomNm:roomNm,
                 roomSt:isPrivate ?1:0,
                 roomPw:roomPw
             };
     
-            axios.post('createRoom',data)
+            axios.post('http://localhost:80/createRoom',data)
                 .then(response => {
                     console.log(response.data)
-                    const roomNo = 123; //response.data.roomNo;
+                    const roomNo = response.data.roomNo; //response.data.roomNo;
                     //백엔드에 post 요청을 하고 돌려받은 리턴값으로 roomNo
                     navigate(`/gameReady/${roomNo}`)
                 })
@@ -78,6 +79,7 @@ function Modal({ isOpen, onClose }) {
 
     return (
         <div>
+            <LoginCheck/>
             {isOpen && (
                 <div className="modal">
                 <span className="close" onClick={handleCloseModal}>&times;</span>

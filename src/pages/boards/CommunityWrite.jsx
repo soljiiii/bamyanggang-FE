@@ -14,22 +14,25 @@ function CommunityWrite(){
     const [content, setContent] = useState('');
     const [img, setImage] = useState('');
 
-    // //날짜 출력
-    // const date = new Date();
-    // let year = date.getFullYear();
-    // let month = (date.getMonth())+1;
-    //     month = month >=10 ? month : '0'+month;
-    // let day = date.getDate();
-
-    // //날짜 커스텀
-    // const formatDate = year+('-')+month+('-')+day;
+    //userIdToken에서 parsing한 id
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
     
     //db insert함수
     const insert=()=>{
 
         //title, content 길이 유효성 검사
+        if (title === ''){
+            alert('제목을 입력해주세요');
+            return;
+        }
+
         if (title.length > 100){
             alert('제목은 100자 이내로 입력해주세요');
+            return;
+        }
+
+        if(content === ''){
+            alert('내용을 입력해주세요');
             return;
         }
 
@@ -40,7 +43,8 @@ function CommunityWrite(){
 
         //게시글 추가
         alert('게시글 추가');
-        axios.post('localhost://community/communitywrite',{
+        axios.post(`http://localhost:80/community/communitywrite`,{
+            'userId' : userIdToken,
             'title' : title,
             'content' : content,
             'img' : img
@@ -76,6 +80,7 @@ function CommunityWrite(){
                     
                     <div className="inputContentArea">
                         <textarea className="inputContent" 
+                            placeholder="내용을 입력하세요"
                             value={content}
                             onChange={(event)=>{
                                 setContent(event.target.value);

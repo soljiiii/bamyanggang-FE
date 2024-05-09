@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Stomp} from '@stomp/stompjs';
 
-function GameSideChat({roomNo, userNick}){
+function GameSideChat({roomNo, userNick, winner}){
     const [chatClient, setChatClient] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    //
     // 최초 렌더링 시 방 생성, 방 입장, 구독 (chatClient가 없을 때만 실행)
     if (!chatClient) {
         // 서버 연결
         const webSocket = new WebSocket('ws://localhost/ws-bamyanggang');
+        console.log('채팅방 userNick : ', userNick);
         console.log('서버 연결 성공!');
         // stomp 클라이언트 생성
         const stomp = Stomp.over(() => webSocket);
@@ -58,6 +58,7 @@ function GameSideChat({roomNo, userNick}){
 
         // 메시지 송신 요청
         chatClient.send('/pub/sendMessage', {}, JSON.stringify({roomNo, userNick, message}));
+        console.log("userNick : ", userNick);
     };
 
     // 키보드 이벤트 핸들러 (enter키를 눌렀을 때 메시지 송신)
@@ -67,9 +68,17 @@ function GameSideChat({roomNo, userNick}){
         }
     };
 
+    useEffect(()=>{
+        if(!chatClient) {
+            chatClient.send('/pub/exitRoom', {}, ({roomNo}));
+            console.log('채팅방 퇴장 성공!');
+            chatClient.disconnect();
+        }
+    }, [winner]);
+
     return(
-        <div className="chatBox">
-            <div>
+        <div className="chatBox2">
+            <div className = "messageBox">
                 {messages.map((object, index) => (
                     <div key={index}>
                         <span>{object.userNick} : </span>
@@ -77,9 +86,9 @@ function GameSideChat({roomNo, userNick}){
                     </div>
                 ))}
             </div>
-            <div>
-            <input type = "text" value = {message} onChange = {(e) => setMessage(e.target.value)} onKeyDown = {enter} placeholder = '메시지를 입력하세요.'/>
-            <button onClick = {sendMessage}>send</button>
+            <div className = "sendBox">
+                <input className = "sendInput" type = "text" value = {message} onChange = {(e) => setMessage(e.target.value)} onKeyDown = {enter} placeholder = '메시지를 입력하세요.'/>
+                <button className = "sendButton" onClick = {sendMessage}>send</button>
             </div>
         </div>
     );

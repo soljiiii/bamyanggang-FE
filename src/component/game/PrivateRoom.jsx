@@ -3,14 +3,16 @@ import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
-function PrivateRoom ({roomList}) {
+function PrivateRoom ({roomList, userIdToken}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
     const [joinCnt, setJoinCnt] = useState(roomList.joinCnt);
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+
 
     function handleInputChange(e){
         if(password.length<4){
@@ -35,11 +37,11 @@ function PrivateRoom ({roomList}) {
                 }
                 else if(password===roomList.roomPw){
                     const data = {
-                        userIdToken:'test',
+                        userId:userIdToken,
                         roomNm:roomList.roomNm,
                         roomNo:roomList.roomNo
                     }
-                    axios.post('joinRoom',data)
+                    axios.post('http://localhost:80/joinRoom',data)
                     .then(response => {
                         console.log(response.data);
                         const roomNo = response.data.roomNo

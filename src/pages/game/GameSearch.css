@@ -90,6 +90,10 @@
     border: none;
     background-color: #D9D9D9;
     color: black;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .gameCommon:hover{
     background-color: #9F9F9F;
