@@ -9,26 +9,49 @@ import PrivateRoom from "../../component/game/PrivateRoom";
 import Header from"../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 
-// *** 아이디 값 불러오기 ***
 
 function GameSearch(){
+
+    const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
+
+    //로그인 상태 확인
+    const accessToken = localStorage.getItem('access');
+    const [isPluggedIn, setIsPluggedIn] = useState(false);
+
+    useEffect(()=>{
+        if(accessToken){
+
+        //     const decodedToken = jwtDecode(accessToken);
+        //     const expTime = decodedToken.exp;
+        //     const curTime = Math.floor(Date.now()/1000);
+
+        //     if(expTime > curTime){
+        //         if(myId===userIdToken){
+        //             setIsPluggedIn(true);
+        //         } else{
+        //             setIsPluggedIn(false);
+        //         }
+        //     }
+        //     else{
+        //         setIsPluggedIn(false);
+        //     }
+        // }else{
+        //     //로그인을 하지 않았을 때
+        //     setIsPluggedIn(false);
+            setIsPluggedIn(true);
+        }                        
+    },[])
+    
 
     //방 목록 전체 불러오기
     const[roomList, setRoomList] = useState([]);
 
     useEffect(() => {
-        const fetchGameList = async () => {
-        axios.get('http://localhost:80/getRoomList')
+        axios.get('http://localhost/api/getRoomList')
             .then(response => {
                 setRoomList(response.data["방 목록"]);
             })
-            // 30 후에 다시 실행하도록 설정
-            setTimeout(fetchGameList, 30000); // 
-        };
-    
-        // 처음에 한 번 실행하고, 그 후에는 주기적으로 실행됨
-        fetchGameList();
-    }, [roomList]); // roomNo나 pageState가 변경될 때마다 Effect가 재실행됨
+    }, [roomList]); 
 
     
     //Modal 상태에 대해
@@ -109,11 +132,13 @@ function GameSearch(){
                                 <NormalRoom
                                 roomList={room}
                                 userIdToken={userIdToken}
+                                isPluggedIn={isPluggedIn}
                                 />
                             : 
                                 <PrivateRoom   
                                 roomList={room}
                                 userIdToken={userIdToken}
+                                isPluggedIn={isPluggedIn}
                                 />
                             }
                         </div>

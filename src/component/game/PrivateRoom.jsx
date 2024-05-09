@@ -3,16 +3,14 @@ import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import LoginCheck from '../../utils/LoginCheck';
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
-function PrivateRoom ({roomList, userIdToken}) {
+function PrivateRoom ({roomList, userIdToken, isPluggedIn}) {
 
     const [isOnGame, setIsOnGame] = useState(roomList.isOnGame);
     const [joinCnt, setJoinCnt] = useState(roomList.joinCnt);
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
 
     function handleInputChange(e){
         if(password.length<4){
@@ -24,32 +22,37 @@ function PrivateRoom ({roomList, userIdToken}) {
     }
 
     function handleJoinPrivate(){
-        if(isOnGame===1){
-            alert("이미 게임 진행중 입니다");
+        if(isPluggedIn===false){
+            alert("로그인 후 이용하세요!")
         }
         else{
-            if(joinCnt===6){
-                alert("방이 꽉찼습니다");
+            if(isOnGame===1){
+                alert("이미 게임 진행중 입니다");
             }
             else{
-                if(password==="" || password!==roomList.roomPw){
-                    alert("올바른 비밀번호를 입력하세요")
+                if(joinCnt===6){
+                    alert("방이 꽉찼습니다");
                 }
-                else if(password===roomList.roomPw){
-                    const data = {
-                        userId:userIdToken,
-                        roomNm:roomList.roomNm,
-                        roomNo:roomList.roomNo
+                else{
+                    if(password==="" || password!==roomList.roomPw){
+                        alert("올바른 비밀번호를 입력하세요")
                     }
-                    axios.post('http://localhost:80/joinRoom',data)
-                    .then(response => {
-                        console.log(response.data);
-                        const roomNo = response.data.roomNo
-                        navigate(`/gameReady/${roomNo}`)
-                    })
-                    .catch(error => {
-                        console.error('Error join game:', error);
-                    });
+                    else if(password===roomList.roomPw){
+                        const data = {
+                            userId:userIdToken,
+                            roomNm:roomList.roomNm,
+                            roomNo:roomList.roomNo
+                        }
+                        axios.post('http://localhost/api/joinRoom',data)
+                        .then(response => {
+                            console.log(response.data);
+                            const roomNo = response.data.roomNo
+                            navigate(`/gameReady/${roomNo}`)
+                        })
+                        .catch(error => {
+                            console.error('Error join game:', error);
+                        });
+                    }
                 }
             }
         }
