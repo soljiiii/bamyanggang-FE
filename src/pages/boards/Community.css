@@ -13,6 +13,10 @@
     border-radius: 10px;
 }
 
+.communityButton:hover{
+    background-color: #3C627F;
+    cursor: pointer;
+}
 .buttonArea{
     margin-top: 20px;
     display: flex;
@@ -128,30 +132,31 @@
 
 .prevCommunity{
     font-size: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    padding-top: 10px;
 }
 
 .nonPrevCommunity{
     font-size: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
+    padding-top: 10px;
+    
 }
 
 .nextCommunity{
     font-size: 15px;
-    padding-top: 10px;
+    padding-bottom: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid black;
 }
 
 .nonNextCommunity{
     font-size: 15px;
-    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
 }
 
 .prevMenu, .nextMenu{
