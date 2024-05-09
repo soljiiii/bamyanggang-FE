@@ -15,7 +15,7 @@ const MemberDelete = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.delete(`http://localhost:80/deletemember`, {
+            const response = await axios.delete(`http://localhost/api/deletemember`, {
                 data: credentials // 요청 본문에 회원 정보를 포함하여 보냄
             });
             if (response.status === 200) {
@@ -31,18 +31,18 @@ const MemberDelete = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>회원 탈퇴</h1>
+        <>
+        <h2 class="delete-title">회원탈퇴</h2>
+        <form className='dform' onSubmit={handleSubmit}>
             <div>
-                <label>아이디:</label>
-                <input type="text" name="userId" value={credentials.userId} onChange={handleChange} required />
+                <input className='didcheck' type="text" name="userId" value={credentials.userId} onChange={handleChange} placeholder='로그인' required />
             </div>
             <div>
-                <label>비밀번호:</label>
-                <input type="password" name="passWd" value={credentials.passWd} onChange={handleChange} required />
+                <input className='dpwcheck' type="password" name="passWd" value={credentials.passWd} onChange={handleChange} placeholder='비밀번호' required />
             </div>
-            <button type="submit">회원 탈퇴</button>
+            <button className='dbtn' type="submit">회원 탈퇴</button>
         </form>
+        </>
     );
 };
 
