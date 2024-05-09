@@ -25,7 +25,8 @@ const MemberModify = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost/api/userInfo/${userId}`); // 수정된 URL
+                const response = await axios.get(`/userInfo/${userId}`); // 수정된 URL
+
                 if (response.data) {
                     setFormData(response.data);
                     setIsLoaded(true);
@@ -51,7 +52,8 @@ const MemberModify = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost/api/update/${userId}`, formData); // 수정된 URL
+            const response = await axios.put(`/update/${userId}`, formData); // 수정된 URL
+
             if (response.status === 200) {
                 alert('회원 정보가 수정되었습니다.');
                 navigate('/myPage'); // 수정이 성공하면 마이 페이지로 이동

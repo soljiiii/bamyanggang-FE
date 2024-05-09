@@ -23,7 +23,7 @@ function GameReady(){
     useEffect(() => {
         const fetchGameInfo = async () => {
             
-                const response = await axios.get(`http://localhost/api/getRoomInfo?roomNo=${roomNo}`);
+                const response = await axios.get(`/getRoomInfo?roomNo=${roomNo}`);
                 setGameInfo(response.data["방 대기 정보"]);
                 setPageState(response.data["방 대기 정보"].isOnGame);
                 console.log(pageState);
@@ -44,7 +44,7 @@ function GameReady(){
     //게임 참가자 정보 불러오기
     useEffect(() => {
         const fetchGameInfo = async () => {
-        axios.get (`http://localhost/api/getUserInfo?roomNo=${roomNo}`)
+        axios.get (`/getUserInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data["방 대기 정보"]);
                 for(var i=0; i<response.data["방 대기 정보"].length; i++){
@@ -72,7 +72,7 @@ function GameReady(){
     function handleStart() {
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (gameParty && nowUser.master === 1) {
-            axios.get(`http://localhost/api/getIsOnGame?roomNo=${roomNo}`)
+            axios.get(`/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
                 setPageState(response.data["isOnGame"]);
             })
@@ -91,7 +91,7 @@ function GameReady(){
             userId:userIdToken
         }
         console.log(data);
-        axios.post(`http://localhost/api/exitRoom`,data)
+        axios.post(`/exitRoom`,data)
         .then(response => {
             console.log("전송 성공");
             navigate(`/gameSearch`);
