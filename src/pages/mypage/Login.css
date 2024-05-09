@@ -33,10 +33,12 @@
     box-sizing: border-box;
     background-color: white;
     font-size: 15px;
+    text-align: left;
 }
 
 
 .btn2 {
+    width: 100%;
     padding: 10px 20px;
     margin-top: 10px;
     border: none;
@@ -58,7 +60,4 @@
     text-align: center;
 }
 
-.btn2 {
-    width: 100%;
-}
 

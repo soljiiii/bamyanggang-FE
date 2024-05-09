@@ -288,8 +288,10 @@ const navigate = useNavigate();
         <p><input className="btn" type="submit" value="회원가입" onClick={handleSubmit} /></p>
       </div>
   
-      <p className="login-return">로그인화면으로 돌아가기  <button  className='btn1' onClick={() => navigate('/Login')}
-      >로그인</button></p>
+      <p className="login-return">로그인화면으로 돌아가기  <button  className='btn1' onClick={() => {
+        props.setMode("LOGIN");
+      }}>로그인</button></p>
+
     </>
   );
   
