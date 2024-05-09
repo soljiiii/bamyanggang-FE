@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import './MemberModify.css';
+import {Link} from "react-router-dom";
 
 const MemberModify = () => {
     const { userId } = useParams();
@@ -71,6 +72,12 @@ const MemberModify = () => {
 
     return (
         <>
+        <div className="header-left">
+            <div className="MainButton">
+                <Link to="/"><img src="/images-jsx/밤양갱_white.svg" className="mainImage" alt="Main" /></Link>
+            </div>
+        </div>
+
         <h2 class="modify-title">회원수정</h2>
         <form onSubmit={handleSubmit} className="form-container">
             <div className="userContainer">
@@ -89,21 +96,20 @@ const MemberModify = () => {
                 <input type="date" name="userBirth" value={formData.userBirth} onChange={handleChange} placeholder="생년월일" className='mub'/>
                 <div className="email-container">
                     <p>이메일:</p>
-                    <input type="text" name="emailNum1" value={formData.emailNum1} onChange={handleChange} placeholder="이메일 앞부분" className='mue1'/>
+                    <input type="text" name="emailNum1" value={formData.emailNum1} onChange={handleChange} placeholder="이메일" className='mue1'/>
                     <span>@</span>
-                    <input type="text" name="emailNum2" value={formData.emailNum2} onChange={handleChange} placeholder="이메일 뒷부분" className='mue2'/>
+                    <input type="text" name="emailNum2" value={formData.emailNum2} onChange={handleChange}  className='mue2'/>
                 </div>
                 <div className="phonenum">
                     <p>전화번호:</p>
-                    <input type="text" name="phoneNum1" maxLength="3" value={formData.phoneNum1} onChange={handleChange} placeholder="전화번호1" className='pn1' />
+                    <input type="text" name="phoneNum1" maxLength="3" value={formData.phoneNum1} onChange={handleChange}  className='pn1' />
                     -
-                    <input type="text" name="phoneNum2" maxLength="4" value={formData.phoneNum2} onChange={handleChange} placeholder="전화번호2" className='pn2'/>
+                    <input type="text" name="phoneNum2" maxLength="4" value={formData.phoneNum2} onChange={handleChange} className='pn2'/>
                     -
-                    <input type="text" name="phoneNum3" maxLength="4" value={formData.phoneNum3} onChange={handleChange} placeholder="전화번호3" className='pn3'/>
+                    <input type="text" name="phoneNum3" maxLength="4" value={formData.phoneNum3} onChange={handleChange}  className='pn3'/>
                 </div>
             </div>
             <div className="genderContainer">
-                <p>성별:</p>
                 <button type="button" onClick={() => setFormData({ ...formData, userGender: 'Male' })} className={`genderOption ${formData.userGender === 'Male' ? 'selected' : ''}`}>
                     남자
                 </button>

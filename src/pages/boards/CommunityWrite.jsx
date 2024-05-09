@@ -52,16 +52,9 @@ function CommunityWrite(){
             'content' : content,
         }
 
-        const formData = new FormData();
-        console.log("ㅇㅁㅈ", imgFile);
-        formData.append("community", JSON.stringify(data));
-        formData.append("imgfile", imgFile);
-            
-        axios.post(`http://localhost/api/community/communitywrite`, formData, {
-            headers: {
-                "enctype" : "multipart/form-data"
-            },
-        }).then(function (response){
+        axios.post(`http://localhost:80/api/community/communitywrite`, data
+
+        ).then(function (response){
             navigate(`/community`);
 
         }).catch(function(error){
@@ -100,23 +93,7 @@ function CommunityWrite(){
                             }}
                         />
                     </div>
-                    
                         
-                    <div>
-                        <input 
-                            type="file"
-                            accept="image/jpg,image/png,image/jpeg,image/gif" 
-                            value={imgFile}
-                            onChange={(event)=>{
-                                setImageFile(event.target.value);
-                            }}
-                            />
-                        {/* <Button
-                        text={"이미지등록"}
-                        type={"submitButton"}
-                        /> */}
-                    </div>
-
                     <div className="writeButton">
                     <Button 
                     text={"등록"}

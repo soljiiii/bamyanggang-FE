@@ -1,3 +1,8 @@
+.header-left{
+    background-color: black;
+    margin-bottom: 100px;
+}
+
 .login-title {
     text-align: center;
     margin-bottom: 20px;
@@ -52,12 +57,30 @@
     background-color: #3C627F;
 }
 
+.btn3{
+    width: 150px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgba(128, 128, 128, 0.5);
+    color: white; 
+    align-items: center;
+}
 
-
+.btn3:hover {
+    background-color: grey;
+    cursor: pointer;
+}
 .error {
     color: red;
     font-size: 0.8rem;
     text-align: center;
 }
 
-
+.join-area{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}

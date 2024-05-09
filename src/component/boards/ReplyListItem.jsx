@@ -33,7 +33,7 @@ function ReplyListItem(props){
             //댓글 추가
            alert('댓글 수정');
            
-            axios.post(`http://localhost/api/reply/replyupdate/${postNo}/${replyNo}`,{
+            axios.post(`http://localhost:80/api/reply/replyupdate/${postNo}/${replyNo}`,{
                 'postNo' : postNo,
                 'replyNo' : replyNo,
                 'content' : content
@@ -52,7 +52,7 @@ function ReplyListItem(props){
     
     //댓글 삭제
     const replyDelete=useCallback(()=>{
-        axios.delete(`http://localhost/api/reply/replydelete/${replyNo}`)
+        axios.delete(`http://localhost:80/api/reply/replydelete/${replyNo}`)
         .then((response)=>{
 
             if(response.data ===1){

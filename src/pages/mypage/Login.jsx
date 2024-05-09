@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import {Link} from "react-router-dom";
 
 function Login() {
     // const [userId, setUserId] = useState('')
@@ -20,7 +21,8 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/login', credentials , 
+
+            const response = await axios.post('http://localhost:80/login', credentials , 
 
                
                 );
@@ -32,7 +34,7 @@ function Login() {
                     console.log(access);
                     localStorage.setItem('access', access); // 토큰을 로컬 스토리지에 저장
                     
-                    const userInfoResponse = await axios.get(`/userInfo/${credentials.userId}`);
+                    const userInfoResponse = await axios.get(`http://localhost:80/api/userInfo/${credentials.userId}`);
 
                     console.log(userInfoResponse);
                     const userData = userInfoResponse.data; // 서버에서 받은 사용자 데이터
@@ -52,6 +54,11 @@ function Login() {
     };
     return (
         <>
+                    <div className="header-left">
+                        <div className="MainButton">
+                            <Link to="/"><img src="/images-jsx/밤양갱_white.svg" className="mainImage" alt="Main" /></Link>
+                        </div>
+                    </div>
         <h2 className="login-title">로그인</h2>
 
             <form className='loginform' onSubmit={handleSubmit}>
@@ -80,10 +87,12 @@ function Login() {
                     />
                 </div>
                 <button type="submit" className='btn2' >로그인</button>
-                <button type="button" className='btn2' onClick={() => navigate('/MemberJoin')}>회원가입</button>
                 {error && <p className="error">{error}</p>}
             </form>
 
+                <div className='join-area'>
+                    <button type="button" className='btn3' onClick={() => navigate('/MemberJoin')}>회원가입</button>
+                </div>
         </>
     );
 }

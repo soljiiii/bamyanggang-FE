@@ -15,10 +15,9 @@ function CommunityModify(){
 
     //수정할 정보 가져오기
     useEffect(()=>{
-        axios.get(`http://localhost/api/community/communitycontent/${postNo}`)
+        axios.get(`community/communitycontent/${postNo}`)
         .then(response=>{
             setSelectedCommunity(response.data);
-            console.log("1", response.data);
             setTitle(response.data.title);
             setContent(response.data.content);
         })
@@ -44,11 +43,9 @@ function CommunityModify(){
 
         //게시글 수정
         alert('게시글 수정');
-        axios.post(`http://localhost/api/community/communityupdate/${postNo}`,{
-            //postNo는 나중에 삭제
+        axios.post(`http://localhost:80/api/community/communityupdate/${postNo}`,{
             'title' : title,
             'content' : content,
-            // 'img' : img
 
         }).then(response=>{
             navigate(`/community/${postNo}`);
@@ -85,15 +82,6 @@ function CommunityModify(){
                                 setContent(event.target.value);
                             }}
                         />
-                    </div>
-                    
-                    <div>
-                        {/* <button>
-                            <input hidden
-                            type="file"
-                            accept="image/jpg,image/png,image/jpeg,image/gif" 
-                            />
-                        </button> */}
                     </div>
 
                     <div className="writeButton">

@@ -37,7 +37,6 @@ function NoticeList(props) {
             setNotices((prevData) => [...prevData, ...nextData]);
             setPage((page) => page + 1);
             setHasMore(nextData.length > 0);
-            console.log("구현", page);
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
@@ -47,6 +46,7 @@ function NoticeList(props) {
 
     return (
         <div>
+            <div className="allList">
             {notices.map((noticeData) => (
                 <NoticeListItem
                     key={noticeData.postNo}
@@ -55,7 +55,8 @@ function NoticeList(props) {
                 />
             ))}
             {loading && <div>Loading...</div>}
-            {!loading && !hasMore && <div>출력이 끝났습니다.</div>}
+            {/* {!loading && !hasMore && <div className="finishLine">출력이 끝났습니다.</div>} */}
+            </div>
         </div>
     );
 }

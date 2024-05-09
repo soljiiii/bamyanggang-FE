@@ -15,12 +15,21 @@
 }
 
 /* 입력 필드 컨테이너 */
-.userContainer, .infoContainer, .genderContainer {
+.userContainer, .infoContainer{
     display: flex;
     flex-direction: column;
 
 }
+.genderContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
 
+.button-gender{
+    width: 50%;
+}
 /* 입력 필드 스타일 */
 
 .mun, .mui, .mup, .mub, .munn {
@@ -51,6 +60,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-bottom: 5px;
+    width: 49%;
 }
 
 .genderOption.selected {
