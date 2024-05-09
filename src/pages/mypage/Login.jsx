@@ -20,7 +20,8 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost/api/login', credentials , 
+            const response = await axios.post('/login', credentials , 
+
                
                 );
                 
@@ -31,7 +32,8 @@ function Login() {
                     console.log(access);
                     localStorage.setItem('access', access); // 토큰을 로컬 스토리지에 저장
                     
-                    const userInfoResponse = await axios.get(`http://localhost/api/userInfo/${credentials.userId}`);
+                    const userInfoResponse = await axios.get(`/userInfo/${credentials.userId}`);
+
                     console.log(userInfoResponse);
                     const userData = userInfoResponse.data; // 서버에서 받은 사용자 데이터
                     localStorage.setItem('user', JSON.stringify(userData));
@@ -50,7 +52,7 @@ function Login() {
     };
     return (
         <>
-        <h2 class="login-title">로그인</h2>
+        <h2 className="login-title">로그인</h2>
 
             <form className='loginform' onSubmit={handleSubmit}>
                 <div>

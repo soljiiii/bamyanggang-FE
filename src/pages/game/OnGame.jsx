@@ -32,7 +32,7 @@ function OnGame(){
     
     //참여 user 정보 6개 받아옴
     useEffect(() => {
-        axios.get(`http://localhost/api/gameStart?roomNo=${roomNo}`)
+        axios.get(`/gameStart?roomNo=${roomNo}`)
         .then(response =>{
             setOnGameParty(response.data["사용자정보"]);
             console.log("끼긱",response.data["사용자정보"])
@@ -53,7 +53,7 @@ function OnGame(){
     //시작시간
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(`http://localhost/api/getTime?roomNo=${roomNo}`);
+            const response = await axios.get(`/getTime?roomNo=${roomNo}`);
             const responseData = response.data;
             if (responseData["기준시간"]) { // 현재시간 값이 비어있지 않은 경우에만 처리
                 const time = responseData["기준시간"];
@@ -405,7 +405,7 @@ function OnGame(){
 
                 const timer2 = setTimeout(()=>{
                     setOnNormalVote(0);
-                    axios.get(`http://localhost/api/resultVote?roomNo=${roomNo}`)
+                    axios.get(`/resultVote?roomNo=${roomNo}`)
                     .then((response)=>{
                         const victory = response.data["resultList"].result;
                         console.log("과각",response.data["resultList"]);
@@ -443,7 +443,7 @@ function OnGame(){
 
                 const timer5 = setTimeout(()=>{
                     setOnMafiaVote(0);
-                    axios.get(`http://localhost/api/resultVote?roomNo=${roomNo}`)
+                    axios.get(`/resultVote?roomNo=${roomNo}`)
                     .then((response)=>{
                         const victory = response.data["resultList"].result;
                         console.log("과각",response.data["resultList"]);
@@ -529,7 +529,7 @@ function OnGame(){
             userId:selectedParty,
             roomNo:roomNo,
         }
-        axios.post(`http://localhost/api/vote`,data)
+        axios.post(`/vote`,data)
         .then(response =>{
             console.log("누구죽음",data.userId);
         })
@@ -544,7 +544,7 @@ function OnGame(){
                 userId: userIdToken
             };
             console.log(data);
-            axios.post(`http://localhost/api/exitRoom`, data)
+            axios.post(`/exitRoom`, data)
                 .then(response => {
                     console.log("전송 성공");
                 })

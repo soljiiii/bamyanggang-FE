@@ -47,7 +47,7 @@ function GameSearch(){
     const[roomList, setRoomList] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost/api/getRoomList')
+        axios.get('/getRoomList')
             .then(response => {
                 setRoomList(response.data["방 목록"]);
             })
