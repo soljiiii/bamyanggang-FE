@@ -149,7 +149,6 @@ video {
     background-color :  #f1f9fd;
     scrollbar-width: none;
     padding : 15px 20px;
-
     box-sizing: border-box;
 }
 .sendBox {
@@ -161,7 +160,8 @@ video {
     border-radius : 0px 0px 10px 10px;
     color : #436d99;
     background-color: white;
-    bottom : 0;
+    margin-bottom : 0;
+    position: relative;
 }
 .sendInput {
     width : 270px;
@@ -170,6 +170,7 @@ video {
     border-radius : 0px 0px 0px 10px;
     color : #436d99;
     background-color: #f1f9fd;
+    position : absolute;
 }
 .sendButton {
     width : 80px;
@@ -177,6 +178,8 @@ video {
     border : 0px solid #648ca5;
     border-radius : 0px 0px 10px 0px;
     background-color:  #436d99;
+    position : absolute;
+    margin-right: 0;
 }
 
 /*게임엔딩페이지*/

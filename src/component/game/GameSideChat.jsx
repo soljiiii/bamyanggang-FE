@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Stomp} from '@stomp/stompjs';
+import "../../pages/game/OnGame.css"
 
 function GameSideChat({roomNo, userNick, winner}){
     const [chatClient, setChatClient] = useState('');

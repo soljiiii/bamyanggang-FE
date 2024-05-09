@@ -5,8 +5,7 @@ import axios from "axios";
 import Party from "../../component/game/Party";
 import "./GameReady.css";
 import { useNavigate } from 'react-router-dom';
-import LoginCheck from '../../utils/LoginCheck';
-// *** 아이디 값 불러오기 ***
+
 
 function GameReady(){
 
@@ -24,7 +23,7 @@ function GameReady(){
     useEffect(() => {
         const fetchGameInfo = async () => {
             
-                const response = await axios.get(`http://localhost:80/getRoomInfo?roomNo=${roomNo}`);
+                const response = await axios.get(`http://localhost/api/getRoomInfo?roomNo=${roomNo}`);
                 setGameInfo(response.data["방 대기 정보"]);
                 setPageState(response.data["방 대기 정보"].isOnGame);
                 console.log(pageState);
@@ -45,7 +44,7 @@ function GameReady(){
     //게임 참가자 정보 불러오기
     useEffect(() => {
         const fetchGameInfo = async () => {
-        axios.get (`http://localhost:80/getUserInfo?roomNo=${roomNo}`)
+        axios.get (`http://localhost/api/getUserInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data["방 대기 정보"]);
                 for(var i=0; i<response.data["방 대기 정보"].length; i++){
@@ -73,7 +72,7 @@ function GameReady(){
     function handleStart() {
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (gameParty && nowUser.master === 1) {
-            axios.get(`http://localhost:80/getIsOnGame?roomNo=${roomNo}`)
+            axios.get(`http://localhost/api/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
                 setPageState(response.data["isOnGame"]);
             })
@@ -92,7 +91,7 @@ function GameReady(){
             userId:userIdToken
         }
         console.log(data);
-        axios.post(`http://localhost:80/exitRoom`,data)
+        axios.post(`http://localhost/api/exitRoom`,data)
         .then(response => {
             console.log("전송 성공");
             navigate(`/gameSearch`);
@@ -101,7 +100,6 @@ function GameReady(){
 
     return (
         <div className="gameContainer">
-            <LoginCheck/>
             <div className="gameReadyContainer">
                 <div className="userContainer_game">
                     {Array.isArray(gameParty) && gameParty.map((party,index)=>(
