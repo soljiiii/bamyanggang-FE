@@ -24,7 +24,7 @@
     background-color: white;
 }
 
-.dform button.dbtn {
+.dbtn {
     padding: 10px;
     color: white;
     background-color: #6E98B8;
@@ -35,6 +35,6 @@
     transition: background-color 0.3s;
 }
 
-.dform button.dbtn:hover {
+.dbtn:hover {
     background-color: #3C627F;
 }
