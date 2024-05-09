@@ -52,7 +52,7 @@ function Login() {
     };
     return (
         <>
-        <h2 class="login-title">로그인</h2>
+        <h2 className="login-title">로그인</h2>
 
             <form className='loginform' onSubmit={handleSubmit}>
                 <div>
