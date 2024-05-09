@@ -1,6 +1,8 @@
 .guideBack {
-    background-color: rgba(34, 34, 34, 0.8);
+    background-color: rgba(34, 34, 34, 0.5);
     min-height: 1300px;
+    background-size: cover;
+    background-position: center;
 }
 
 .guide {
@@ -10,6 +12,7 @@
     color: white;
     min-height: 1000px;
     position: relative; 
+    
 }
 
 .gunback img {

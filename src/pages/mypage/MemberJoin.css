@@ -139,18 +139,6 @@ input[type="text"], input[type="password"], input[type="file"], select {
 }
 
 
-button {
-    background-color: #6E98B8; 
-    color: white; 
-    border: none; 
-    padding: 10px 15px; 
-    border-radius: 5px; 
-    cursor: pointer; 
-}
-
-button:hover {
-    background-color: #3C627F; 
-}
 
 .gender-select {
     margin: 0;
