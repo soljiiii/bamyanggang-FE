@@ -303,11 +303,14 @@
     background-color: rgba(128, 128, 128, 0.5);
     border: none;
     border-radius: 10px;
-    width: 50px;
+    width: 60px;
+    height: 40px;
+
 }
 
 .replyRequestButton:hover{
     background-color: grey;
+    cursor: pointer;
 }
 .replyItem{
     border-top: 1px solid  #e7e7e7;
@@ -357,8 +360,11 @@
     background-color: rgba(128, 128, 128, 0.5);
     border: none;
     border-radius: 10px;
+    width: 80px;
+    height: 40px;
 }
 
 .replyButton:hover{
     background-color: grey;
+    cursor: pointer;
 }

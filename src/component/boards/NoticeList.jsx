@@ -47,6 +47,7 @@ function NoticeList(props) {
 
     return (
         <div>
+            <div className="allList">
             {notices.map((noticeData) => (
                 <NoticeListItem
                     key={noticeData.postNo}
@@ -55,7 +56,8 @@ function NoticeList(props) {
                 />
             ))}
             {loading && <div>Loading...</div>}
-            {!loading && !hasMore && <div>출력이 끝났습니다.</div>}
+            {/* {!loading && !hasMore && <div className="finishLine">출력이 끝났습니다.</div>} */}
+            </div>
         </div>
     );
 }

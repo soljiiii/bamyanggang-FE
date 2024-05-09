@@ -16,10 +16,8 @@ function CommunityView(){
     const {postNo,} = useParams();
     const [selectedCommunity, setSelectedCommunity] = useState([]);
 
-    // const prevPostNo = parseInt(postNo)-1;
      const [prevCommunity, setPrevCommunity] = useState([]);
 
-    // const nextPostNo = parseInt(postNo)+1;
      const [nextCommunity, setNextCommunity] = useState([]);
 
     //로그인 상태 확인
@@ -41,7 +39,6 @@ function CommunityView(){
         axios.get(`http://localhost/api/community/communitycontent/${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data);
-                console.log("res", response.data);
                 setMyId(response.data.userId);
                 setPrePostNo(response.data.prevPostNo);
                 setNextPostNo(response.data.nextPostNo);
@@ -72,10 +69,8 @@ function CommunityView(){
                 .then((response)=>{
                     if(response===0){
                         setNextCommunity('');
-                        console.log("없을때",response.data)
                     }else{
                         setNextCommunity(response.data);
-                        console.log("있을때",response.data)
 
                     }
                 })
@@ -112,7 +107,7 @@ function CommunityView(){
 
     //데이터 삭제
     const deletePost=useCallback(()=>{
-        axios.delete(`http://localhost:80/community/communitydelete/${postNo}`)
+        axios.delete(`http://localhost:80/api/community/communitydelete/${postNo}`)
         . then((response)=>{
             console.log("삭제데이터", response.data);
 

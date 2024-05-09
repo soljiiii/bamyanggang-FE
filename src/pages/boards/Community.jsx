@@ -7,6 +7,7 @@ import "./Community.css";
 import Button from "../../component/common/Button";
 import Pagination from "../../component/boards/Pagination";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function Community(){
     
@@ -15,6 +16,8 @@ function Community(){
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     
+    const accessToken = localStorage.getItem('access');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         //community 정보 가져오기
@@ -28,7 +31,29 @@ function Community(){
             });
     }, []);
 
+    useEffect(()=>{
+        console.log("헤더실행");
+        console.log("Access", accessToken);
 
+        if(accessToken){
+
+            const decodedToken = jwtDecode(accessToken);
+            const expTime = decodedToken.exp;
+            const curTime = Math.floor(Date.now()/1000);
+            //만료시간이 남아있을 때 = accessToken 있을 때
+            if(expTime > curTime){
+                setIsLoggedIn(true);
+
+            }else{
+                setIsLoggedIn(false);
+            }
+
+        }else{
+            //로그인을 하지 않았을 때
+            setIsLoggedIn(false);
+        }
+    
+    }, [accessToken]);
     return(
         <div>
             <Header />
@@ -45,7 +70,7 @@ function Community(){
                 limit={limit}
                 page={page}
                 />
-
+                    {isLoggedIn ? (
                     <div className="buttonArea">
                         <Button 
                         text={"글 작성"}
@@ -54,7 +79,8 @@ function Community(){
                             navigate(`/community/post-write`);
                         }}
                         />
-                    </div>
+                        </div>):(<></>)
+                    }
                     
                     <div className="pageArea">
                         <Pagination
