@@ -1,106 +1,89 @@
+/* 전체 컨테이너 */
 .form-container {
-    margin: 20px auto;
+    width: 500px;
+    margin: 40px auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 980px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-.userContainer, .infoContainer, .genderContainer {
-    padding: 10px;
     border: 1px solid black;
+}
+
+/* 제목 스타일 */
+.modify-title {
+    text-align: center;
     margin-bottom: 20px;
-    width: 100%;
 }
 
-input {
-    padding: 8px;
-    margin-bottom: 5px;
-    width: 100%;
-    box-sizing: border-box;
+/* 입력 필드 컨테이너 */
+.userContainer, .infoContainer, .genderContainer {
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* 입력 필드 스타일 */
+
+.mun, .mui, .mup, .mub, .munn {
+    width: 500px;
+    height: 38px;
+    margin-bottom: 10px;
+}
+
+/* 이메일 입력 필드를 한 줄에 배치 */
+.email-container input {
+    width: 240px;
+    height: 38px;
 }
 
 
-button {
-    background-color: black;
-    color: white;
+/* 전화번호 입력 필드 스타일 */
+.phonenum input {
+    width: 160px; 
+    height: 38px;
+}
+
+/* 성별 선택 버튼 */
+.genderOption {
+    padding: 10px 20px;
+    background-color: #D3D3D3;
+    border-radius: 4px;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    transition: background-color 0.3s;
     margin-bottom: 5px;
-    width: 100px;
-    box-sizing: border-box;
-}
-
-button:hover {
-    background-color: black;
-}
-
-.error-message {
-    color: red;
-    font-size: 0.8rem;
-}
-
-.phonenum {
-    display: flex;
-    height: 36px;
-    align-items: center;
-}
-
-
-
-.email-container {
-    display: flex; /* Flexbox 레이아웃 적용 */
-    align-items: center; 
-    margin-bottom: 5px;
-}
-
-.email-container input[type="text"],
-.email-container span {
-    margin: 0 5px;
-}
-
-.email-container input[type="text"] {
-    flex-grow: 1; /* 입력 필드 너비를 동적으로 조정 */
-}
-
-.email-container span {
-    white-space: nowrap; /* @ 기호가 줄바꿈되지 않도록 처리 */
-}
-
-#special-text {
-    font-size: 20px;       
-}
-
-.genderContainer {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* 버튼 사이의 간격 */
-    margin-top: 20px;
-}
-
-.genderOption {
-    cursor: pointer;
-    padding: 10px 20px;
-    border: 2px solid #ccc; 
-    background-color: white; 
-    color: black; 
-    border-radius: 10px; 
-    transition: all 0.3s ease; 
 }
 
 .genderOption.selected {
-    background-color: black; 
-    color: white; 
-    border-color: #007bff; 
+    background-color: #6E98B8;
 }
 
 .genderOption:hover {
-    background-color: #0056b3; 
-    border-color: #0056b3; 
+    background-color: #3C627F;
+}
+
+.mbtn {
+    padding: 12px;
+    color: white;
+    background-color: #6E98B8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.mbtn:hover {
+    background-color: #3C627F;
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+    color: #ff0000;
+    font-size: 0.85em;
+    text-align: left;
+}
+
+.mun, .mui, .mup, .mub, .munn, .pn1, .pn2, .pn3, .mue1, .mue2 {
+    background-color: white;
+    border: 1px solid black; 
 }

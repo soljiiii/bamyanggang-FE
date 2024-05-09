@@ -1,52 +1,63 @@
-import React, { useCallback, useRef } from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NoticeListItem from "./NoticeListItem";
 
-function NoticeList(props){
-    const {onClickItem} = props;
-    //notices 변수의 값을 setNotices를 통해 저장, 현재 초기값은 []
+function NoticeList(props) {
+    const { onClickItem } = props;
     const [notices, setNotices] = useState([]);
-    const [totalElement, setTotalElement] = useState(0);
-    const [list, setList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [lastScrollTop, setLastScrollTop] = useState(0);
 
-    useEffect(()=>{
-        //axios를 사용하여 localhost:3301에서 notice 정보를 가져옴.
-        axios.get(`http://localhost/api/notice/noticelist`)
-            .then(response=> {
-                //가져온 데이터를 상태로 설정
-                setNotices(response.data.notices);
-                setTotalElement(response.data.notices.length);
-            })
-            .catch(error =>{
-                console.error("해당 데이터 에러", error);
-            });
-    
-        }, []);
-    
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    //effect는 컴포넌트가 처음 렌더링 될 때 한 번만 실행된다
+    useEffect(() => {
+        function handleScroll() {
+            const st = window.pageYOffset || document.documentElement.scrollTop;
+            if (st > lastScrollTop) {
+                // 스크롤 다운
+                if (!loading && hasMore && st + window.innerHeight >= document.documentElement.offsetHeight - 100) {
+                    fetchData();
+                }
+            }
+            setLastScrollTop(st <= 0 ? 0 : st);
+        }
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loading, hasMore, lastScrollTop]);
 
-    //페이징처리
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://localhost/api/notice/noticelist?page=${page}`);
+            const nextData = response.data.notices;
+            setNotices((prevData) => [...prevData, ...nextData]);
+            setPage((page) => page + 1);
+            setHasMore(nextData.length > 0);
+            console.log("구현", page);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-
-    return(
+    return (
         <div>
-            {notices.length > 0 && notices.map((noticeData) => {
-                return(
-                   <NoticeListItem
-                        key={noticeData.postNo}
-                        noticeData={noticeData}
-                        onClick={()=>{
-                            onClickItem(noticeData);
-                        }}
-                    />
-                );
-            })}
-            {/* <div ref={obsRef}/> */}
+            {notices.map((noticeData) => (
+                <NoticeListItem
+                    key={noticeData.postNo}
+                    noticeData={noticeData}
+                    onClick={() => onClickItem(noticeData)}
+                />
+            ))}
+            {loading && <div>Loading...</div>}
+            {!loading && !hasMore && <div>출력이 끝났습니다.</div>}
         </div>
     );
-   
 }
 
 export default NoticeList;

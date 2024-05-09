@@ -1,6 +1,6 @@
 .totalcontainer {
     border: 1px solid black;
-    width: 500px; 
+    width: 542px; 
     margin: 0 auto; 
     padding: 20px;
     box-sizing: border-box;
@@ -9,14 +9,12 @@
     align-items: stretch; 
 }
 
-.container {
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin: auto;
+.join-title {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.input-field, .btn, select, input[type="file"], .login, .login4 {
+.btn, select, .login, .login4 {
     width: 100%; 
     padding: 10px;
     border: 1px solid #ccc;
@@ -36,9 +34,7 @@
     box-sizing: border-box;
     width: 140px;
 }
-.login2, .login3 {
-    margin-left: 6px;
-}
+
 
 .email-input {
     flex-grow: 1;
@@ -49,9 +45,8 @@
     width: 200px;
 }
 
-.login5, .login6 {
+.login5 {
     width: 50px;
-    margin-right: 10px;
     height: 23px;
     border: 1px solid #ccc;
     box-sizing: border-box;
@@ -120,7 +115,6 @@
 
 select {
     width: 210px;
-    margin-left: 10px;
 }
 
 .login5 {
@@ -133,14 +127,30 @@ select {
 .totalcontainer p {
     margin: 5px 0;
 }
-input[type="text"], input[type="password"], input[type="file"], select {
+.login, .login1, .login2, .login3, .login4, .login5 {
     background-color: white;
     border: 1px solid black; 
 }
 
-
-
 .gender-select {
     margin: 0;
     width: 210px;
+}
+
+.login6 {
+    width: 200px;
+    margin-left: 7.5px;
+    height: 38px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+
+.btn1 {
+    width: 100px;
+    background-color: #6E98B8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
 }

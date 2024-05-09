@@ -53,14 +53,14 @@ function CommunityWrite(){
         }
 
         const formData = new FormData();
-
+        console.log("ㅇㅁㅈ", imgFile);
         formData.append("community", JSON.stringify(data));
         formData.append("imgfile", imgFile);
             
-        axios.post(`http://localhost/api/community/communitywrite`,formData, {
-            headers : {
-                'Content-Type': 'multipart/form-data'
-            }
+        axios.post(`http://localhost/api/community/communitywrite`, formData, {
+            headers: {
+                "enctype" : "multipart/form-data"
+            },
         }).then(function (response){
             navigate(`/community`);
 

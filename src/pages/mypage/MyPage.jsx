@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginCheck from '../../utils/LoginCheck'; // LoginCheck 컴포넌트 import
 import axios from 'axios';
+import './MyPage.css'; // CSS 파일 import
+
 const MyPage = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null); // 사용자 정보를 상태로 관리
@@ -22,46 +23,45 @@ const MyPage = () => {
         navigate('/memberDelete'); // 회원 탈퇴 페이지로 이동
     };
 
+    const handleReLogin = () => {
+        const accessToken = localStorage.getItem('access');
+        if (accessToken) {
+            axios.post('http://localhost/api/reissue', { withCredentials: true })
+                .then(response => {
+                    const newAccessToken = response.headers['refresh'];
+                    localStorage.setItem('access', newAccessToken);
+                    console.log('토큰 재발급 요청 성공');
+                })
+                .catch(error => {
+                    console.error('토큰 재발급 요청 실패:', error);
+                });
+        } else {
+            console.log('Access 토큰이 없습니다.');
+        }
+    };
+
     if (!userData) {
         return <div>Loading...</div>; // 데이터 로딩 중
     }
 
-    // const handleReLogin = () => {
-    //     const accessToken = localStorage.getItem('access');
-        
-    //     if (accessToken) {
-    //         axios.post('http://localhost:80/reissue', { withCredentials: true })
-    //             .then(response => {
-    //                 const newAccessToken = response.headers['refresh'];
-    //                 localStorage.setItem('access', newAccessToken);
-    //                 console.log('토큰 재발급 요청 성공');
-    //             })
-    //             .catch(error => {
-    //                 console.error('토큰 재발급 요청 실패:', error);
-    //             });
-    //     } else {
-    //         // access 토큰이 없으면 로그아웃 처리 또는 다른 처리 수행
-    //         console.log('Access 토큰이 없습니다.');
-    //     }
-    // };
-
     return (
-        <div>
-            <h1>마이 페이지</h1>
-            <div>
-                <p>아이디: {userData.userId}</p>
-                <p>이름: {userData.userName}</p>
-                <p>닉네임: {userData.nickName}</p>
-                <p>전화번호: {`${userData.phoneNum1}-${userData.phoneNum2}-${userData.phoneNum3}`}</p>
-                <p>이메일: {`${userData.emailNum1}@${userData.emailNum2}`}</p>
-                <p>생년월일: {userData.birth}</p>
-                <p>성별: {userData.gender}</p>
+        <>
+        <h2 className="mypage-title">마이 페이지</h2>
+            <div className='mypage-container'>
+                <div className='info'>
+                    <p className='ui'>아이디: {userData.userId}</p>
+                    <p className='un'>이름: {userData.userName}</p>
+                    <p className='unn'>닉네임: {userData.nickName}</p>
+                    <p className='utel'>전화번호: {`${userData.phoneNum1}-${userData.phoneNum2}-${userData.phoneNum3}`}</p>
+                    <p className='uemail'>이메일: {`${userData.emailNum1}@${userData.emailNum2}`}</p>
+                    <p className='ubirth'>생년월일: {userData.birth}</p>
+                    <p className='ugender'>성별: {userData.gender}</p>
+                </div>
+                <button className='btn0' type="button" onClick={handleModify}>회원수정</button>
+                <button className='btn0' type="button" onClick={handleDelete}>회원탈퇴</button>
+                <button className='btn0' type="button" onClick={handleReLogin}>로그아웃</button>
             </div>
-            <button type="button" onClick={handleModify}>회원수정</button>
-            <button type="button" onClick={handleDelete}>회원탈퇴</button> {/* 추가: 회원 탈퇴 버튼 */}
-            {/* <button type="button" onClick={handleReLogin}>재로그인</button>  */}
-            {/* 추가: 재로그인 버튼 */}
-        </div>
+        </>
     );
 };
 
