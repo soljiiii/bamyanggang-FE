@@ -25,7 +25,7 @@ const MemberModify = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:80/userInfo/${userId}`); // 수정된 URL
+                const response = await axios.get(`http://localhost/api/userInfo/${userId}`); // 수정된 URL
                 if (response.data) {
                     setFormData(response.data);
                     setIsLoaded(true);
@@ -51,7 +51,7 @@ const MemberModify = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:80/update/${userId}`, formData); // 수정된 URL
+            const response = await axios.put(`http://localhost/api/update/${userId}`, formData); // 수정된 URL
             if (response.status === 200) {
                 alert('회원 정보가 수정되었습니다.');
                 navigate('/myPage'); // 수정이 성공하면 마이 페이지로 이동
@@ -63,36 +63,45 @@ const MemberModify = () => {
         }
     };
 
-    if (!isLoaded) {
+  /*   if (!isLoaded) {
         return <div>Loading...</div>; // 데이터 로딩 중
-    }
+    } */
 
     return (
+        <>
+        <h2 class="modify-title">회원수정</h2>
         <form onSubmit={handleSubmit} className="form-container">
-            <h1>회원 수정</h1>
             <div className="userContainer">
-                <input type="text" name="userId" value={formData.userId} onChange={handleChange} placeholder="아이디" disabled />
-                <input type="password" name="passWd" value={formData.passWd} onChange={handleChange} placeholder="새 비밀번호" />
+                <p>아이디:</p>
+                <input type="text" name="userId" value={formData.userId} onChange={handleChange} placeholder="아이디" disabled className='mui'/>
+                <p>비밀번호:</p>
+                <input type="password" name="passWd" value={formData.passWd} onChange={handleChange} placeholder="새 비밀번호" className='mup'/>
                 {errors.passWd && <p className="error-message">{errors.passWd}</p>}
             </div>
             <div className="infoContainer">
-                <input type="text" name="userName" value={formData.userName} onChange={handleChange} placeholder="이름" />
-                <input type="text" name="nickName" value={formData.nickName} onChange={handleChange} placeholder="닉네임" />
-                <input type="date" name="userBirth" value={formData.userBirth} onChange={handleChange} placeholder="생년월일" />
+                <p>이름:</p>
+                <input type="text" name="userName" value={formData.userName} onChange={handleChange} placeholder="이름" className='mun'/>
+                <p>닉네임:</p>
+                <input type="text" name="nickName" value={formData.nickName} onChange={handleChange} placeholder="닉네임" className='munn'/>
+                <p>생년월일:</p>
+                <input type="date" name="userBirth" value={formData.userBirth} onChange={handleChange} placeholder="생년월일" className='mub'/>
                 <div className="email-container">
-                    <input type="text" name="emailNum1" value={formData.emailNum1} onChange={handleChange} placeholder="이메일 앞부분" />
+                    <p>이메일:</p>
+                    <input type="text" name="emailNum1" value={formData.emailNum1} onChange={handleChange} placeholder="이메일 앞부분" className='mue1'/>
                     <span>@</span>
-                    <input type="text" name="emailNum2" value={formData.emailNum2} onChange={handleChange} placeholder="이메일 뒷부분" />
+                    <input type="text" name="emailNum2" value={formData.emailNum2} onChange={handleChange} placeholder="이메일 뒷부분" className='mue2'/>
                 </div>
                 <div className="phonenum">
-                    <input type="text" name="phoneNum1" maxLength="3" value={formData.phoneNum1} onChange={handleChange} placeholder="전화번호1" />
+                    <p>전화번호:</p>
+                    <input type="text" name="phoneNum1" maxLength="3" value={formData.phoneNum1} onChange={handleChange} placeholder="전화번호1" className='pn1' />
                     -
-                    <input type="text" name="phoneNum2" maxLength="4" value={formData.phoneNum2} onChange={handleChange} placeholder="전화번호2" />
+                    <input type="text" name="phoneNum2" maxLength="4" value={formData.phoneNum2} onChange={handleChange} placeholder="전화번호2" className='pn2'/>
                     -
-                    <input type="text" name="phoneNum3" maxLength="4" value={formData.phoneNum3} onChange={handleChange} placeholder="전화번호3" />
+                    <input type="text" name="phoneNum3" maxLength="4" value={formData.phoneNum3} onChange={handleChange} placeholder="전화번호3" className='pn3'/>
                 </div>
             </div>
             <div className="genderContainer">
+                <p>성별:</p>
                 <button type="button" onClick={() => setFormData({ ...formData, userGender: 'Male' })} className={`genderOption ${formData.userGender === 'Male' ? 'selected' : ''}`}>
                     남자
                 </button>
@@ -100,8 +109,9 @@ const MemberModify = () => {
                     여자
                 </button>
             </div>
-            <button type="submit">회원 정보 수정</button>
+            <button className='mbtn' type="submit">회원 정보 수정</button>
         </form>
+        </>
     );
 };
 

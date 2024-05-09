@@ -1,32 +1,40 @@
-.login-container {
-    width: 100%;
-    max-width: 400px;
-    height: 100vh; 
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
+.delete-title {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.login-container form {
-    width: 300px; 
+.dform {
+    width: 400px;
+    padding: 20px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box; 
 }
 
-.login-container input[type="text"],
-.login-container input[type="password"],
-.login-container button {
-    width: 100%; 
+.didcheck, .dpwcheck {
+    width: 100%;
+    height: 38px;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.dform button.dbtn {
     padding: 10px;
-    margin-top: 10px; 
+    color: white;
+    background-color: #6E98B8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-.error {
-    color: red;
-    margin-top: 10px;
-    text-align: center; 
+.dform button.dbtn:hover {
+    background-color: #3C627F;
 }
