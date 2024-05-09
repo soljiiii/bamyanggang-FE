@@ -1,0 +1,38 @@
+.mypage-container {
+    border: 1px solid black;
+    width: 500px; 
+    margin: 40px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mypage-title {
+    text-align: center;
+    color: #333;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn0 {
+    padding: 12px;
+    color: white;
+    background-color: #6E98B8;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.btn0:hover {
+    background-color: #3C627F;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 0.85em;
+    text-align: left;
+}
