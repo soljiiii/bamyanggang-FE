@@ -13,7 +13,9 @@ function CommunityWrite(){
     const [postNo, setPostNo] =useState();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [imgFile, setImageFile] = useState('');
+    const [imgFile, setImageFile] = useState(null);
+    const [imgName, setImgName] =useState('');
+    
 
     //userIdToken에서 parsing한 id
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
@@ -51,15 +53,14 @@ function CommunityWrite(){
         }
 
         const formData = new FormData();
-        formData.append('imgFile', imgFile);
-        formData.append("community", new
-            Blob([JSON.stringify(data)], {type: "application/json"})
-        );
-            
-    }
-        axios.post(`http://localhost:80/community/communitywrite`,{
-            formData
 
+        formData.append("community", JSON.stringify(data));
+        formData.append("imgfile", imgFile);
+            
+        axios.post(`http://localhost/api/community/communitywrite`,formData, {
+            headers : {
+                'Content-Type': 'multipart/form-data'
+            }
         }).then(function (response){
             navigate(`/community`);
 
@@ -69,6 +70,7 @@ function CommunityWrite(){
         });
 
     }
+
 
     return(
         <div>

@@ -38,7 +38,7 @@ function CommunityView(){
 
         
         //현재글 데이터
-        axios.get(`http://localhost:80/community/communitycontent/${postNo}`)
+        axios.get(`http://localhost/api/community/communitycontent/${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data);
                 console.log("res", response.data);
@@ -55,7 +55,7 @@ function CommunityView(){
 
     useEffect(()=>{
                    //이전글 데이터 받기
-            axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
+            axios.get(`http://localhost/api/community/communitycontent/${prevPostNo}`)
                 .then((response)=>{
                     if(response.data===0){
                         setPrevCommunity(null);
@@ -68,7 +68,7 @@ function CommunityView(){
                 })
 
                             //다음글 데이터
-            axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
+            axios.get(`http://localhost/api/community/communitycontent/${nextPostNo}`)
                 .then((response)=>{
                     if(response===0){
                         setNextCommunity('');

@@ -32,7 +32,7 @@ function ReplyWrite(props){
                 //댓글 추가
            alert('댓글 추가');
            
-           axios.post(`http://localhost:80/reply/replywrite`, data)
+           axios.post(`http://localhost/api/reply/replywrite`, data)
                .then(function(response){
                 
                 //새로고침
