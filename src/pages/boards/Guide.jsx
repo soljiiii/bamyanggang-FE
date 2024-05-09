@@ -10,9 +10,9 @@ function Guide() {
                 <Header />
                 <SubBanner />
                 <div className="guide">
-                    <div className="gunback">
+                    {/* <div className="gunback">
                         <img src="/images-jsx/깨진 유리.jpg" alt="유리" />
-                    </div>
+                    </div> */}
                     <div className="subtitle">게임 가이드</div>
                     <div className="text1">
                         <div>피도 눈물도 없는 양갱이 양들의 마을에 침입하였다!!! 과연 양들은 살아남을 수 있을까..?</div>

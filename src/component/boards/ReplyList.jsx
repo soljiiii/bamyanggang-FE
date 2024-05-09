@@ -15,14 +15,9 @@ function ReplyList(props){
     useEffect(()=>{
         //community.postNo와 일치하는 댓글 정보 가져오기
         if(selectedCommunity && selectedCommunity.postNo){
-        // axios.get(`localhost://reply/replylist/${selectedCommunity.postNo}`)
-        axios.get(`http://localhost:80/reply/replylist/${postNo}`)
-            .then(response=>{
-                setComments(response.data.replylist);
-                console.log(response.data.replylist);
-                // console.log(response.data.replylist[0]);
-                // console.log("여기" ,response.data.replylist[0].userId);
-                // setMyId(response.data.replyList);
+            axios.get(`http://localhost:80/reply/replylist/${postNo}`)
+                .then(response=>{
+                    setComments(response.data.replylist);
             })
             .catch(error=>{
                 console.log("error", error);

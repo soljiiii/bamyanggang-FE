@@ -43,61 +43,24 @@ function CommunityView(){
                 setSelectedCommunity(response.data);
                 console.log("res", response.data);
                 setMyId(response.data.userId);
+                setPrePostNo(response.data.prevPostNo);
+                setNextPostNo(response.data.nextPostNo);
             })
             .catch(error=>{
             console.error("데이터 에러", error);
 
             })
 
-        }, []);
-
-        // if(postNo){
-
-            //이전글 데이터 받기
-            // axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
-            //     .then((response)=>{
-            //         if(response.data!==null){
-            //             setPrevCommunity(response.data);
-            //         }else{
-            //             setPrevCommunity(null);
-            //             console.log("이전글없어", response.data);
-            //         }
-            //     })
-            //         .catch(error=>{
-            //             console.error("데이터 에러", error);
-            //     })
-
-
-            //다음글 데이터
-        //     axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
-        //         .then((response)=>{
-        //             if(response.data!==null){
-        //                 setNextCommunity(response.data);
-        //             }else{
-        //                 setNextCommunity(null);
-        //                 console.log("다음글없어", response.data);
-        //             }
-        //         })
-
-        //         .catch(error=>{
-        //             console.error("데이터 에러", error);
-        //         })
-        // }
-            //}
-
-
-    console.log("이전글", prevPostNo);
-    console.log("다음글", nextPostNo);
+        }, [postNo]);
 
     useEffect(()=>{
                    //이전글 데이터 받기
             axios.get(`http://localhost:80/community/communitycontent/${prevPostNo}`)
                 .then((response)=>{
-                    if(response.data!==null){
-                        setPrevCommunity(response.data);
-                    }else{
+                    if(response.data===0){
                         setPrevCommunity(null);
-                        console.log("이전글없어", response.data);
+                    }else{
+                        setPrevCommunity(response.data);
                     }
                 })
                     .catch(error=>{
@@ -107,11 +70,13 @@ function CommunityView(){
                             //다음글 데이터
             axios.get(`http://localhost:80/community/communitycontent/${nextPostNo}`)
                 .then((response)=>{
-                    if(response.data!==null){
-                        setNextCommunity(response.data);
+                    if(response===0){
+                        setNextCommunity('');
+                        console.log("없을때",response.data)
                     }else{
-                        setNextCommunity(null);
-                        console.log("다음글없어", response.data);
+                        setNextCommunity(response.data);
+                        console.log("있을때",response.data)
+
                     }
                 })
 
@@ -246,7 +211,20 @@ function CommunityView(){
                     </div>
 
                     <div className="navCommunity">
-                        {prevCommunity && prevCommunity.title ? (
+
+                        {selectedCommunity && selectedCommunity.nextPostNo!==0 ? (
+                            <div className="nextCommunity" onClick={()=> navigate(`/community/${nextCommunity.postNo}`)}>
+                                <div className="nextMenu">다음글</div>
+                                <div className="nextTitle"> {nextCommunity.title}</div>
+                                <div className="nextDate">{nextCommunity.wrtnDate}</div>
+                            </div>
+                        ):(
+                            <div className="nonNextCommunity">
+                                다음글이 없습니다.
+                            </div>
+                        )}
+
+                        {selectedCommunity && selectedCommunity.prevPostNo !==0 ? (
                             <div className="prevCommunity" onClick={()=> navigate(`/community/${prevCommunity.postNo}`)}>
                                 <div className="prevMenu">이전글</div>
                                 <div className="prevTitle"> {prevCommunity.title}</div>
@@ -258,17 +236,7 @@ function CommunityView(){
                             </div>
                         )}
 
-                        {nextCommunity && nextCommunity.title ? (
-                            <div className="nextCommunity" onClick={()=> navigate(`/community/${nextCommunity.postNo}`)}>
-                                <div className="nextMenu">다음글</div>
-                                <div className="nextTitle"> {nextCommunity.title}</div>
-                                <div className="nextDate">{nextCommunity.wrtnDate}</div>
-                            </div>
-                        ):(
-                            <div className="nonNextCommunity">
-                                다음글이 없습니다.
-                            </div>
-                        )}
+
                     </div>
 
 
