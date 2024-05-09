@@ -12,7 +12,7 @@ function NoticeList(props){
 
     useEffect(()=>{
         //axios를 사용하여 localhost:3301에서 notice 정보를 가져옴.
-        axios.get(`http://localhost:80/notice/noticelist`)
+        axios.get(`http://localhost/api/notice/noticelist`)
             .then(response=> {
                 //가져온 데이터를 상태로 설정
                 setNotices(response.data.notices);
