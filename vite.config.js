@@ -9,6 +9,9 @@ export default defineConfig({
       '/api': {
         target: '54.180.152.62',
         changeOrigin: true,
+        headers: {
+          allow : 'GET, HEAD, POST, DELETE, OPTIONS, PUT'
+        }
       },
     },
   },

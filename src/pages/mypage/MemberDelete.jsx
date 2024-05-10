@@ -16,7 +16,7 @@ const MemberDelete = () => {
         e.preventDefault();
         try {
 
-            const response = await axios.delete(`http://localhost:80/api/deletemember`, {
+            const response = await axios.delete(`/deletemember`, {
 
                 data: credentials // 요청 본문에 회원 정보를 포함하여 보냄
             });

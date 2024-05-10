@@ -43,7 +43,7 @@ function CommunityModify(){
 
         //게시글 수정
         alert('게시글 수정');
-        axios.post(`http://localhost:80/api/community/communityupdate/${postNo}`,{
+        axios.post(`/community/communityupdate/${postNo}`,{
             'title' : title,
             'content' : content,
 

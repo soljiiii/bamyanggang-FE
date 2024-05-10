@@ -23,7 +23,7 @@ function NoticeView(props){
     //현재 noticeView 컨텐츠 출력
    useEffect(()=>{
         
-        axios.get(`http://localhost:80/api/notice/noticecontent/${postNo}`)
+        axios.get(`/notice/noticecontent/${postNo}`)
         //noticelist에서 클릭한 데이터의 postNo을 저장하여, postNo가 일치한 notice데이터를 출력
         //notice 데이터를 setSelectedNotice에 저장
             .then((response) =>{
@@ -41,7 +41,7 @@ function NoticeView(props){
 
     useEffect(()=>{
                    //이전글 데이터 받기
-            axios.get(`http://localhost:80/api/notice/noticecontent/${prevNoticeNo}`)
+            axios.get(`/notice/noticecontent/${prevNoticeNo}`)
                 .then((response)=>{
                     if(response ===0){
 
@@ -55,7 +55,7 @@ function NoticeView(props){
                 })
 
                             //다음글 데이터
-            axios.get(`http://localhost:80/api/notice/noticecontent/${nextNoticeNo}`)
+            axios.get(`/notice/noticecontent/${nextNoticeNo}`)
                 .then((response)=>{
                     if(response ===0){
                         setNextNotice(null);
