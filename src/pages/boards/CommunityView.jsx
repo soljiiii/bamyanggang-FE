@@ -24,9 +24,10 @@ function CommunityView(){
     const accessToken = localStorage.getItem('access');
     const [isPluggedIn, setIsPluggedIn] = useState(false);
     const [myId,setMyId] = useState("");
+    const [hasToken, setHasToken] = useState(false);
     
     //이전 글, 다음 글
-    const [prevPostNo,setPrePostNo] =useState();
+    const [prevPostNo,setPrevPostNo] =useState();
     const [nextPostNo, setNextPostNo] = useState();
 
     //userIdToken에서 parsing한 id
@@ -36,11 +37,11 @@ function CommunityView(){
 
         
         //현재글 데이터
-        axios.get(`community/communitycontent/${postNo}`)
+        axios.get(`/community/communitycontent/${postNo}`)
             .then((response)=>{
                 setSelectedCommunity(response.data);
                 setMyId(response.data.userId);
-                setPrePostNo(response.data.prevPostNo);
+                setPrevPostNo(response.data.prevPostNo);
                 setNextPostNo(response.data.nextPostNo);
             })
             .catch(error=>{
@@ -50,9 +51,10 @@ function CommunityView(){
 
         }, [postNo]);
 
+        console.log("prev", prevPostNo);
     useEffect(()=>{
                    //이전글 데이터 받기
-            axios.get(`http://localhost:80/api/community/communitycontent/${prevPostNo}`)
+            axios.get(`/community/communitycontent/${prevPostNo}`)
                 .then((response)=>{
                     if(response.data===0){
                         setPrevCommunity(null);
@@ -65,7 +67,7 @@ function CommunityView(){
                 })
 
                             //다음글 데이터
-            axios.get(`http://localhost:80/api/community/communitycontent/${nextPostNo}`)
+            axios.get(`/community/communitycontent/${nextPostNo}`)
                 .then((response)=>{
                     if(response===0){
                         setNextCommunity('');
@@ -89,6 +91,7 @@ function CommunityView(){
             const curTime = Math.floor(Date.now()/1000);
 
             if(expTime > curTime){
+                setHasToken(true);
                 if(myId===userIdToken){
                     setIsPluggedIn(true);
                 } else{
@@ -97,6 +100,7 @@ function CommunityView(){
             }
             else{
                 setIsPluggedIn(false);
+                setHasToken(false);
             }
         }else{
             //로그인을 하지 않았을 때
@@ -105,9 +109,12 @@ function CommunityView(){
                         
     },[selectedCommunity])
 
+    useEffect(()=>{
+        
+    })
     //데이터 삭제
     const deletePost=useCallback(()=>{
-        axios.delete(`http://localhost:80/api/community/communitydelete/${postNo}`)
+        axios.delete(`/community/communitydelete/${postNo}`)
         . then((response)=>{
 
             if(response.data === 1){
@@ -126,6 +133,7 @@ function CommunityView(){
         })
     },[navigate, postNo]);
 
+    console.log("로그인?",isPluggedIn);
     return(
         <div>
             <Header />
@@ -198,12 +206,13 @@ function CommunityView(){
                         />
                     </div>
                     
+                    {hasToken?(
                     <div>
                         <ReplyWrite 
                         postNo={postNo}
                         />
-                    </div>
-
+                    </div>):(<></>)
+                    }
                     <div className="navCommunity">
 
                         {selectedCommunity && selectedCommunity.nextPostNo!==0 ? (

@@ -27,7 +27,7 @@ const MyPage = () => {
     const handleReLogin = () => {
         const accessToken = localStorage.getItem('access');
         if (accessToken) {
-            axios.post('http://localhost/api/reissue', { withCredentials: true })
+            axios.post('/reissue', { withCredentials: true })
                 .then(response => {
                     const newAccessToken = response.headers['refresh'];
                     localStorage.setItem('access', newAccessToken);
