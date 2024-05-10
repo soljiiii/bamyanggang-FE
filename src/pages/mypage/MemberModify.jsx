@@ -53,7 +53,7 @@ const MemberModify = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`/update/${userId}`, formData); // 수정된 URL
+            const response = await axios.put(`http://localhost:80/api/update/${userId}`, formData); // 수정된 URL
 
             if (response.status === 200) {
                 alert('회원 정보가 수정되었습니다.');
@@ -82,7 +82,7 @@ const MemberModify = () => {
         <form onSubmit={handleSubmit} className="form-container">
             <div className="userContainer">
                 <p>아이디:</p>
-                <input type="text" name="userId" value={formData.userId} onChange={handleChange} placeholder="아이디" disabled className='mui'/>
+                <input type="text" name="userId" value={formData.userId} onChange={handleChange} placeholder="아이디" className='mui'/>
                 <p>비밀번호:</p>
                 <input type="password" name="passWd" value={formData.passWd} onChange={handleChange} placeholder="새 비밀번호" className='mup'/>
                 {errors.passWd && <p className="error-message">{errors.passWd}</p>}

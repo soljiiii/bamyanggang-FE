@@ -104,7 +104,7 @@ function ReplyListItem(props){
                 </div>
 
                 <div className="replyDate">
-                    {comment.wrtnDate}
+                    {comment.wrtnDate}W
                 </div>
             </div>
 
