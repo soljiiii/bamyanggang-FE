@@ -22,7 +22,7 @@ function Login() {
         e.preventDefault();
         try {
 
-            const response = await axios.post('/login', credentials , 
+            const response = await axios.post('/api/login', credentials , 
 
                
                 );
