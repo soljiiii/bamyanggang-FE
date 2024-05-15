@@ -138,9 +138,13 @@ const navigate = useNavigate();
   const handleCheckPhoneNumAvailability = async () => {
     try {
 
-      const response = await axios.get(`/api/checkIdAvailability/phoneNumCheck?phoneNum1=${phoneNum1}&phoneNum2=${phoneNum2}&phoneNum3=${phoneNum3}`);
-
-     
+      const response = await axios.get(`/api/checkIdAvailability/phoneNumCheck`, {
+        params: {
+          phoneNum1: phoneNum1,
+          phoneNum2: phoneNum2,
+          phoneNum3: phoneNum3
+        }
+      });
     console.log('응답 값:', response.data);
     setIsIdAvailable(response.data);
 
