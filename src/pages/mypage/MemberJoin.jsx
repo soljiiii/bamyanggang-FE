@@ -94,7 +94,7 @@ const navigate = useNavigate();
 
     try {
 
-      const response = await axios.get('/api/checkIdAvailability/emailCheck/', emailNum1); 
+      const response = await axios.get(`/api/checkIdAvailability/emailCheck/${emailNum1}` ); 
 
     console.log('응답 값:', response.data);
     setIsIdAvailable(response.data);
@@ -115,7 +115,7 @@ const navigate = useNavigate();
 // nickname 유효성 검사.
   const handleCheckNickNameAvailability = async () => {
     try {
-      const response = await axios.get('/api/checkIdAvailability/nickNameCheck', nickName); 
+      const response = await axios.get(`/api/checkIdAvailability/nickNameCheck/${nickName}` ); 
 
     console.log('응답 값:', response.data);
     setIsIdAvailable(response.data);
@@ -138,9 +138,9 @@ const navigate = useNavigate();
   const handleCheckPhoneNumAvailability = async () => {
     try {
 
-      const response = await axios.get('/api/checkIdAvailability/phoneNumCheck', [phoneNum1, phoneNum2, phoneNum3]
+      const response = await axios.get(`/api/checkIdAvailability/phoneNumCheck?phoneNum1=${phoneNum1}&phoneNum2=${phoneNum2}&phoneNum3=${phoneNum3}`);
 
-      );
+     
     console.log('응답 값:', response.data);
     setIsIdAvailable(response.data);
 
