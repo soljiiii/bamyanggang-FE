@@ -71,7 +71,7 @@ const navigate = useNavigate();
   const handleCheckIdAvailability = async () => {
     try {
 
-      const response = await axios.get(`http://localhost:8080/api/checkIdAvailability/idCheck/${userId}`);
+      const response = await axios.get(`/api/checkIdAvailability/idCheck/${userId}`);
        
 
     console.log('응답 값:', response.data);
@@ -92,10 +92,9 @@ const navigate = useNavigate();
 // email 유효성 검사
   const handleCheckEmailAvailability = async () => {
 
-    const sumEmail = emailNum1 + '@' + emailNum2;
     try {
 
-      const response = await axios.get('/checkIdAvailability/emailCheck/', sumEmail); 
+      const response = await axios.get('/checkIdAvailability/emailCheck/', emailNum1); 
 
     console.log('응답 값:', response.data);
     setIsIdAvailable(response.data);
