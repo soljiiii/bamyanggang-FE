@@ -43,7 +43,7 @@ function PrivateRoom ({roomList, userIdToken, isPluggedIn}) {
                             roomNm:roomList.roomNm,
                             roomNo:roomList.roomNo
                         }
-                        axios.post('/joinRoom',data)
+                        axios.post('/api/joinRoom',data)
                         .then(response => {
                             console.log(response.data);
                             const roomNo = response.data.roomNo

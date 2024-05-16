@@ -15,7 +15,7 @@ function ReplyList(props){
     useEffect(()=>{
         //community.postNo와 일치하는 댓글 정보 가져오기
         if(selectedCommunity && selectedCommunity.postNo){
-            axios.get(`/reply/replylist/${postNo}`)
+            axios.get(`/api/reply/replylist/${postNo}`)
                 .then(response=>{
                     setComments(response.data.replylist);
             })

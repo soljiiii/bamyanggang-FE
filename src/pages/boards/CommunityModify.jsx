@@ -15,7 +15,7 @@ function CommunityModify(){
 
     //수정할 정보 가져오기
     useEffect(()=>{
-        axios.get(`community/communitycontent/${postNo}`)
+        axios.get(`/api/community/communitycontent/${postNo}`)
         .then(response=>{
             setSelectedCommunity(response.data);
             setTitle(response.data.title);
@@ -43,7 +43,7 @@ function CommunityModify(){
 
         //게시글 수정
         alert('게시글 수정');
-        axios.post(`/community/communityupdate/${postNo}`,{
+        axios.post(`/api/community/communityupdate/${postNo}`,{
             'title' : title,
             'content' : content,
 

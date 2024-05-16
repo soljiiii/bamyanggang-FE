@@ -29,7 +29,7 @@ function NormalRoom ({roomList,userIdToken, isPluggedIn}) {
                         userId:userIdToken,
                         roomNo:roomList.roomNo,
                     }
-                    axios.post('/joinRoom',data)
+                    axios.post('/api/joinRoom',data)
                     .then(response => {
                         console.log(response.data);
                         const roomNo = response.data.roomNo

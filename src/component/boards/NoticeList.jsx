@@ -32,7 +32,7 @@ function NoticeList(props) {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`/notice/noticelist?page=${page}`);
+            const response = await axios.get(`/api/notice/noticelist?page=${page}`);
             const nextData = response.data.notices;
             setNotices((prevData) => [...prevData, ...nextData]);
             setPage((page) => page + 1);
