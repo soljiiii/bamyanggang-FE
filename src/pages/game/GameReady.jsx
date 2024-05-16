@@ -75,7 +75,7 @@ function GameReady(){
         }
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (gameParty && nowUser.master === 1) {
-            axios.post(`/api/getIsOnGame`)
+            axios.post(`/api/getIsOnGame`,data)
             .then(response =>{
                 setPageState(response.data["isOnGame"]);
             })
