@@ -147,9 +147,22 @@ video {
     overflow : auto;
     color: #436d99;
     background-color :  #f1f9fd;
-    scrollbar-width: none;
     padding : 15px 20px;
     box-sizing: border-box;
+}
+.messageBox::-webkit-scrollbar {
+    width : 15px;
+}
+.messageBox::-webkit-scrollbar-thumb {
+    background-color:  #648ca5;
+    border-radius : 10px;
+}
+.messageBox::-webkit-scrollbar-track {
+    border-top : 0.2px solid #648ca5;
+    border-left : 0.2px solid #648ca5;
+    border-bottom : 0.2px solid #648ca5;
+    background-color : #93b8ce;
+    border-radius : 10px;
 }
 .sendBox {
     width : 350px;
@@ -160,26 +173,32 @@ video {
     border-radius : 0px 0px 10px 10px;
     color : #436d99;
     background-color: white;
-    margin-bottom : 0;
-    position: relative;
+    bottom : 0;
 }
 .sendInput {
     width : 270px;
     height : 30px;
     border-top : 1px solid #648ca5;
     border-radius : 0px 0px 0px 10px;
+    text-align:center;
     color : #436d99;
     background-color: #f1f9fd;
-    position : absolute;
+}
+.sendInput:focus::placeholder {
+    color : transparent;
 }
 .sendButton {
     width : 80px;
     height : 30px;
+    line-height : 30px;
     border : 0px solid #648ca5;
     border-radius : 0px 0px 10px 0px;
-    background-color:  #436d99;
-    position : absolute;
-    margin-right: 0;
+    color : white;
+    background-color:  #648ca5;
+}
+.sendButton:hover {
+    background-color : #436d99;
+    transition: 0.2s;
 }
 
 /*게임엔딩페이지*/
