@@ -73,29 +73,31 @@ h1{
 
 .nonPrevNotice{
     font-size: 18px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
+    padding-top: 10px;
 } 
 
 .prevNotice{
     font-size: 18px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    padding-top: 10px;
 } 
 .nextNotice {
     font-size: 18px;
-    padding-top: 10px;
+    padding-bottom: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid black;
 }
 
 .nonNextNotice {
     font-size: 18px;
-    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
 }
 
-
+.allList{
+    margin-bottom: 300px;
+}

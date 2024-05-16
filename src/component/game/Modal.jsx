@@ -30,7 +30,7 @@ function Modal({ isOpen, onClose, userIdToken }) {
                 roomPw:roomPw
             };
     
-            axios.post('http://localhost:80/createRoom',data)
+            axios.post('/createRoom',data)
                 .then(response => {
                     console.log(response.data)
                     const roomNo = response.data.roomNo; //response.data.roomNo;

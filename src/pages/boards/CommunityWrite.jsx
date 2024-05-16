@@ -5,6 +5,7 @@ import Button from "../../component/common/Button";
 import Header from "../../layouts/Header";
 import SubBanner from "../../layouts/SubBanner";
 import "./Community.css";
+import { event } from "jquery";
 
 function CommunityWrite(){
     const navigate = useNavigate();
@@ -12,7 +13,9 @@ function CommunityWrite(){
     const [postNo, setPostNo] =useState();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [img, setImage] = useState('');
+    const [imgFile, setImageFile] = useState(null);
+    const [imgName, setImgName] =useState('');
+    
 
     //userIdToken에서 parsing한 id
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
@@ -43,13 +46,15 @@ function CommunityWrite(){
 
         //게시글 추가
         alert('게시글 추가');
-        axios.post(`http://localhost:80/community/communitywrite`,{
+        const data={
             'userId' : userIdToken,
             'title' : title,
             'content' : content,
-            'img' : img
+        }
 
-        }).then(function (response){
+        axios.post(`/community/communitywrite`, data
+
+        ).then(function (response){
             navigate(`/community`);
 
         }).catch(function(error){
@@ -58,6 +63,7 @@ function CommunityWrite(){
         });
 
     }
+
 
     return(
         <div>
@@ -87,17 +93,7 @@ function CommunityWrite(){
                             }}
                         />
                     </div>
-                    
                         
-                    <div>
-                        <button>
-                            <input hidden
-                            type="file"
-                            accept="image/jpg,image/png,image/jpeg,image/gif" 
-                            />
-                        </button>
-                    </div>
-
                     <div className="writeButton">
                     <Button 
                     text={"등록"}

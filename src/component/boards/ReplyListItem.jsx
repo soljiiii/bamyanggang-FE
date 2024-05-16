@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "../../component/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -33,7 +33,7 @@ function ReplyListItem(props){
             //댓글 추가
            alert('댓글 수정');
            
-            axios.post(`http://localhost:80/reply/replyupdate/${postNo}/${replyNo}`,{
+            axios.post(`/reply/replyupdate/${postNo}/${replyNo}`,{
                 'postNo' : postNo,
                 'replyNo' : replyNo,
                 'content' : content
@@ -51,8 +51,8 @@ function ReplyListItem(props){
        }
     
     //댓글 삭제
-    const replyDelete=()=>{
-        axios.delete(`http://localhost:80/reply/replydelete/${postNo}/${replyNo}`)
+    const replyDelete=useCallback(()=>{
+        axios.delete(`/reply/replydelete/${replyNo}`)
         .then((response)=>{
 
             if(response.data ===1){
@@ -70,7 +70,7 @@ function ReplyListItem(props){
         .catch(error=>{
             console.error("데이터 에러",error);
         })
-    }
+    },[replyNo]);
     
     useEffect(()=>{
         if(accessToken){
@@ -104,7 +104,7 @@ function ReplyListItem(props){
                 </div>
 
                 <div className="replyDate">
-                    {comment.wrtnDate}
+                    {comment.wrtnDate}W
                 </div>
             </div>
 

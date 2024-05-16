@@ -3,6 +3,7 @@ import NoticeList from "../../component/boards/NoticeList";
 import "./Notice.css";
 import SubBanner from "../../layouts/SubBanner";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 
 function Notice(props){

@@ -13,6 +13,10 @@
     border-radius: 10px;
 }
 
+.communityButton:hover{
+    background-color: #3C627F;
+    cursor: pointer;
+}
 .buttonArea{
     margin-top: 20px;
     display: flex;
@@ -128,30 +132,31 @@
 
 .prevCommunity{
     font-size: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    padding-top: 10px;
 }
 
 .nonPrevCommunity{
     font-size: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
+    padding-top: 10px;
+    
 }
 
 .nextCommunity{
     font-size: 15px;
-    padding-top: 10px;
+    padding-bottom: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid black;
 }
 
 .nonNextCommunity{
     font-size: 15px;
-    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
 }
 
 .prevMenu, .nextMenu{
@@ -298,11 +303,14 @@
     background-color: rgba(128, 128, 128, 0.5);
     border: none;
     border-radius: 10px;
-    width: 50px;
+    width: 60px;
+    height: 40px;
+
 }
 
 .replyRequestButton:hover{
     background-color: grey;
+    cursor: pointer;
 }
 .replyItem{
     border-top: 1px solid  #e7e7e7;
@@ -352,8 +360,11 @@
     background-color: rgba(128, 128, 128, 0.5);
     border: none;
     border-radius: 10px;
+    width: 80px;
+    height: 40px;
 }
 
 .replyButton:hover{
     background-color: grey;
+    cursor: pointer;
 }
