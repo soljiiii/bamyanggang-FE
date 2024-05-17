@@ -32,6 +32,7 @@ function OnGame(){
     
     //참여 user 정보 6개 받아옴
     useEffect(() => {
+        const fetchData = async () => {
         axios.get(`/api/gameStart?roomNo=${roomNo}`)
         .then(response =>{
             setOnGameParty(response.data["사용자정보"]);
@@ -44,7 +45,8 @@ function OnGame(){
                 }
             }
         })
-    }, []);    
+    }
+    }, [roomNo]);
 
     console.log("누구니?..",nowUser);
     console.log("우리는 누구?..",onGameParty);

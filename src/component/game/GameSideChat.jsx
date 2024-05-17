@@ -9,7 +9,7 @@ function GameSideChat({roomNo, userNick, winner}){
     // 최초 렌더링 시 방 생성, 방 입장, 구독 (chatClient가 없을 때만 실행)
     if (!chatClient) {
         // 서버 연결
-        const webSocket = new WebSocket('ws://localhost/ws-bamyanggang');
+        const webSocket = new WebSocket('wss://api/ws-bamyanggang');
         console.log('채팅방 userNick : ', userNick);
         console.log('서버 연결 성공!');
         // stomp 클라이언트 생성
