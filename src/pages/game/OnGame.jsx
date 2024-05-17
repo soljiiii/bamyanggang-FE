@@ -7,6 +7,7 @@ import "./OnGame.css";
 import GameSideChat from "../../component/game/GameSideChat";
 
 import { useNavigate } from 'react-router-dom';
+import $ from 'jquery';
 
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
@@ -239,7 +240,7 @@ function OnGame(){
                                                 var audio = list[f]["audio_codec"];
                                                 var video = list[f]["video_codec"];
                                                 Janus.debug("  >> [" + id + "] " + display + " (audio: " + audio + ", video: " + video + ")");
-                                                //newRemoteFeed(id, display, audio, video);
+                                                newRemoteFeed(id, display, audio, video);
                                             }
                                         }
                                     } else if(event === "destroyed") {
