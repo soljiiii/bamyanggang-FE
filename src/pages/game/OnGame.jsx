@@ -40,7 +40,7 @@ function OnGame(){
             if (responseData["사용자정보"] && responseData["사용자정보"].length > 0) { // 값이 비어있지 않은 경우에만 처리
                 console.log("사용자정보",responseData);
                 console.log("아이디",userIdToken);
-                setOnGameParty(responseData);
+                setOnGameParty(responseData["사용자정보"]);
                 for(var i=0; i<responseData["사용자정보"].length; i++){
                     if(responseData["사용자정보"][i].userId === userIdToken){
                         setNowUser(responseData["사용자정보"][i])
@@ -570,10 +570,26 @@ function OnGame(){
 
     //게임 나가기 (mapping:gameOut)
     function gameEndExit(){
-        //야누스 방 나가기
-
-        //네비게이트(방 목록)
-        navigate(`/gameSearch`);
+        const cleanup = () => {
+            const data = {
+                roomNo: roomNo,
+                userId: userIdToken
+            };
+            console.log(data);
+            axios.post(`/api/exitRoom`, data)
+                .then(response => {
+                    console.log("전송 성공");
+                    //네비게이트(방 목록)
+                    navigate(`/gameSearch`);
+                })
+                .catch(error => {
+                    console.error("전송 실패", error);
+                });
+        };
+        // 페이지 이동될 때 cleanup 함수 실행
+        return () => {
+            cleanup();
+        };
     }
 
     return (
