@@ -51,7 +51,7 @@ function GameSearch(){
             .then(response => {
                 setRoomList(response.data["방 목록"]);
             })
-    }, [roomList]); 
+    }, []); 
 
     
     //Modal 상태에 대해
