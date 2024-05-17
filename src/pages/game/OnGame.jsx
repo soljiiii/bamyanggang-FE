@@ -55,7 +55,8 @@ function OnGame(){
         };
         fetchUser();
     }, [roomNo]);
-
+    
+    console.log("onGameParty",onGameParty)
     
     
     //시작시간
