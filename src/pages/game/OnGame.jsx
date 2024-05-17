@@ -36,6 +36,7 @@ function OnGame(){
             const response = await axios.get(`/api/gameStart?roomNo=${roomNo}`);
             const responseData = response.data;
             console.log("useEffect진입");
+            console.log("back 에서 온 정보",responseData);
             if (responseData["사용자정보"] && responseData["사용자정보"].length > 0) { // 값이 비어있지 않은 경우에만 처리
                 console.log("사용자정보",responseData);
                 console.log("아이디",userIdToken);
