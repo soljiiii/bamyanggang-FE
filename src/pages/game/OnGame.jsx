@@ -34,14 +34,14 @@ function OnGame(){
     useEffect(() => {
         const fetchUser = async () => {
             const response = await axios.get(`/api/gameStart?roomNo=${roomNo}`);
-            const responseData = response.data["사용자정보"];
+            const responseData = response.data;
             if (responseData["사용자정보"]) { // 값이 비어있지 않은 경우에만 처리
-                console.log("사용자정보",response.data["사용자정보"])
-                console.log("아이디",userIdToken)
-                for(var i=0; i<response.data["사용자정보"].length; i++){
-                    if(response.data["사용자정보"][i].userId === userIdToken){
-                        setNowUser(response.data["사용자정보"][i])
-                        setUserNick(response.data["사용자정보"][i].userNicknm)
+                console.log("사용자정보",responseData);
+                console.log("아이디",userIdToken);
+                for(var i=0; i<responseData["사용자정보"].length; i++){
+                    if(responseData["사용자정보"][i].userId === userIdToken){
+                        setNowUser(responseData["사용자정보"][i])
+                        setUserNick(responseData["사용자정보"][i].userNicknm)
                     }
                 }
             } else {
