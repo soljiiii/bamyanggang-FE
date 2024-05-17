@@ -35,7 +35,7 @@ function OnGame(){
         const fetchUser = async () => {
             const response = await axios.get(`/api/gameStart?roomNo=${roomNo}`);
             const responseData = response.data;
-            if (responseData["사용자정보"]) { // 값이 비어있지 않은 경우에만 처리
+            if (responseData["사용자정보"] && responseData["사용자정보"].length > 0) { // 값이 비어있지 않은 경우에만 처리
                 console.log("사용자정보",responseData);
                 console.log("아이디",userIdToken);
                 for(var i=0; i<responseData["사용자정보"].length; i++){
