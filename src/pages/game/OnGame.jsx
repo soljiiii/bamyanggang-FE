@@ -40,6 +40,7 @@ function OnGame(){
             if (responseData["사용자정보"] && responseData["사용자정보"].length > 0) { // 값이 비어있지 않은 경우에만 처리
                 console.log("사용자정보",responseData);
                 console.log("아이디",userIdToken);
+                setOnGameParty(responseData);
                 for(var i=0; i<responseData["사용자정보"].length; i++){
                     if(responseData["사용자정보"][i].userId === userIdToken){
                         setNowUser(responseData["사용자정보"][i])
@@ -73,9 +74,6 @@ function OnGame(){
         
         fetchData();
     }, [roomNo, startTime]);
-    
-    console.log("누구니?..",nowUser);
-    console.log("우리는 누구?..",onGameParty);
     
     
     useEffect(() => {
