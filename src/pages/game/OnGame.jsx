@@ -33,18 +33,21 @@ function OnGame(){
     //참여 user 정보 6개 받아옴
     useEffect(() => {
         const fetchUser = async () => {
-        axios.get(`/api/gameStart?roomNo=${roomNo}`)
-        .then(response =>{
-            setOnGameParty(response.data["사용자정보"]);
-            console.log("끼긱",response.data["사용자정보"])
-            console.log("아이디",userIdToken)
-            for(var i=0; i<response.data["사용자정보"].length; i++){
-                if(response.data["사용자정보"][i].userId === userIdToken){
-                    setNowUser(response.data["사용자정보"][i])
-                    setUserNick(response.data["사용자정보"][i].userNicknm)
+            const response = await axios.get(`/api/gameStart?roomNo=${roomNo}`);
+            const responseData = response.data["사용자정보"];
+            if (responseData["사용자정보"]) { // 값이 비어있지 않은 경우에만 처리
+                console.log("사용자정보",response.data["사용자정보"])
+                console.log("아이디",userIdToken)
+                for(var i=0; i<response.data["사용자정보"].length; i++){
+                    if(response.data["사용자정보"][i].userId === userIdToken){
+                        setNowUser(response.data["사용자정보"][i])
+                        setUserNick(response.data["사용자정보"][i].userNicknm)
+                    }
                 }
+            } else {
+                // 만약 현재시간 값이 비어있다면 1초 후에 다시 요청을 보내도록 설정
+                setTimeout(fetchUser, 1000); // 1초마다 재시도
             }
-        })
         };
         fetchUser();
     }, [roomNo]);
