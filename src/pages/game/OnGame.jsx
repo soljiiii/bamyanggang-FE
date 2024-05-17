@@ -35,6 +35,7 @@ function OnGame(){
         const fetchUser = async () => {
             const response = await axios.get(`/api/gameStart?roomNo=${roomNo}`);
             const responseData = response.data;
+            console.log("useEffect진입");
             if (responseData["사용자정보"] && responseData["사용자정보"].length > 0) { // 값이 비어있지 않은 경우에만 처리
                 console.log("사용자정보",responseData);
                 console.log("아이디",userIdToken);
@@ -47,6 +48,7 @@ function OnGame(){
             } else {
                 // 만약 현재시간 값이 비어있다면 1초 후에 다시 요청을 보내도록 설정
                 setTimeout(fetchUser, 1000); // 1초마다 재시도
+                console.log("사용자 정보 불러오기 실패");
             }
         };
         fetchUser();
