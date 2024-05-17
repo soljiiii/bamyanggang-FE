@@ -73,12 +73,24 @@ function GameReady(){
         
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (gameParty && nowUser.master === 1) {
+            console.log(`Calling API: /api/getIsOnGame?roomNo=${roomNo}`);
             axios.get(`/api/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
+                console.log('API Response:', response.data);
                 setPageState(response.data["isOnGame"]);
+
             })
             .catch(error => {
-                console.error('Error get game:', error);
+                console.error('Error during API call:', error);
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                    console.error('Response status:', error.response.status);
+                    console.error('Response headers:', error.response.headers);
+                } else if (error.request) {
+                    console.error('Request made but no response:', error.request);
+                } else {
+                    console.error('Error message:', error.message);
+                }    
             });
         } else {
             alert("권한이 없다능");
