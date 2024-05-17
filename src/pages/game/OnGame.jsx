@@ -30,28 +30,27 @@ function OnGame(){
     
     const userIdToken = JSON.parse(localStorage.getItem('user')).userId;
     
-    //참여 user 정보 6개 받아옴
-    useEffect(() => {
-        const fetchData = async () => {
-        axios.get(`/api/gameStart?roomNo=${roomNo}`)
-        .then(response =>{
-            setOnGameParty(response.data["사용자정보"]);
-            console.log("끼긱",response.data["사용자정보"])
-            console.log("아이디",userIdToken)
-            for(var i=0; i<response.data["사용자정보"].length; i++){
-                if(response.data["사용자정보"][i].userId === userIdToken){
-                    setNowUser(response.data["사용자정보"][i])
-                    setUserNick(response.data["사용자정보"][i].userNicknm)
-                }
-            }
-        })
-    }
-    }, [roomNo]);
+    // //참여 user 정보 6개 받아옴
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //     axios.get(`/api/gameStart?roomNo=${roomNo}`)
+    //     .then(response =>{
+    //         setOnGameParty(response.data["사용자정보"]);
+    //         console.log("끼긱",response.data["사용자정보"])
+    //         console.log("아이디",userIdToken)
+    //         for(var i=0; i<response.data["사용자정보"].length; i++){
+    //             if(response.data["사용자정보"][i].userId === userIdToken){
+    //                 setNowUser(response.data["사용자정보"][i])
+    //                 setUserNick(response.data["사용자정보"][i].userNicknm)
+    //             }
+    //         }
+    //     })
+    //     fetchData();
+    // }
+    // }, [roomNo]);
 
-    console.log("누구니?..",nowUser);
-    console.log("우리는 누구?..",onGameParty);
-
-
+    
+    
     //시작시간
     useEffect(() => {
         const fetchData = async () => {
@@ -64,13 +63,27 @@ function OnGame(){
                 // 만약 현재시간 값이 비어있다면 1초 후에 다시 요청을 보내도록 설정
                 setTimeout(fetchData, 1000); // 1초마다 재시도
             }
+            axios.get(`/api/gameStart?roomNo=${roomNo}`)
+            .then(response =>{
+                setOnGameParty(response.data["사용자정보"]);
+                console.log("끼긱",response.data["사용자정보"])
+                console.log("아이디",userIdToken)
+                for(var i=0; i<response.data["사용자정보"].length; i++){
+                    if(response.data["사용자정보"][i].userId === userIdToken){
+                        setNowUser(response.data["사용자정보"][i])
+                        setUserNick(response.data["사용자정보"][i].userNicknm)
+                    }
+                }
+            })
         };
         
         fetchData();
     }, [roomNo, startTime]);
-        
-
-
+    
+    console.log("누구니?..",nowUser);
+    console.log("우리는 누구?..",onGameParty);
+    
+    
     useEffect(() => {
         var server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
         var janus = null;
