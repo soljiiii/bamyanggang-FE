@@ -23,7 +23,7 @@ function GameReady(){
     useEffect(() => {
         const fetchGameInfo = async () => {
             
-                const response = await axios.get(`/getRoomInfo?roomNo=${roomNo}`);
+                const response = await axios.get(`/api/getRoomInfo?roomNo=${roomNo}`);
                 setGameInfo(response.data["방 대기 정보"]);
                 setPageState(response.data["방 대기 정보"].isOnGame);
                 console.log(pageState);
@@ -44,7 +44,7 @@ function GameReady(){
     //게임 참가자 정보 불러오기
     useEffect(() => {
         const fetchGameInfo = async () => {
-        axios.get (`/getUserInfo?roomNo=${roomNo}`)
+        axios.get (`/api/getUserInfo?roomNo=${roomNo}`)
             .then(response => {
                 setGameParty(response.data["방 대기 정보"]);
                 for(var i=0; i<response.data["방 대기 정보"].length; i++){
@@ -70,14 +70,27 @@ function GameReady(){
 
     //게임 시작
     function handleStart() {
+        
         // userParty가 존재하고, 해당 요소의 master 값이 1인지 확인
         if (gameParty && nowUser.master === 1) {
-            axios.get(`/getIsOnGame?roomNo=${roomNo}`)
+            console.log(`Calling API: /api/getIsOnGame?roomNo=${roomNo}`);
+            axios.get(`/api/getIsOnGame?roomNo=${roomNo}`)
             .then(response =>{
+                console.log('API Response:', response.data);
                 setPageState(response.data["isOnGame"]);
+
             })
             .catch(error => {
-                console.error('Error get game:', error);
+                console.error('Error during API call:', error);
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                    console.error('Response status:', error.response.status);
+                    console.error('Response headers:', error.response.headers);
+                } else if (error.request) {
+                    console.error('Request made but no response:', error.request);
+                } else {
+                    console.error('Error message:', error.message);
+                }    
             });
         } else {
             alert("권한이 없다능");
@@ -91,7 +104,7 @@ function GameReady(){
             userId:userIdToken
         }
         console.log(data);
-        axios.post(`/exitRoom`,data)
+        axios.post(`/api/exitRoom`,data)
         .then(response => {
             console.log("전송 성공");
             navigate(`/gameSearch`);

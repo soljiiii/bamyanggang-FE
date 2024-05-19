@@ -7,6 +7,8 @@ import "./OnGame.css";
 import GameSideChat from "../../component/game/GameSideChat";
 
 import { useNavigate } from 'react-router-dom';
+import $ from 'jquery';
+import "../../apis/videoroomtest.js";
 
 // *** 로그인 시에만 조인 가능한 로직 추가 + 아이디 값 불러오기 ***
 
@@ -32,28 +34,37 @@ function OnGame(){
     
     //참여 user 정보 6개 받아옴
     useEffect(() => {
-        axios.get(`/gameStart?roomNo=${roomNo}`)
-        .then(response =>{
-            setOnGameParty(response.data["사용자정보"]);
-            console.log("끼긱",response.data["사용자정보"])
-            console.log("아이디",userIdToken)
-            for(var i=0; i<response.data["사용자정보"].length; i++){
-                if(response.data["사용자정보"][i].userId === userIdToken){
-                    setNowUser(response.data["사용자정보"][i])
-                    setUserNick(response.data["사용자정보"][i].userNicknm)
+        const fetchUser = async () => {
+            const response = await axios.get(`/api/gameStart?roomNo=${roomNo}`);
+            const responseData = response.data;
+            console.log("useEffect진입");
+            console.log("back 에서 온 정보",responseData);
+            if (responseData["사용자정보"] && responseData["사용자정보"].length > 0) { // 값이 비어있지 않은 경우에만 처리
+                console.log("사용자정보",responseData);
+                console.log("아이디",userIdToken);
+                setOnGameParty(responseData["사용자정보"]);
+                for(var i=0; i<responseData["사용자정보"].length; i++){
+                    if(responseData["사용자정보"][i].userId === userIdToken){
+                        setNowUser(responseData["사용자정보"][i])
+                        setUserNick(responseData["사용자정보"][i].userNicknm)
+                    }
                 }
+            } else {
+                // 만약 현재시간 값이 비어있다면 1초 후에 다시 요청을 보내도록 설정
+                setTimeout(fetchUser, 1000); // 1초마다 재시도
+                console.log("사용자 정보 불러오기 실패");
             }
-        })
-    }, []);    
-
-    console.log("누구니?..",nowUser);
-    console.log("우리는 누구?..",onGameParty);
-
-
+        };
+        fetchUser();
+    }, [roomNo]);
+    
+    console.log("onGameParty",onGameParty)
+    
+    
     //시작시간
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(`/getTime?roomNo=${roomNo}`);
+            const response = await axios.get(`/api/getTime?roomNo=${roomNo}`);
             const responseData = response.data;
             if (responseData["기준시간"]) { // 현재시간 값이 비어있지 않은 경우에만 처리
                 const time = responseData["기준시간"];
@@ -66,325 +77,324 @@ function OnGame(){
         
         fetchData();
     }, [roomNo, startTime]);
-        
+    
+    
+    // useEffect(() => {
+    //     var server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
+    //     var janus = null;
+    //     var sfutest = null; //플러그인 객체
+    //     var opaqueId = "videoroomtest-"+Janus.randomString(12); //플러그인 인스턴스 식별
+    //     var myroom = roomNo; //비디오 룸 식별 (방 이름 개념)
+    //     var room = null; //비디오 룸 식별 (서버에서)
+    //     var myid = null; //클라이언트 식별
+    //     var mypvtid = null; //클라이언트의 개인 id
+    //     var username = userNick;
+    //     var stream = null;
+    //     var remoteFeed = null;
+    //     var feeds = [];
 
+    //     if (roomNo !== null && userNick !== "") {
 
-    useEffect(() => {
-        var server = "https://janus.jsflux.co.kr/janus"; //jsflux janus server url
-        var janus = null;
-        var sfutest = null; //플러그인 객체
-        var opaqueId = "videoroomtest-"+Janus.randomString(12); //플러그인 인스턴스 식별
-        var myroom = roomNo; //비디오 룸 식별 (방 이름 개념)
-        var room = null; //비디오 룸 식별 (서버에서)
-        var myid = null; //클라이언트 식별
-        var mypvtid = null; //클라이언트의 개인 id
-        var username = userNick;
-        var stream = null;
-        var remoteFeed = null;
-        var feeds = [];
+    //         // getUserMedia를 사용하여 비디오 스트림을 요청합니다.
+    //         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    //         .then((userStream) => {
+    //             stream = userStream;
+    //             const videoElement = document.getElementById('video1'); // video1 요소에 연결
+    //             if (videoElement) {
+    //                 videoElement.srcObject = stream;
+    //             }            
+    //             const nickBox1 = document.getElementById('nickBox1');
+    //             if (nickBox1) {
+    //                 nickBox1.innerText = userNick;
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error accessing media devices:', error);
+    //         });
 
-        if (roomNo !== null && userNick !== "") {
+        //     //야누스 초기화
+        //     Janus.init({
+        //         debug: "all",
+        //         callback: function() {
+        //             if (!Janus.isWebrtcSupported()) {
+        //                 //bootbox.alert("No WebRTC support... ");
+        //                 alert("No WebRTC support... ");
+        //                 return;
+        //             }
+        //             janus = new Janus({
+        //                 server: server,
+        //                 success: function() {
+        //                 //서버에 attach
+        //                 janus.attach({
+        //                     plugin: "janus.plugin.videoroom",
+        //                     opaqueId: opaqueId,
+        //                     success: function(pluginHandle) {
+        //                         sfutest = pluginHandle;
+        //                         Janus.log("Plugin attached! (" + sfutest.getPlugin() + ", id=" + sfutest.getId() + ")");
+        //                         Janus.log("  -- This is a publisher/manager");
 
-            // getUserMedia를 사용하여 비디오 스트림을 요청합니다.
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then((userStream) => {
-                stream = userStream;
-                const videoElement = document.getElementById('video1'); // video1 요소에 연결
-                if (videoElement) {
-                    videoElement.srcObject = stream;
-                }            
-                const nickBox1 = document.getElementById('nickBox1');
-                if (nickBox1) {
-                    nickBox1.innerText = userNick;
-                }
-            })
-            .catch((error) => {
-                console.error('Error accessing media devices:', error);
-            });
-
-            //야누스 초기화
-            Janus.init({
-                debug: "all",
-                callback: function() {
-                    if (!Janus.isWebrtcSupported()) {
-                        //bootbox.alert("No WebRTC support... ");
-                        alert("No WebRTC support... ");
-                        return;
-                    }
-                    janus = new Janus({
-                        server: server,
-                        success: function() {
-                        //서버에 attach
-                        janus.attach({
-                            plugin: "janus.plugin.videoroom",
-                            opaqueId: opaqueId,
-                            success: function(pluginHandle) {
-                                sfutest = pluginHandle;
-                                Janus.log("Plugin attached! (" + sfutest.getPlugin() + ", id=" + sfutest.getId() + ")");
-                                Janus.log("  -- This is a publisher/manager");
-
-                                //방을 생성하고 사용자를 참여시키는 코드
-                                var createRoom = {
-                                    request: "create",
-                                    room: Number(myroom),
-                                    permanent: false,
-                                    record: false,
-                                    publishers: 6,
-                                    bitrate: 128000,
-                                    fir_freq: 10,
-                                    ptype: "publisher",
-                                    description: "test",
-                                    is_private: false
-                                };
-                                sfutest.send({ message: createRoom, success: function(result) {
+        //                         //방을 생성하고 사용자를 참여시키는 코드
+        //                         var createRoom = {
+        //                             request: "create",
+        //                             room: Number(myroom),
+        //                             permanent: false,
+        //                             record: false,
+        //                             publishers: 6,
+        //                             bitrate: 128000,
+        //                             fir_freq: 10,
+        //                             ptype: "publisher",
+        //                             description: "test",
+        //                             is_private: false
+        //                         };
+        //                         sfutest.send({ message: createRoom, success: function(result) {
                                         
-                                console.log("Room Create Result: " + result);
-                                console.log("error: " + result["error"]);
-                                room = result["room"];
-                                console.log("Screen sharing session created: " + room);
+        //                         console.log("Room Create Result: " + result);
+        //                         console.log("error: " + result["error"]);
+        //                         room = result["room"];
+        //                         console.log("Screen sharing session created: " + room);
 
-                                remoteFeed = pluginHandle;
-                                remoteFeed.simulcastStarted = false;
-                                Janus.log("Plugin attached! (" + remoteFeed.getPlugin() + ", id=" + remoteFeed.getId() + ")");
-                                Janus.log("  -- This is a subscriber");  
+        //                         remoteFeed = pluginHandle;
+        //                         remoteFeed.simulcastStarted = false;
+        //                         Janus.log("Plugin attached! (" + remoteFeed.getPlugin() + ", id=" + remoteFeed.getId() + ")");
+        //                         Janus.log("  -- This is a subscriber");  
                                 
-                                var register = { 
-                                    request: "join", 
-                                    room: Number(myroom), 
-                                    ptype: "publisher", 
-                                    display: username 
-                                };
-                                var event = result["videoroom"]; 
-                                Janus.debug("Event: " + event);
-                                sfutest.send({"message": register});
-                                Janus.log(username,"참여");
-                                }});
+        //                         var register = { 
+        //                             request: "join", 
+        //                             room: Number(myroom), 
+        //                             ptype: "publisher", 
+        //                             display: username 
+        //                         };
+        //                         var event = result["videoroom"]; 
+        //                         Janus.debug("Event: " + event);
+        //                         sfutest.send({"message": register});
+        //                         Janus.log(username,"참여");
+        //                         }});
 
-                                sfutest.createOffer({
-                                    media:  { audio: true, video: true },
-                                    success: function(jsep) {
-                                        Janus.debug("Got publisher SDP!offer성공", jsep);
-                                        var publish = { request: "configure", audio: true, video: true };
-                                        sfutest.send({ message: { request: "configure" }, jsep: jsep })
-                                    },
-                                    error: function(error) {
-                                        Janus.error("WebRTC error:", error);
-                                        if(useAudio) {
-                                            publishOwnFeed(false);
-                                        } else {
-                                            alert("WebRTC error... " + error.message);
-                                        }
-                                    }
-                                });
-                                Janus.log("Entered the room!!!!!!", Number(myroom))
+        //                         sfutest.createOffer({
+        //                             media:  { audio: true, video: true },
+        //                             success: function(jsep) {
+        //                                 Janus.debug("Got publisher SDP!offer성공", jsep);
+        //                                 var publish = { request: "configure", audio: true, video: true };
+        //                                 sfutest.send({ message: { request: "configure" }, jsep: jsep })
+        //                             },
+        //                             error: function(error) {
+        //                                 Janus.error("WebRTC error:", error);
+        //                                 if(useAudio) {
+        //                                     publishOwnFeed(false);
+        //                                 } else {
+        //                                     alert("WebRTC error... " + error.message);
+        //                                 }
+        //                             }
+        //                         });
+        //                         Janus.log("Entered the room!!!!!!", Number(myroom))
                                 
-                            },
+        //                     },
 
-                            error: function(error) {
-                                Janus.error("  -- Error attaching plugin...", error);
-                                //bootbox.alert("Error attaching plugin... " + error);
-                                alert("Error attaching plugin... " + error);
-                            },
-                            //카메라 허용 alert 창
-                            consentDialog: function(on) {
-                                Janus.debug("Consent dialog should be " + (on ? "on" : "off") + " now");
-                                if (on) {
-                                    // 방에 조인한 경우에만 실행
-                                    alert("비디오를 허용하시겠습니까?");
-                                    console.log("카메라 허용");
-                                } else {
-                                    console.log("카메라 권한 오류")
-                                }
-                            },
-                            //webrtc 연결 설정 프로토콜 로그 기록
-                            iceState: function(state) {
-                                Janus.log("ICE state changed to " + state);
-                            },
-                                //미디어 수신 상태 변경 기록
-                            mediaState: function(medium, on) {
-                                Janus.log("Janus " + (on ? "started" : "stopped") + " receiving our " + medium);
-                            },
-                                //janus 연결상태 확인
-                            webrtcState: function(on) {
-                                Janus.log("Janus says this WebRTC PeerConnection");
-                            },
+        //                     error: function(error) {
+        //                         Janus.error("  -- Error attaching plugin...", error);
+        //                         //bootbox.alert("Error attaching plugin... " + error);
+        //                         alert("Error attaching plugin... " + error);
+        //                     },
+        //                     //카메라 허용 alert 창
+        //                     consentDialog: function(on) {
+        //                         Janus.debug("Consent dialog should be " + (on ? "on" : "off") + " now");
+        //                         if (on) {
+        //                             // 방에 조인한 경우에만 실행
+        //                             alert("비디오를 허용하시겠습니까?");
+        //                             console.log("카메라 허용");
+        //                         } else {
+        //                             console.log("카메라 권한 오류")
+        //                         }
+        //                     },
+        //                     //webrtc 연결 설정 프로토콜 로그 기록
+        //                     iceState: function(state) {
+        //                         Janus.log("ICE state changed to " + state);
+        //                     },
+        //                         //미디어 수신 상태 변경 기록
+        //                     mediaState: function(medium, on) {
+        //                         Janus.log("Janus " + (on ? "started" : "stopped") + " receiving our " + medium);
+        //                     },
+        //                         //janus 연결상태 확인
+        //                     webrtcState: function(on) {
+        //                         Janus.log("Janus says this WebRTC PeerConnection");
+        //                     },
 
-                            //비디오 및 사용자 정보 출력
-                            onmessage: function(msg, jsep) {
-                                Janus.debug(" ::: Got a message (publisher) :::", msg);
-                                var event = msg["videoroom"];
-                                Janus.debug("Event: " + event);
-                                if(event) {
-                                    if(event === "joined") {
-                                        // Publisher/manager created, negotiate WebRTC and attach to existing feeds, if any
-                                        myid = msg["id"];
-                                        mypvtid = msg["private_id"];
-                                        Janus.log("Successfully joined room " + msg["room"] + " with ID " + myid);
-                                        //publishOwnFeed(true);
-                                        // Any new feed to attach to?
-                                        if(msg["publishers"]) {
-                                            var list = msg["publishers"];
-                                            Janus.debug("Got a list of available publishers/feeds:", list);
-                                            for(var f in list) {
-                                                var id = list[f]["id"];
-                                                var display = list[f]["display"];
-                                                var audio = list[f]["audio_codec"];
-                                                var video = list[f]["video_codec"];
-                                                Janus.debug("  >> [" + id + "] " + display + " (audio: " + audio + ", video: " + video + ")");
-                                                //newRemoteFeed(id, display, audio, video);
-                                            }
-                                        }
-                                    } else if(event === "destroyed") {
-                                        // The room has been destroyed
-                                        Janus.warn("The room has been destroyed!");
-                                        alert("The room has been destroyed", function() {
-                                            window.location.reload();
-                                        });
-                                    } else if(event === "event") {
-                                        // Any new feed to attach to?
-                                        if(msg["publishers"]) {
-                                            var list = msg["publishers"];
-                                            Janus.debug("Got a list of available publishers/feeds:", list);
-                                            for(var f in list) {
-                                                var id = list[f]["id"];
-                                                var display = list[f]["display"];
-                                                var audio = list[f]["audio_codec"];
-                                                var video = list[f]["video_codec"];
-                                                Janus.debug("  >> [" + id + "] " + display + " (audio: " + audio + ", video: " + video + ")");
-                                                //newRemoteFeed(id, display, audio, video);
-                                            }
-                                        } else if(msg["leaving"]) {
-                                            // One of the publishers has gone away?
-                                            var leaving = msg["leaving"];
-                                            Janus.log("Publisher left: " + leaving);
-                                            var remoteFeed = null;
-                                            for(var i=1; i<6; i++) {
-                                                if(feeds[i] && feeds[i].rfid == leaving) {
-                                                    remoteFeed = feeds[i];
-                                                    break;
-                                                }
-                                            }
-                                            if(remoteFeed != null) {
-                                                Janus.debug("Feed " + remoteFeed.rfid + " (" + remoteFeed.rfdisplay + ") has left the room, detaching");
-                                                feeds[remoteFeed.rfindex] = null;
-                                                remoteFeed.detach();
-                                            }
-                                        } else if(msg["unpublished"]) {
-                                            // One of the publishers has unpublished?
-                                            var unpublished = msg["unpublished"];
-                                            Janus.log("Publisher left: " + unpublished);
-                                            if(unpublished === 'ok') {
-                                                // That's us
-                                                sfutest.hangup();
-                                                return;
-                                            }
-                                            var remoteFeed = null;
-                                            for(var i=1; i<6; i++) {
-                                                if(feeds[i] && feeds[i].rfid == unpublished) {
-                                                    remoteFeed = feeds[i];
-                                                    break;
-                                                }
-                                            }
-                                            if(remoteFeed != null) {
-                                                Janus.debug("Feed " + remoteFeed.rfid + " (" + remoteFeed.rfdisplay + ") has left the room, detaching");
-                                                feeds[remoteFeed.rfindex] = null;
-                                                remoteFeed.detach();
-                                            }
-                                        } else if(msg["error"]) {
-                                            if(msg["error_code"] === 426) {
-                                                // This is a "no such room" error: give a more meaningful description
-                                                alert(
-                                                    "<p>Apparently room <code>" + myroom + "</code> (the one this demo uses as a test room) " +
-                                                    "does not exist...</p><p>Do you have an updated <code>janus.plugin.videoroom.jcfg</code> " +
-                                                    "configuration file? If not, make sure you copy the details of room <code>" + myroom + "</code> " +
-                                                    "from that sample in your current configuration file, then restart Janus and try again."
-                                                );
-                                            } else {
-                                                alert(msg["error"]);
-                                            }
-                                        }
-                                    }
-                                }
-                                if(jsep) {
-                                    Janus.debug("Handling SDP as well...", jsep);
-                                    sfutest.handleRemoteJsep({ jsep: jsep });
-                                    // Check if any of the media we wanted to publish has
-                                    // been rejected (e.g., wrong or unsupported codec)
-                                    var audio = msg["audio_codec"];
-                                    if(stream && stream.getAudioTracks() && stream.getAudioTracks().length > 0 && !audio) {
-                                        // Audio has been rejected
-                                        toastr.warning("Our audio stream has been rejected, viewers won't hear us");
-                                    }
-                                    var video = msg["video_codec"];
-                                    if(stream && stream.getVideoTracks() && stream.getVideoTracks().length > 0 && !video) {
-                                        // Video has been rejected
-                                        toastr.warning("Our video stream has been rejected, viewers won't see us");
-                                    }
-                                }
-                            },
+        //                     //비디오 및 사용자 정보 출력
+        //                     onmessage: function(msg, jsep) {
+        //                         Janus.debug(" ::: Got a message (publisher) :::", msg);
+        //                         var event = msg["videoroom"];
+        //                         Janus.debug("Event: " + event);
+        //                         if(event) {
+        //                             if(event === "joined") {
+        //                                 // Publisher/manager created, negotiate WebRTC and attach to existing feeds, if any
+        //                                 myid = msg["id"];
+        //                                 mypvtid = msg["private_id"];
+        //                                 Janus.log("Successfully joined room " + msg["room"] + " with ID " + myid);
+        //                                 //publishOwnFeed(true);
+        //                                 // Any new feed to attach to?
+        //                                 if(msg["publishers"]) {
+        //                                     var list = msg["publishers"];
+        //                                     Janus.debug("Got a list of available publishers/feeds:", list);
+        //                                     for(var f in list) {
+        //                                         var id = list[f]["id"];
+        //                                         var display = list[f]["display"];
+        //                                         var audio = list[f]["audio_codec"];
+        //                                         var video = list[f]["video_codec"];
+        //                                         Janus.debug("  >> [" + id + "] " + display + " (audio: " + audio + ", video: " + video + ")");
+        //                                         newRemoteFeed(id, display, audio, video);
+        //                                     }
+        //                                 }
+        //                             } else if(event === "destroyed") {
+        //                                 // The room has been destroyed
+        //                                 Janus.warn("The room has been destroyed!");
+        //                                 alert("The room has been destroyed", function() {
+        //                                     window.location.reload();
+        //                                 });
+        //                             } else if(event === "event") {
+        //                                 // Any new feed to attach to?
+        //                                 if(msg["publishers"]) {
+        //                                     var list = msg["publishers"];
+        //                                     Janus.debug("Got a list of available publishers/feeds:", list);
+        //                                     for(var f in list) {
+        //                                         var id = list[f]["id"];
+        //                                         var display = list[f]["display"];
+        //                                         var audio = list[f]["audio_codec"];
+        //                                         var video = list[f]["video_codec"];
+        //                                         Janus.debug("  >> [" + id + "] " + display + " (audio: " + audio + ", video: " + video + ")");
+        //                                         newRemoteFeed(id, display, audio, video);
+        //                                     }
+        //                                 } else if(msg["leaving"]) {
+        //                                     // One of the publishers has gone away?
+        //                                     var leaving = msg["leaving"];
+        //                                     Janus.log("Publisher left: " + leaving);
+        //                                     var remoteFeed = null;
+        //                                     for(var i=1; i<6; i++) {
+        //                                         if(feeds[i] && feeds[i].rfid == leaving) {
+        //                                             remoteFeed = feeds[i];
+        //                                             break;
+        //                                         }
+        //                                     }
+        //                                     if(remoteFeed != null) {
+        //                                         Janus.debug("Feed " + remoteFeed.rfid + " (" + remoteFeed.rfdisplay + ") has left the room, detaching");
+        //                                         feeds[remoteFeed.rfindex] = null;
+        //                                         remoteFeed.detach();
+        //                                     }
+        //                                 } else if(msg["unpublished"]) {
+        //                                     // One of the publishers has unpublished?
+        //                                     var unpublished = msg["unpublished"];
+        //                                     Janus.log("Publisher left: " + unpublished);
+        //                                     if(unpublished === 'ok') {
+        //                                         // That's us
+        //                                         sfutest.hangup();
+        //                                         return;
+        //                                     }
+        //                                     var remoteFeed = null;
+        //                                     for(var i=1; i<6; i++) {
+        //                                         if(feeds[i] && feeds[i].rfid == unpublished) {
+        //                                             remoteFeed = feeds[i];
+        //                                             break;
+        //                                         }
+        //                                     }
+        //                                     if(remoteFeed != null) {
+        //                                         Janus.debug("Feed " + remoteFeed.rfid + " (" + remoteFeed.rfdisplay + ") has left the room, detaching");
+        //                                         feeds[remoteFeed.rfindex] = null;
+        //                                         remoteFeed.detach();
+        //                                     }
+        //                                 } else if(msg["error"]) {
+        //                                     if(msg["error_code"] === 426) {
+        //                                         // This is a "no such room" error: give a more meaningful description
+        //                                         alert(
+        //                                             "<p>Apparently room <code>" + myroom + "</code> (the one this demo uses as a test room) " +
+        //                                             "does not exist...</p><p>Do you have an updated <code>janus.plugin.videoroom.jcfg</code> " +
+        //                                             "configuration file? If not, make sure you copy the details of room <code>" + myroom + "</code> " +
+        //                                             "from that sample in your current configuration file, then restart Janus and try again."
+        //                                         );
+        //                                     } else {
+        //                                         alert(msg["error"]);
+        //                                     }
+        //                                 }
+        //                             }
+        //                         }
+        //                         if(jsep) {
+        //                             Janus.debug("Handling SDP as well...", jsep);
+        //                             sfutest.handleRemoteJsep({ jsep: jsep });
+        //                             // Check if any of the media we wanted to publish has
+        //                             // been rejected (e.g., wrong or unsupported codec)
+        //                             var audio = msg["audio_codec"];
+        //                             if(stream && stream.getAudioTracks() && stream.getAudioTracks().length > 0 && !audio) {
+        //                                 // Audio has been rejected
+        //                                 toastr.warning("Our audio stream has been rejected, viewers won't hear us");
+        //                             }
+        //                             var video = msg["video_codec"];
+        //                             if(stream && stream.getVideoTracks() && stream.getVideoTracks().length > 0 && !video) {
+        //                                 // Video has been rejected
+        //                                 toastr.warning("Our video stream has been rejected, viewers won't see us");
+        //                             }
+        //                         }
+        //                     },
                                 
-                            onlocalstream: function(stream) {
-                                // The subscriber stream is recvonly, we don't expect anything here
-                            },
+        //                     onlocalstream: function(stream) {
+        //                         // The subscriber stream is recvonly, we don't expect anything here
+        //                     },
 
-                            onremotestream: function(stream) {
-                                Janus.debug("Remote feed #" + remoteFeed.rfindex + ", stream:", stream);
-                                // 원격 비디오를 렌더링할 요소를 생성합니다.
-                                // 비디오 요소를 추가할 컨테이너 선택자 정의
-                                var containerSelector = 'body';
-                                // 원격 비디오를 받을 비디오 요소의 개수
-                                var numberOfVideos = 4;
-                                // 반복문을 사용하여 비디오 요소를 추가하고 원격 스트림을 연결합니다.
-                                for (var i = 2; i <= numberOfVideos + 1; i++) {
-                                    // 비디오 요소를 담을 div 요소 생성
-                                    var videoContainer = document.createElement('div');
-                                    videoContainer.id = 'videoremote' + i;
-                                    document.querySelector(containerSelector).appendChild(videoContainer);
-                                    // 비디오 요소 생성
-                                    var videoElement = document.createElement('video');
-                                    videoElement.id = 'remotevideo' + i;
-                                    videoElement.className = 'rounded centered relative';
-                                    videoElement.width = '100%';
-                                    videoElement.height = '100%';
-                                    videoElement.autoplay = true;
-                                    videoElement.playsinline = true;
-                                    videoContainer.appendChild(videoElement);
-                                    // 스트림 연결
-                                    Janus.attachMediaStream(videoElement, stream);
-                                    // 원격 스트림 처리 함수 호출
-                                    handleRemoteStream(stream, i - 2);
+        //                     onremotestream: function(stream) {
+        //                         Janus.debug("Remote feed #" + remoteFeed.rfindex + ", stream:", stream);
+        //                         // 원격 비디오를 렌더링할 요소를 생성합니다.
+        //                         // 비디오 요소를 추가할 컨테이너 선택자 정의
+        //                         var containerSelector = 'body';
+        //                         // 원격 비디오를 받을 비디오 요소의 개수
+        //                         var numberOfVideos = 4;
+        //                         // 반복문을 사용하여 비디오 요소를 추가하고 원격 스트림을 연결합니다.
+        //                         for (var i = 2; i <= numberOfVideos + 1; i++) {
+        //                             // 비디오 요소를 담을 div 요소 생성
+        //                             var videoContainer = document.createElement('div');
+        //                             videoContainer.id = 'videoremote' + i;
+        //                             document.querySelector(containerSelector).appendChild(videoContainer);
+        //                             // 비디오 요소 생성
+        //                             var videoElement = document.createElement('video');
+        //                             videoElement.id = 'remotevideo' + i;
+        //                             videoElement.className = 'rounded centered relative';
+        //                             videoElement.width = '100%';
+        //                             videoElement.height = '100%';
+        //                             videoElement.autoplay = true;
+        //                             videoElement.playsinline = true;
+        //                             videoContainer.appendChild(videoElement);
+        //                             // 스트림 연결
+        //                             Janus.attachMediaStream(videoElement, stream);
+        //                             // 원격 스트림 처리 함수 호출
+        //                             handleRemoteStream(stream, i - 2);
 
-                                    var usernameElement = document.createElement('p');
-                                    usernameElement.textContent = username;
-                                    videoContainer.appendChild(usernameElement);
-                                }
-                            },
+        //                             var usernameElement = document.createElement('p');
+        //                             usernameElement.textContent = username;
+        //                             videoContainer.appendChild(usernameElement);
+        //                         }
+        //                     },
                             
-                            cleanup: function() {
-                                // gameOnstate 변수가 1이 아닌 경우에는 방을 나가지 않음
-                                if (onGameState !== 1) {
-                                    return;
-                                }
-                                // gameOnstate 변수가 1인 경우에만 방을 나감
-                                else{
-                                sfutest.send({ message: { request: "leave" } });
-                                }
-                            }
-                        });
-                        },
-                        error: function(error) {
-                            Janus.error(error);
-                            //bootbox.alert(error, function() {
-                                alert(error, function() {
-                                window.location.reload();
-                            });
-                        },
-                        destroyed: function() {
-                        }
-                    });
-                }
-            });
-        }},[roomNo, userNick]);
+        //                     cleanup: function() {
+        //                         // gameOnstate 변수가 1이 아닌 경우에는 방을 나가지 않음
+        //                         if (onGameState !== 1) {
+        //                             return;
+        //                         }
+        //                         // gameOnstate 변수가 1인 경우에만 방을 나감
+        //                         else{
+        //                         sfutest.send({ message: { request: "leave" } });
+        //                         }
+        //                     }
+        //                 });
+        //                 },
+        //                 error: function(error) {
+        //                     Janus.error(error);
+        //                     //bootbox.alert(error, function() {
+        //                         alert(error, function() {
+        //                         window.location.reload();
+        //                     });
+        //                 },
+        //                 destroyed: function() {
+        //                 }
+        //             });
+        //         }
+        //     });
+        // }},[roomNo, userNick]);
 
     //게임로직 타임라인 
     useEffect(() => {
@@ -405,7 +415,7 @@ function OnGame(){
 
                 const timer2 = setTimeout(()=>{
                     setOnNormalVote(0);
-                    axios.get(`/resultVote?roomNo=${roomNo}`)
+                    axios.get(`/api/resultVote?roomNo=${roomNo}`)
                     .then((response)=>{
                         const victory = response.data["resultList"].result;
                         console.log("과각",response.data["resultList"]);
@@ -443,7 +453,7 @@ function OnGame(){
 
                 const timer5 = setTimeout(()=>{
                     setOnMafiaVote(0);
-                    axios.get(`/resultVote?roomNo=${roomNo}`)
+                    axios.get(`/api/resultVote?roomNo=${roomNo}`)
                     .then((response)=>{
                         const victory = response.data["resultList"].result;
                         console.log("과각",response.data["resultList"]);
@@ -529,7 +539,7 @@ function OnGame(){
             userId:selectedParty,
             roomNo:roomNo,
         }
-        axios.post(`/vote`,data)
+        axios.post(`/api/vote`,data)
         .then(response =>{
             console.log("누구죽음",data.userId);
         })
@@ -544,7 +554,7 @@ function OnGame(){
                 userId: userIdToken
             };
             console.log(data);
-            axios.post(`/exitRoom`, data)
+            axios.post(`/api/exitRoom`, data)
                 .then(response => {
                     console.log("전송 성공");
                 })
@@ -562,11 +572,224 @@ function OnGame(){
 
     //게임 나가기 (mapping:gameOut)
     function gameEndExit(){
-        //야누스 방 나가기
-
-        //네비게이트(방 목록)
-        navigate(`/gameSearch`);
+        const cleanup = () => {
+            const data = {
+                roomNo: roomNo,
+                userId: userIdToken
+            };
+            console.log(data);
+            axios.post(`/api/exitRoom`, data)
+                .then(response => {
+                    console.log("전송 성공");
+                    //네비게이트(방 목록)
+                    navigate(`/gameSearch`);
+                })
+                .catch(error => {
+                    console.error("전송 실패", error);
+                });
+        };
+        // 페이지 이동될 때 cleanup 함수 실행
+        return () => {
+            cleanup();
+        };
     }
+
+    // [jsflux] 새로운 유저 들어왔을때
+function newRemoteFeed(id, display, audio, video) {
+	// A new feed has been published, create a new plugin handle and attach to it as a subscriber
+	var remoteFeed = null;
+	Janus.attach(
+		{
+			plugin: "janus.plugin.videoroom",
+			opaqueId: opaqueId,
+			success: function(pluginHandle) {
+				remoteFeed = pluginHandle;
+				remoteFeed.simulcastStarted = false;
+				Janus.log("Plugin attached! (" + remoteFeed.getPlugin() + ", id=" + remoteFeed.getId() + ")");
+				Janus.log("  -- This is a subscriber");
+				// We wait for the plugin to send us an offer
+				var subscribe = {
+					request: "join",
+					room: myroom,
+					ptype: "subscriber",
+					feed: id,
+					private_id: mypvtid
+				};
+				// In case you don't want to receive audio, video or data, even if the
+				// publisher is sending them, set the 'offer_audio', 'offer_video' or
+				// 'offer_data' properties to false (they're true by default), e.g.:
+				// 		subscribe["offer_video"] = false;
+				// For example, if the publisher is VP8 and this is Safari, let's avoid video
+				if(Janus.webRTCAdapter.browserDetails.browser === "safari" &&
+						(video === "vp9" || (video === "vp8" && !Janus.safariVp8))) {
+					if(video)
+						video = video.toUpperCase()
+					toastr.warning("Publisher is using " + video + ", but Safari doesn't support it: disabling video");
+					subscribe["offer_video"] = false;
+				}
+				remoteFeed.videoCodec = video;
+				remoteFeed.send({ message: subscribe });
+			},
+			error: function(error) {
+				Janus.error("  -- Error attaching plugin...", error);
+				bootbox.alert("Error attaching plugin... " + error);
+			},
+			onmessage: function(msg, jsep) {
+				Janus.debug(" ::: Got a message (subscriber) :::", msg);
+				var event = msg["videoroom"];
+				Janus.debug("Event: " + event);
+				if(msg["error"]) {
+					bootbox.alert(msg["error"]);
+				} else if(event) {
+					if(event === "attached") {
+						// Subscriber created and attached
+						for(var i=1;i<6;i++) {
+							if(!feeds[i]) {
+								feeds[i] = remoteFeed;
+								remoteFeed.rfindex = i;
+								break;
+							}
+						}
+						remoteFeed.rfid = msg["id"];
+						remoteFeed.rfdisplay = msg["display"];
+						if(!remoteFeed.spinner) {
+							var target = document.getElementById('videoremote'+remoteFeed.rfindex);
+							remoteFeed.spinner = new Spinner({top:100}).spin(target);
+						} else {
+							remoteFeed.spinner.spin();
+						}
+						Janus.log("Successfully attached to feed " + remoteFeed.rfid + " (" + remoteFeed.rfdisplay + ") in room " + msg["room"]);
+						$('#remote'+remoteFeed.rfindex).removeClass('hide').html(remoteFeed.rfdisplay).show();
+					} else if(event === "event") {
+						// Check if we got a simulcast-related event from this publisher
+						var substream = msg["substream"];
+						var temporal = msg["temporal"];
+						if((substream !== null && substream !== undefined) || (temporal !== null && temporal !== undefined)) {
+							if(!remoteFeed.simulcastStarted) {
+								remoteFeed.simulcastStarted = true;
+								// Add some new buttons
+								addSimulcastButtons(remoteFeed.rfindex, remoteFeed.videoCodec === "vp8" || remoteFeed.videoCodec === "h264");
+							}
+							// We just received notice that there's been a switch, update the buttons
+							updateSimulcastButtons(remoteFeed.rfindex, substream, temporal);
+						}
+					} else {
+						// What has just happened?
+					}
+				}
+				if(jsep) {
+					Janus.debug("Handling SDP as well...", jsep);
+					// Answer and attach
+					remoteFeed.createAnswer(
+						{
+							jsep: jsep,
+							// Add data:true here if you want to subscribe to datachannels as well
+							// (obviously only works if the publisher offered them in the first place)
+							media: { audioSend: false, videoSend: false },	// We want recvonly audio/video
+							success: function(jsep) {
+								Janus.debug("Got SDP!", jsep);
+								var body = { request: "start", room: myroom };
+								remoteFeed.send({ message: body, jsep: jsep });
+							},
+							error: function(error) {
+								Janus.error("WebRTC error:", error);
+								bootbox.alert("WebRTC error... " + error.message);
+							}
+						});
+				}
+			},
+			iceState: function(state) {
+				Janus.log("ICE state of this WebRTC PeerConnection (feed #" + remoteFeed.rfindex + ") changed to " + state);
+			},
+			webrtcState: function(on) {
+				Janus.log("Janus says this WebRTC PeerConnection (feed #" + remoteFeed.rfindex + ") is " + (on ? "up" : "down") + " now");
+			},
+			onlocalstream: function(stream) {
+				// The subscriber stream is recvonly, we don't expect anything here
+			},
+			onremotestream: function(stream) {
+				Janus.debug("Remote feed #" + remoteFeed.rfindex + ", stream:", stream);
+				var addButtons = false;
+				if($('#remotevideo'+remoteFeed.rfindex).length === 0) {
+					addButtons = true;
+					// No remote video yet
+					$('#videoremote'+remoteFeed.rfindex).append('<video class="rounded centered" id="waitingvideo' + remoteFeed.rfindex + '" width="100%" height="100%" />');
+					$('#videoremote'+remoteFeed.rfindex).append('<video class="rounded centered relative hide" id="remotevideo' + remoteFeed.rfindex + '" width="100%" height="100%" autoplay playsinline/>');
+					$('#videoremote'+remoteFeed.rfindex).append(
+						'<span class="label label-primary hide" id="curres'+remoteFeed.rfindex+'" style="position: absolute; bottom: 0px; left: 0px; margin: 15px;"></span>' +
+						'<span class="label label-info hide" id="curbitrate'+remoteFeed.rfindex+'" style="position: absolute; bottom: 0px; right: 0px; margin: 15px;"></span>');
+					// Show the video, hide the spinner and show the resolution when we get a playing event
+					$("#remotevideo"+remoteFeed.rfindex).bind("playing", function () {
+						if(remoteFeed.spinner)
+							remoteFeed.spinner.stop();
+						remoteFeed.spinner = null;
+						$('#waitingvideo'+remoteFeed.rfindex).remove();
+						if(this.videoWidth)
+							$('#remotevideo'+remoteFeed.rfindex).removeClass('hide').show();
+						var width = this.videoWidth;
+						var height = this.videoHeight;
+						$('#curres'+remoteFeed.rfindex).removeClass('hide').text(width+'x'+height).show();
+						if(Janus.webRTCAdapter.browserDetails.browser === "firefox") {
+							// Firefox Stable has a bug: width and height are not immediately available after a playing
+							setTimeout(function() {
+								var width = $("#remotevideo"+remoteFeed.rfindex).get(0).videoWidth;
+								var height = $("#remotevideo"+remoteFeed.rfindex).get(0).videoHeight;
+								$('#curres'+remoteFeed.rfindex).removeClass('hide').text(width+'x'+height).show();
+							}, 2000);
+						}
+					});
+				}
+				Janus.attachMediaStream($('#remotevideo'+remoteFeed.rfindex).get(0), stream);
+				var videoTracks = stream.getVideoTracks();
+				if(!videoTracks || videoTracks.length === 0) {
+					// No remote video
+					$('#remotevideo'+remoteFeed.rfindex).hide();
+					if($('#videoremote'+remoteFeed.rfindex + ' .no-video-container').length === 0) {
+						$('#videoremote'+remoteFeed.rfindex).append(
+							'<div class="no-video-container">' +
+								'<i class="fa fa-video-camera fa-5 no-video-icon"></i>' +
+								'<span class="no-video-text">No remote video available</span>' +
+							'</div>');
+					}
+				} else {
+					$('#videoremote'+remoteFeed.rfindex+ ' .no-video-container').remove();
+					$('#remotevideo'+remoteFeed.rfindex).removeClass('hide').show();
+				}
+				if(!addButtons)
+					return;
+				if(Janus.webRTCAdapter.browserDetails.browser === "chrome" || Janus.webRTCAdapter.browserDetails.browser === "firefox" ||
+						Janus.webRTCAdapter.browserDetails.browser === "safari") {
+					$('#curbitrate'+remoteFeed.rfindex).removeClass('hide').show();
+					bitrateTimer[remoteFeed.rfindex] = setInterval(function() {
+						// Display updated bitrate, if supported
+						var bitrate = remoteFeed.getBitrate();
+						$('#curbitrate'+remoteFeed.rfindex).text(bitrate);
+						// Check if the resolution changed too
+						var width = $("#remotevideo"+remoteFeed.rfindex).get(0).videoWidth;
+						var height = $("#remotevideo"+remoteFeed.rfindex).get(0).videoHeight;
+						if(width > 0 && height > 0)
+							$('#curres'+remoteFeed.rfindex).removeClass('hide').text(width+'x'+height).show();
+					}, 1000);
+				}
+			},
+			oncleanup: function() {
+				Janus.log(" ::: Got a cleanup notification (remote feed " + id + ") :::");
+				if(remoteFeed.spinner)
+					remoteFeed.spinner.stop();
+				remoteFeed.spinner = null;
+				$('#remotevideo'+remoteFeed.rfindex).remove();
+				$('#waitingvideo'+remoteFeed.rfindex).remove();
+				$('#novideo'+remoteFeed.rfindex).remove();
+				$('#curbitrate'+remoteFeed.rfindex).remove();
+				$('#curres'+remoteFeed.rfindex).remove();
+				if(bitrateTimer[remoteFeed.rfindex])
+					clearInterval(bitrateTimer[remoteFeed.rfindex]);
+				bitrateTimer[remoteFeed.rfindex] = null;
+				remoteFeed.simulcastStarted = false;
+				$('#simulcast'+remoteFeed.rfindex).remove();
+			}
+		});
+}
 
     return (
         onGameState === 0 && winner ===0? ( 
