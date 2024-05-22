@@ -12,7 +12,8 @@
 <br>
 
 ## 2. 개발기간 
-![Group 19](https://github.com/soljiiii/bamyanggang-FE/assets/153510536/29bf6a94-b2a9-45bd-abf8-c6f3c78081b6)
+![Group 19 (1)](https://github.com/soljiiii/bamyanggang-FE/assets/153510536/c0fd6b89-634e-4e71-8232-72da7a0e4275)
+
 
 
 ### 3. 멤버구성
