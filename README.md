@@ -40,8 +40,9 @@
 <br>
 
 ### 5. 시스템 구성도
+![image](https://github.com/soljiiii/bamyanggang-FE/assets/153510536/97dd9310-b69c-4eb9-a284-aeb13310a3d9)
 
-![image](https://github.com/soljiiii/bamyanggang-FE/assets/153510536/eeae891b-d052-4301-bb93-d50476b8ff50)
+
 
 
 
